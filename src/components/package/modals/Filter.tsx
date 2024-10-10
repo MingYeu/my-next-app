@@ -68,35 +68,11 @@ const FilterDrawer: React.FC<FilterAttributes> = ({ filterPackageForm, onReset, 
                 <Form form={filterPackageForm} layout="vertical" name="filter_form" className="mt-6">
                     <Row gutter={[16, 0]}>
                         <Col {...fullBreakPoint}>
-                            <Form.Item initialValue="" name="code">
-                                <Input placeholder={t('packageCode') as string} />
+                            <Form.Item initialValue="" name="name">
+                                <Input placeholder={t('packageName') as string} />
                             </Form.Item>
                         </Col>
-                        <Col {...fullBreakPoint}>
-                            <Form.Item initialValue="" name="fullNameEmail">
-                                <Input placeholder={t('email,englishNameOrChineseName') as string} />
-                            </Form.Item>
-                        </Col>
-                        <Col {...fullBreakPoint}>
-                            <Form.Item initialValue="" name="directLine">
-                                <Input placeholder={t('directLine') as string} />
-                            </Form.Item>
-                        </Col>
-                        <Col {...breakPoint}>
-                            <Form.Item initialValue="" label={t('common:Nationality')} name="nationality">
-                                <Select
-                                    allowClear
-                                    showSearch
-                                    options={[
-                                        {
-                                            label: t('--select-nationality--') as string,
-                                            value: '',
-                                        },
-                                        ...mappedCountryList,
-                                    ]}
-                                />
-                            </Form.Item>
-                        </Col>
+
                         <Col {...breakPoint}>
                             <Form.Item initialValue="" label={t('common:Status')} name="active">
                                 <Select>

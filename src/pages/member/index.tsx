@@ -42,7 +42,7 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
         sortField: 'code',
         sortOrder: SortOrder.ASC,
     });
-    const [selectedColumn, setSelectedColumn] = useState<string[]>(['code', 'email', 'active', 'lastActive']);
+    const [selectedColumn, setSelectedColumn] = useState<string[]>(['code', 'englishName', 'email', 'active', 'lastActive']);
     const [addTutorModalOpen, setAddTutorModalOpen] = useState<boolean>(false);
 
     // Query

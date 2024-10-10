@@ -1,5 +1,5 @@
 import mappedCountryList from '@/lib/countryList';
-import { UseQueryResult, useMutation, useQueryClient } from '@tanstack/react-query';
+import { UseQueryResult, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Button, Card, Col, DatePicker, Descriptions, Form, Input, Row, Select, Spin } from 'antd';
 import dayjs from 'dayjs';
 import { useTranslation } from 'next-i18next';
@@ -15,6 +15,8 @@ import { PermissionContext } from '@/providers/RoleContext';
 import ConfirmationModal from '@/components/modals/ConfirmationModal';
 import MemberStatus from '@/components/Status';
 import router from 'next/router';
+import { toast } from 'react-toastify';
+import { getPackageData } from '@/services/data';
 
 interface ProfileProps {
     memberId: string;
@@ -38,12 +40,30 @@ const Profile: React.FC<ProfileProps> = ({ memberId, memberQuery }) => {
         if (member) {
             memberForm.setFieldsValue({
                 ...member,
+                packages: member.member_package[0]?.packageId,
                 dateOfBirth: dayjs(member.dateOfBirth),
                 joinDate: dayjs(member.joinDate),
                 phoneNumber2: member.phoneNumber2 ?? undefined,
             });
         }
     }, [member]);
+
+    const packageQuery = useQuery({
+        queryKey: ['package', 'data'],
+        queryFn: async () => {
+            const res = await getPackageData();
+            return res.data;
+        },
+        onError: (error: AxiosErrorResponse & Error) => {
+            toast.error(t(errorFormatter(error)));
+        },
+    });
+
+    const packageSelection =
+        (packageQuery.data || []).map((packages: { name: string; id: string }) => ({
+            label: packages.name,
+            value: packages.id,
+        })) ?? [];
 
     const updateMemberMutation = useMutation({
         mutationFn: async (memberData: Member) => {
@@ -212,6 +232,12 @@ const Profile: React.FC<ProfileProps> = ({ memberId, memberQuery }) => {
                         <Form form={memberForm} layout="vertical" title="Member Form">
                             <Row gutter={[16, 0]}>
                                 <Col xs={24} sm={12} md={12} lg={12}>
+                                    <Form.Item label={t('package')} name="packages">
+                                        <Select options={packageSelection} placeholder="Please Select" allowClear />
+                                    </Form.Item>
+                                </Col>
+                                <Col xs={24} sm={12} md={12} lg={12}></Col>
+                                <Col xs={24} sm={12} md={12} lg={12}>
                                     <Form.Item
                                         label={t('englishName')}
                                         name="englishName"
@@ -293,17 +319,17 @@ const Profile: React.FC<ProfileProps> = ({ memberId, memberQuery }) => {
                                     </Form.Item>
                                 </Col>
                                 <Col xs={24} sm={24} md={24} lg={24}>
-                                    <Form.Item label={t('address1')} name="address1" rules={[{ required: true }]}>
+                                    <Form.Item label={t('address1')} name="address1">
                                         <Input.TextArea rows={3} />
                                     </Form.Item>
                                 </Col>
                                 <Col xs={24} sm={24} md={24} lg={24}>
-                                    <Form.Item label={t('address2')} name="address2" rules={[{ required: true }]}>
+                                    <Form.Item label={t('address2')} name="address2">
                                         <Input.TextArea rows={3} />
                                     </Form.Item>
                                 </Col>
                                 <Col xs={24} sm={24} md={24} lg={24}>
-                                    <Form.Item label={t('address3')} name="address3" rules={[{ required: true }]}>
+                                    <Form.Item label={t('address3')} name="address3">
                                         <Input.TextArea rows={3} />
                                     </Form.Item>
                                 </Col>

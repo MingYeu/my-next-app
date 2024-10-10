@@ -1,14 +1,9 @@
 import React, { useState } from 'react';
-import { Button, Col, Modal, Form, Input, Row, Select, Tag, message } from 'antd';
+import { Button, Col, Modal, Form, Input, Row, Select } from 'antd';
 import { FilterOutlined, SearchOutlined } from '@ant-design/icons';
 import { FormInstance } from 'antd/es/form/Form';
 import { useTranslation } from 'next-i18next';
-import { useQuery } from '@tanstack/react-query';
 import mappedCountryList from '@/lib/countryList';
-// import { getRoleData } from '@/services/data';
-import { AxiosErrorResponse } from '@/types';
-import errorFormatter from '@/lib/errorFormatter';
-
 interface FilterAttributes {
     filterStaffForm: FormInstance;
     onReset: () => void;
@@ -22,18 +17,6 @@ const FilterDrawer: React.FC<FilterAttributes> = ({ filterStaffForm, onReset, on
     const criteriaSelected = filterStaffForm.getFieldsValue();
     const criteriaCount: number = Object.values(criteriaSelected).reduce((count: number, val) => count + (val ? 1 : 0), 0);
     const [isModalOpen, setIsModalOpen] = useState(false);
-
-    // const roleQuery = useQuery({
-    //     queryKey: ['role', 'data'],
-    //     queryFn: async () => {
-    //         const res = await getRoleData();
-
-    //         return res.data;
-    //     },
-    //     onError: (error: AxiosErrorResponse & Error) => {
-    //         message.error(t(errorFormatter(error)));
-    //     },
-    // });
 
     const breakPoint = {
         xs: 24,
@@ -49,12 +32,6 @@ const FilterDrawer: React.FC<FilterAttributes> = ({ filterStaffForm, onReset, on
         lg: 24,
     };
 
-    // const roleSelection =
-    //     roleQuery.data?.map((role) => ({
-    //         label: role.name,
-    //         value: role.id,
-    //     })) ?? [];
-
     const onResetHandler = () => {
         onReset();
         setIsModalOpen(false);
@@ -69,18 +46,13 @@ const FilterDrawer: React.FC<FilterAttributes> = ({ filterStaffForm, onReset, on
                 <Form form={filterStaffForm} layout="vertical" name="filter_form" className="mt-6">
                     <Row gutter={[16, 0]}>
                         <Col {...fullBreakPoint}>
-                            <Form.Item initialValue="" name="code">
-                                <Input placeholder={t('code') as string} />
-                            </Form.Item>
-                        </Col>
-                        <Col {...fullBreakPoint}>
                             <Form.Item initialValue="" name="fullNameEmail">
                                 <Input placeholder={t('email,englishNameOrChineseName') as string} />
                             </Form.Item>
                         </Col>
                         <Col {...fullBreakPoint}>
-                            <Form.Item initialValue="" name="directLine">
-                                <Input placeholder={t('directLine') as string} />
+                            <Form.Item initialValue="" name="phoneNumber1">
+                                <Input placeholder={t('phoneNumber1') as string} />
                             </Form.Item>
                         </Col>
                         <Col {...breakPoint}>

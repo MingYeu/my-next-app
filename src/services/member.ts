@@ -23,7 +23,7 @@ export const updateMemberPassword = (memberId: string, body: { password: string;
 };
 
 export const deleteMember = (memberId: string, body: { reason: string }) => {
-    return axiosInstance.delete<Member>(`/api/staff/member/${memberId}/delete`, {
+    return axiosInstance.post<Member>(`/api/staff/member/${memberId}/delete`, {
         data: body,
     });
 };
@@ -33,5 +33,5 @@ export const restoreMember = (memberId: string) => {
 };
 
 export const updateMemberStatus = (memberId: string, body: { status: boolean; reason: string }) => {
-    return axiosInstance.put<Member>(`/api/staff/member/${memberId}/status`, body);
+    return axiosInstance.post<Member>(`/api/staff/member/${memberId}/status`, body);
 };
