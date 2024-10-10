@@ -1,0 +1,52 @@
+{
+    "--select-status--": "--选择状态--",
+    "accountNameChinese": "账户中文名称",
+    "accountNameEnglish": "账户英文名称",
+    "accountNumber": "账号",
+    "actions": "操作",
+    "active": "激活",
+    "Active": "激活",
+    "addApplicationInfo": "添加申请信息",
+    "addStaffAppointmentInfo": "添加员工任命信息",
+    "applicationInfo": "申请信息",
+    "areYouSureYouWantToChangeTheStatus": "您确定要更改状态吗？",
+    "areYouSureYouWantToUpdateApplicationInfo": "您确定要更新申请信息吗？",
+    "bankAddressChinese": "银行地址（中文）",
+    "bankAddressEnglish": "银行地址（英文）",
+    "bankNameChinese": "银行名称（中文）",
+    "bankNameEnglish": "银行名称（英文）",
+    "button": {
+        "saveChanges": "保存更改"
+    },
+    "companyAddressChinese": "公司地址（中文）",
+    "companyAddressEnglish": "公司地址（英文）",
+    "companyLogo": "公司标志",
+    "createApplicationInfo": "创建申请信息",
+    "createdAt": "创建时间",
+    "createStaffAppointmentInfo": "创建员工任命信息",
+    "delete": "删除",
+    "deleteApplicationInfo": "删除申请信息",
+    "deleteStaffAppointmentInfo": "删除员工任命信息",
+    "email": "电子邮件",
+    "fpsNumber": "FPS号码",
+    "hint": {
+        "Click or drag file to this area to upload": "点击或拖动文件到此区域以上传",
+        "Supported Files": "支持的文件类型"
+    },
+    "inactive": "非活跃",
+    "Inactive": "非活跃",
+    "message": {
+        "File size must be less than 10MB": "文件大小必须小于10MB"
+    },
+    "paymentInfo": "支付信息",
+    "phoneNumber": "电话号码",
+    "remove": "移除",
+    "resetFilter": "重置筛选",
+    "siteSetting": "站点设置",
+    "staffAppointmentEmail": "员工任命电子邮件",
+    "status": "状态",
+    "swiftCode": "SWIFT代码",
+    "university": "大学",
+    "update": "更新",
+    "updatedAt": "更新时间"
+}

@@ -1,0 +1,17 @@
+{
+    "actions": "動作",
+    "active": "活性",
+    "code": "代碼",
+    "createdAt": "建立時間",
+    "createMarketing": "建立行銷",
+    "delete": "刪除",
+    "deleteMarketing": "刪除行銷",
+    "informationRequired": "需要填寫資訊",
+    "marketing": "行銷",
+    "name": "名稱",
+    "readyToSend": "準備發送",
+    "remove": "消除",
+    "sent": "已發送",
+    "status": "狀態",
+    "updatedAt": "更新時間"
+}

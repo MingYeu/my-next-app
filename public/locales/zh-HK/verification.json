@@ -1,0 +1,11 @@
+{
+    "button": {
+        "Verify Account": "驗證帳戶"
+    },
+    "Email": "電子郵件",
+    "message": {
+        "You are verified Redirecting to home page in {{countDown}} seconds": "您已驗證。 {{countDown}} 秒後重新導向至主頁"
+    },
+    "Password": "密碼",
+    "verifyingToken": "驗證令牌"
+}

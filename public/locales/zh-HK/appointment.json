@@ -1,0 +1,24 @@
+{
+    "--selectTypeToSearch--": "--選擇要搜尋的類型--",
+    "addAppointment": "新增預約",
+    "appointment": "預約",
+    "appointments": "預約",
+    "calendar": {
+        "month": "月",
+        "student": "学生",
+        "tutor": "导师",
+        "year": "年"
+    },
+    "date": "日期",
+    "deleteAppointment": "刪除預約",
+    "description": "描述",
+    "profile": "輪廓",
+    "remove": "移除",
+    "resetFilter": "重置篩選",
+    "time": "時間",
+    "title": "標題",
+    "tutor": "導師",
+    "update": "更新",
+    "updateAppointment": "更新預約",
+    "updateAppointmentConfirmation": "更新預約確認"
+}

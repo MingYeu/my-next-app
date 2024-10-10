@@ -1,0 +1,15 @@
+{
+    "--select-nationality--": "--Select Nationality--",
+    "--select-status--": "--Select Status--",
+    "action": "Action",
+    "activate": "Activate",
+    "activateTutorConfirmation": "Activate Tutor Confirmation",
+    "active": "Active",
+    "Active": "Active",
+    "addPackage": "Add Package",
+    "name": "Name",
+    "cost": "Cost",
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "description": "Description"
+}

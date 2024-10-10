@@ -1,0 +1,52 @@
+{
+    "--select-status--": "--選擇狀態--",
+    "accountNameChinese": "中文帳戶名稱",
+    "accountNameEnglish": "英文帳戶名稱",
+    "accountNumber": "帳戶號碼",
+    "actions": "操作",
+    "active": "啟用",
+    "Active": "啟用",
+    "addApplicationInfo": "新增應用程式資訊",
+    "addStaffAppointmentInfo": "新增員工任職資訊",
+    "applicationInfo": "應用程式資訊",
+    "areYouSureYouWantToChangeTheStatus": "您確定要變更狀態嗎？",
+    "areYouSureYouWantToUpdateApplicationInfo": "您確定要更新應用程式資訊嗎？",
+    "bankAddressChinese": "中文銀行地址",
+    "bankAddressEnglish": "英文銀行地址",
+    "bankNameChinese": "中文銀行名稱",
+    "bankNameEnglish": "英文銀行名稱",
+    "button": {
+        "saveChanges": "儲存變更"
+    },
+    "companyAddressChinese": "中文公司地址",
+    "companyAddressEnglish": "英文公司地址",
+    "companyLogo": "公司標誌",
+    "createApplicationInfo": "建立應用程式資訊",
+    "createdAt": "建立於",
+    "createStaffAppointmentInfo": "建立員工任職資訊",
+    "delete": "刪除",
+    "deleteApplicationInfo": "刪除應用程式資訊",
+    "deleteStaffAppointmentInfo": "刪除員工任職資訊",
+    "email": "電子郵件",
+    "fpsNumber": "FPS 號碼",
+    "hint": {
+        "Click or drag file to this area to upload": "點擊或拖動文件到此區域上傳",
+        "Supported Files": "支援的文件"
+    },
+    "inactive": "停用",
+    "Inactive": "停用",
+    "message": {
+        "File size must be less than 10MB": "文件大小必須小於 10MB"
+    },
+    "paymentInfo": "付款資訊",
+    "phoneNumber": "電話號碼",
+    "remove": "移除",
+    "resetFilter": "重置篩選",
+    "siteSetting": "站點設定",
+    "staffAppointmentEmail": "員工任職郵件",
+    "status": "狀態",
+    "swiftCode": "SWIFT 代碼",
+    "university": "大學",
+    "update": "更新",
+    "updatedAt": "更新於"
+}

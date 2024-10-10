@@ -1,0 +1,30 @@
+{
+    "Export": "导出",
+    "Home": "首页",
+    "Logout": "注销",
+    "menu": {
+        "Application": "申请",
+        "applicationInfo": "申请信息",
+        "Appointment": "约会",
+        "Assignment": "作业",
+        "assignmentApply": "作业申请",
+        "Course": "课程",
+        "CourseManagement": "课程管理",
+        "Dashboard": "仪表盘",
+        "Database": "数据库",
+        "Marketing": "营销",
+        "MyProfile": "我的资料",
+        "Payment": "支付",
+        "pendingReceipt": "待处理收据",
+        "Role": "角色",
+        "settings": "设置",
+        "Settings": "设置",
+        "siteSetting": "站点设置",
+        "Staff": "员工",
+        "Student": "学生",
+        "Subject": "科目",
+        "Tutor": "导师",
+        "UserManagement": "用户管理"
+    },
+    "My Profile": "我的资料"
+}

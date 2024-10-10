@@ -1,0 +1,12 @@
+{
+    "addDocument": "添加文档",
+    "button": {
+        "editReceipt": "编辑收据"
+    },
+    "editReceipt": "编辑收据",
+    "fileSizeError": "文件大小错误",
+    "paymentPurpose": "支付目的",
+    "paymentType": "支付类型",
+    "receivedDate": "收到日期",
+    "remark": "备注"
+}

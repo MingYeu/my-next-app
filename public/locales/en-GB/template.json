@@ -1,0 +1,17 @@
+{
+    "actions": "Actions",
+    "active": "Active",
+    "code": "Code",
+    "createdAt": "Created At",
+    "createMarketing": "Create Marketing",
+    "delete": "Delete",
+    "deleteMarketing": "Delete Marketing",
+    "informationRequired": "Information Required",
+    "marketing": "Marketing",
+    "name": "Name",
+    "readyToSend": "Ready To Send",
+    "remove": "Remove",
+    "sent": "Sent",
+    "status": "Status",
+    "updatedAt": "Updated At"
+}

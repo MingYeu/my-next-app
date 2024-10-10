@@ -1,0 +1,17 @@
+{
+    "actions": "操作",
+    "active": "活跃",
+    "code": "代码",
+    "createdAt": "创建时间",
+    "createMarketing": "创建营销",
+    "delete": "删除",
+    "deleteMarketing": "删除营销",
+    "informationRequired": "需要信息",
+    "marketing": "营销",
+    "name": "名称",
+    "readyToSend": "准备发送",
+    "remove": "移除",
+    "sent": "已发送",
+    "status": "状态",
+    "updatedAt": "更新时间"
+}

@@ -1,0 +1,24 @@
+{
+    "--selectTypeToSearch--": "--Select Type to Search--",
+    "addAppointment": "Add Appointment",
+    "appointment": "Appointment",
+    "appointments": "Appointments",
+    "calendar": {
+        "month": "Month",
+        "student": "Student",
+        "tutor": "Tutor",
+        "year": "Year"
+    },
+    "date": "Date",
+    "deleteAppointment": "Delete Appointment",
+    "description": "Description",
+    "profile": "Profile",
+    "remove": "Remove",
+    "resetFilter": "Reset Filter",
+    "time": "Time",
+    "title": "Title",
+    "tutor": "Tutor",
+    "update": "Update",
+    "updateAppointment": "Update Appointment",
+    "updateAppointmentConfirmation": "Update Appointment Confirmation"
+}

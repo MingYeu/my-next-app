@@ -1,0 +1,32 @@
+{
+    "Export": "Export",
+    "Home": "Home",
+    "Logout": "Logout",
+    "menu": {
+        "Application": "Application",
+        "applicationInfo": "Application Info",
+        "Appointment": "Appointment",
+        "Assignment": "Assignment",
+        "assignmentApply": "Assignment Apply",
+        "Course": "Course",
+        "CourseManagement": "Course Management",
+        "Dashboard": "Dashboard",
+        "Database": "Database",
+        "Marketing": "Marketing",
+        "MyProfile": "My Profile",
+        "Payment": "Payment",
+        "pendingReceipt": "Pending Receipt",
+        "Role": "Role",
+        "settings": "Settings",
+        "Settings": "Settings",
+        "siteSetting": "Site Setting",
+        "Staff": "Staff",
+        "Student": "Student",
+        "Subject": "Subject",
+        "Tutor": "Tutor",
+        "UserManagement": "User Management",
+        "Member": "Member",
+        "Package": "Package"
+    },
+    "My Profile": "My Profile"
+}

@@ -1,0 +1,11 @@
+{
+    "button": {
+        "Verify Account": "验证账户"
+    },
+    "Email": "电子邮件",
+    "message": {
+        "You are verified Redirecting to home page in {{countDown}} seconds": "您已验证，将在{{countDown}}秒内重定向到首页"
+    },
+    "Password": "密码",
+    "verifyingToken": "验证令牌"
+}

@@ -1,0 +1,52 @@
+{
+    "--select-status--": "--Select Status--",
+    "accountNameChinese": "Account Name (Chinese)",
+    "accountNameEnglish": "Account Name (English)",
+    "accountNumber": "Account Number",
+    "actions": "Actions",
+    "active": "Active",
+    "Active": "Active",
+    "addApplicationInfo": "Add Application Info",
+    "addStaffAppointmentInfo": "Add Staff Appointment Info",
+    "applicationInfo": "Application Info",
+    "areYouSureYouWantToChangeTheStatus": "Are you sure you want to change the status?",
+    "areYouSureYouWantToUpdateApplicationInfo": "Are you sure you want to update application info?",
+    "bankAddressChinese": "Bank Address (Chinese)",
+    "bankAddressEnglish": "Bank Address (English)",
+    "bankNameChinese": "Bank Name (Chinese)",
+    "bankNameEnglish": "Bank Name (English)",
+    "button": {
+        "saveChanges": "Save Changes"
+    },
+    "companyAddressChinese": "Company Address (Chinese)",
+    "companyAddressEnglish": "Company Address (English)",
+    "companyLogo": "Company Logo",
+    "createApplicationInfo": "Create Application Info",
+    "createdAt": "Created At",
+    "createStaffAppointmentInfo": "Create Staff Appointment Info",
+    "delete": "Delete",
+    "deleteApplicationInfo": "Delete Application Info",
+    "deleteStaffAppointmentInfo": "Delete Staff Appointment Info",
+    "email": "Email",
+    "fpsNumber": "FPS Number",
+    "hint": {
+        "Click or drag file to this area to upload": "Click or drag file to this area to upload",
+        "Supported Files": "Supported Files"
+    },
+    "inactive": "Inactive",
+    "Inactive": "Inactive",
+    "message": {
+        "File size must be less than 10MB": "File size must be less than 10MB"
+    },
+    "paymentInfo": "Payment Info",
+    "phoneNumber": "Phone Number",
+    "remove": "Remove",
+    "resetFilter": "Reset Filter",
+    "siteSetting": "Site Setting",
+    "staffAppointmentEmail": "Staff Appointment Email",
+    "status": "Status",
+    "swiftCode": "Swift Code",
+    "university": "University",
+    "update": "Update",
+    "updatedAt": "Updated At"
+}

@@ -1,0 +1,15 @@
+{
+    "admin": "管理員",
+    "assignment": "作業",
+    "assignment-apply": "作業申請",
+    "course": "課程",
+    "course-management": "課程管理",
+    "lecturer": "講師",
+    "receipt-pending-review": "待審核收據",
+    "student": "學生",
+    "subject": "科目",
+    "total-receipt-pending-review-amount": "待審核收據總額",
+    "total-unpaid-invoice-amount": "未支付發票總額",
+    "unpaid-invoice": "未支付發票",
+    "user-management": "使用者管理"
+}

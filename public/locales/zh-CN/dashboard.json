@@ -1,0 +1,15 @@
+{
+    "admin": "管理员",
+    "assignment": "作业",
+    "assignment-apply": "作业申请",
+    "course": "课程",
+    "course-management": "课程管理",
+    "lecturer": "讲师",
+    "receipt-pending-review": "待审核收据",
+    "student": "学生",
+    "subject": "科目",
+    "total-receipt-pending-review-amount": "待审核收据总额",
+    "total-unpaid-invoice-amount": "未支付发票总额",
+    "unpaid-invoice": "未支付发票",
+    "user-management": "用户管理"
+}

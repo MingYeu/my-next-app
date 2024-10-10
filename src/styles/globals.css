@@ -1,27 +1,47 @@
-/* @tailwind base;
+@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-ubuntu);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.loginBackground {
+    background-color: #ffffff;
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+.table_container {
+    @apply mt-5;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
-} */
+.react-tel-input input {
+    width: 100% !important;
+}
+
+.appointment-layout * {
+    margin-bottom: 7px;
+}
+
+.times-new-roman * {
+    font-family: 'Times New Roman', Times, serif !important;
+}
+
+table.application-background {
+    @apply w-full border-collapse;
+}
+
+table.application-background :where(td, th) {
+    /*Enable borders */
+    border-width: 1px;
+    border-color: #000000;
+    border-style: solid;
+
+    @apply p-[5px];
+}
+
+table.personal-details :where(tr) {
+    padding-bottom: 10px;
+}

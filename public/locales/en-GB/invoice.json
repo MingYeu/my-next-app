@@ -1,0 +1,15 @@
+{
+    "addInvoice": "Add Invoice",
+    "availableInvoiceAmount": "Available Invoice Amount",
+    "button": {
+        "addInvoice": "Add Invoice",
+        "editInvoice": "Edit Invoice"
+    },
+    "currency": "Currency",
+    "dueDate": "Due Date",
+    "editInvoice": "Edit Invoice",
+    "HKD-amount": "HKD Amount",
+    "issueDate": "Issue Date",
+    "outstandingBalance": "Outstanding Balance",
+    "this-currency-amount-will-be-displayed-on-the-invoice-and-receipt": "This currency amount will be displayed on the invoice and receipt"
+}

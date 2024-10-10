@@ -1,0 +1,12 @@
+{
+    "addDocument": "Add Document",
+    "button": {
+        "editReceipt": "Edit Receipt"
+    },
+    "editReceipt": "Edit Receipt",
+    "fileSizeError": "File Size Error",
+    "paymentPurpose": "Payment Purpose",
+    "paymentType": "Payment Type",
+    "receivedDate": "Received Date",
+    "remark": "Remark"
+}

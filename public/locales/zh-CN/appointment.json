@@ -1,0 +1,24 @@
+{
+    "--selectTypeToSearch--": "--选择搜索类型--",
+    "addAppointment": "添加约会",
+    "appointment": "约会",
+    "appointments": "约会列表",
+    "calendar": {
+        "month": "月份",
+        "student": "学生",
+        "tutor": "导师",
+        "year": "年份"
+    },
+    "date": "日期",
+    "deleteAppointment": "删除约会",
+    "description": "描述",
+    "profile": "个人资料",
+    "remove": "移除",
+    "resetFilter": "重置筛选",
+    "time": "时间",
+    "title": "标题",
+    "tutor": "导师",
+    "update": "更新",
+    "updateAppointment": "更新约会",
+    "updateAppointmentConfirmation": "更新约会确认"
+}

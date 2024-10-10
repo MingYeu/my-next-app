@@ -1,0 +1,15 @@
+{
+    "addInvoice": "添加发票",
+    "availableInvoiceAmount": "可用发票金额",
+    "button": {
+        "addInvoice": "添加发票",
+        "editInvoice": "编辑发票"
+    },
+    "currency": "货币",
+    "dueDate": "到期日期",
+    "editInvoice": "编辑发票",
+    "HKD-amount": "港币金额",
+    "issueDate": "发票日期",
+    "outstandingBalance": "未结清余额",
+    "this-currency-amount-will-be-displayed-on-the-invoice-and-receipt": "此货币金额将显示在发票和收据上"
+}

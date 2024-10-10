@@ -1,0 +1,11 @@
+{
+    "button": {
+        "cancel": "取消",
+        "resetPassword": "重置密码"
+    },
+    "email": "电子邮件",
+    "forgotPassword": "忘记密码",
+    "login": "登录",
+    "password": "密码",
+    "staffId": "员工编号"
+}

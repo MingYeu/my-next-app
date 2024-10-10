@@ -1,0 +1,11 @@
+{
+    "button": {
+        "cancel": "Cancel",
+        "resetPassword": "Reset Password"
+    },
+    "email": "Email",
+    "forgotPassword": "Forgot Password",
+    "login": "Login",
+    "password": "Password",
+    "staffId": "Staff ID"
+}

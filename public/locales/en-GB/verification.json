@@ -1,0 +1,11 @@
+{
+    "button": {
+        "Verify Account": "Verify Account"
+    },
+    "Email": "Email",
+    "message": {
+        "You are verified Redirecting to home page in {{countDown}} seconds": "You are verified. Redirecting to home page in {{countDown}} seconds"
+    },
+    "Password": "Password",
+    "verifyingToken": "Verifying Token"
+}

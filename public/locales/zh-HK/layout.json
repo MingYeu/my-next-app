@@ -1,0 +1,30 @@
+{
+    "Export": "匯出",
+    "Home": "首頁",
+    "Logout": "登出",
+    "menu": {
+        "Application": "申請",
+        "applicationInfo": "申請資訊",
+        "Appointment": "預約",
+        "Assignment": "任務",
+        "assignmentApply": "任務申請",
+        "Course": "課程",
+        "CourseManagement": "課程管理",
+        "Dashboard": "儀表板",
+        "Database": "資料庫",
+        "Marketing": "行銷",
+        "MyProfile": "我的檔案",
+        "Payment": "支付",
+        "pendingReceipt": "待處理收據",
+        "Role": "角色",
+        "settings": "設定",
+        "Settings": "設定",
+        "siteSetting": "網站設定",
+        "Staff": "員工",
+        "Student": "學生",
+        "Subject": "科目",
+        "Tutor": "導師",
+        "UserManagement": "使用者管理"
+    },
+    "My Profile": "我的檔案"
+}

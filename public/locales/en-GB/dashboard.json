@@ -1,0 +1,15 @@
+{
+    "admin": "Admin",
+    "assignment": "Assignment",
+    "assignment-apply": "Assignment Apply",
+    "course": "Course",
+    "course-management": "Course Management",
+    "lecturer": "Lecturer",
+    "receipt-pending-review": "Receipt Pending Review",
+    "student": "Student",
+    "subject": "Subject",
+    "total-receipt-pending-review-amount": "Total Receipt Pending Review Amount",
+    "total-unpaid-invoice-amount": "Total Unpaid Invoice Amount",
+    "unpaid-invoice": "Unpaid Invoice",
+    "user-management": "User Management"
+}

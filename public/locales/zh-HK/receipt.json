@@ -1,0 +1,12 @@
+{
+    "addDocument": "新增文件",
+    "button": {
+        "editReceipt": "編輯收據"
+    },
+    "editReceipt": "編輯收據",
+    "fileSizeError": "檔案大小錯誤",
+    "paymentPurpose": "付款目的",
+    "paymentType": "付款類型",
+    "receivedDate": "收款日期",
+    "remark": "備註"
+}
