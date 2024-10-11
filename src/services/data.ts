@@ -20,3 +20,7 @@ export const getPackageData = () => {
 export const getDashboardInfo = () => {
     return axiosInstance.get<Dashboard>(`/api/staff/data/dashboard`);
 };
+
+export const exportData = (table: string) => {
+    return axiosInstance.get<any>(`/api/staff/data/export/${table}`);
+};

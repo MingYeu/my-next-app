@@ -89,12 +89,12 @@ const CustomMenu: React.FC<CustomMenuProps> = ({ staff, activeMenu, activeDropdo
         //     icon: <TbHierarchy3 className="!text-base" />,
         //     onClick: () => onSelectMenuHandler('role', '/role'),
         // },
-        // {
-        //     key: 'database',
-        //     label: t('menu.Database'),
-        //     icon: <AiOutlineDatabase className="!text-base" />,
-        //     onClick: () => onSelectMenuHandler('database', '/database'),
-        // },
+        {
+            key: 'database',
+            label: t('menu.Database'),
+            icon: <AiOutlineDatabase className="!text-base" />,
+            onClick: () => onSelectMenuHandler('database', '/database'),
+        },
         {
             key: 'settings',
             label: t('menu.Settings'),
