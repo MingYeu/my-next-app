@@ -8,18 +8,17 @@ import mappedCountryList from '@/lib/countryList';
 import { getRoleData } from '@/services/data';
 import { AxiosErrorResponse } from '@/types';
 import errorFormatter from '@/lib/errorFormatter';
-import malaysiaStateList from '@/lib/stateList';
 
 interface FilterAttributes {
-    filterTutorForm: FormInstance;
+    filterCouponForm: FormInstance;
     onReset: () => void;
     onSearch: () => void;
     loading: boolean;
 }
 
-const FilterDrawer: React.FC<FilterAttributes> = ({ filterTutorForm, onReset, onSearch, loading }) => {
-    const { t } = useTranslation(['tutor', 'common']);
-    const criteriaSelected = filterTutorForm.getFieldsValue();
+const FilterDrawer: React.FC<FilterAttributes> = ({ filterCouponForm, onReset, onSearch, loading }) => {
+    const { t } = useTranslation(['coupon', 'common']);
+    const criteriaSelected = filterCouponForm.getFieldsValue();
     const criteriaCount: number = Object.values(criteriaSelected).reduce((count: number, val) => count + (val ? 1 : 0), 0);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -66,48 +65,14 @@ const FilterDrawer: React.FC<FilterAttributes> = ({ filterTutorForm, onReset, on
                 {criteriaCount > 0 && `(${criteriaCount})`} {t('common:Filter')}
             </Button>
             <Modal title={t('common:Filter')} onCancel={() => setIsModalOpen(false)} open={isModalOpen} footer={null} width={650}>
-                <Form form={filterTutorForm} layout="vertical" name="filter_form" className="mt-6">
+                <Form form={filterCouponForm} layout="vertical" name="filter_form" className="mt-6">
                     <Row gutter={[16, 0]}>
                         <Col {...fullBreakPoint}>
-                            <Form.Item initialValue="" name="fullNameEmail">
-                                <Input placeholder={t('email,englishNameOrChineseName') as string} />
+                            <Form.Item initialValue="" name="code">
+                                <Input placeholder={t('couponCode') as string} />
                             </Form.Item>
                         </Col>
-                        <Col {...fullBreakPoint}>
-                            <Form.Item initialValue="" name="phoneNumber">
-                                <Input placeholder={t('phoneNumber') as string} />
-                            </Form.Item>
-                        </Col>
-                        <Col {...breakPoint}>
-                            <Form.Item initialValue="" label={t('common:Nationality')} name="nationality">
-                                <Select
-                                    allowClear
-                                    showSearch
-                                    options={[
-                                        {
-                                            label: t('--select-nationality--') as string,
-                                            value: '',
-                                        },
-                                        ...mappedCountryList,
-                                    ]}
-                                />
-                            </Form.Item>
-                        </Col>
-                        <Col {...breakPoint}>
-                            <Form.Item initialValue="" label={t('common:State')} name="state">
-                                <Select
-                                    allowClear
-                                    showSearch
-                                    options={[
-                                        {
-                                            label: t('--select-state--') as string,
-                                            value: '',
-                                        },
-                                        ...malaysiaStateList,
-                                    ]}
-                                />
-                            </Form.Item>
-                        </Col>
+
                         <Col {...breakPoint}>
                             <Form.Item initialValue="" label={t('common:Status')} name="active">
                                 <Select>

@@ -13,7 +13,9 @@ import { Button, Form, Table, TableColumnProps, TableProps } from 'antd';
 import FilterDrawer from '@/components/member/modals/Filter';
 import { PlusOutlined } from '@ant-design/icons';
 import ColumnSelector from '@/components/modals/ColumnSelector';
-import AddTutorModal from '@/components/member/modals/AddMember';
+import AddMemberModal from '@/components/member/modals/AddMember';
+import AddMemberPointModal from '@/components/member/modals/AddPoint';
+import UpdateCouponModal from '@/components/member/modals/UpdateCoupon';
 import Toast from '@/lib/Toast';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import queryString from 'query-string';
@@ -21,7 +23,7 @@ import { toast } from 'react-toastify';
 import usePagination from '@/hooks/usePagination';
 import { SortOrder } from '@/types/pagination';
 import { Member } from '@/types/member';
-import { createMember, getMemberListByPagination } from '@/services/member';
+import { createMember, createMemberPoint, getMemberListByPagination } from '@/services/member';
 import errorFormatter from '@/lib/errorFormatter';
 import { PermissionContext } from '@/providers/RoleContext';
 
@@ -32,10 +34,13 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
 
     // Form Instances
     const [filterTutorForm] = Form.useForm();
-    const [addTutorForm] = Form.useForm();
+    const [addMemberForm] = Form.useForm();
+    const [addMemberPointForm] = Form.useForm();
+    const [addMemberCouponForm] = Form.useForm();
 
     // Messages
     const createMemberToast = new Toast('createMember');
+    const createMemberPointToast = new Toast('createMemberPoint');
 
     // States
     const [pagination, setPagination] = usePagination({
@@ -43,7 +48,9 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
         sortOrder: SortOrder.ASC,
     });
     const [selectedColumn, setSelectedColumn] = useState<string[]>(['code', 'englishName', 'email', 'active', 'lastActive']);
-    const [addTutorModalOpen, setAddTutorModalOpen] = useState<boolean>(false);
+    const [addMemberModalOpen, setAddMemberModalOpen] = useState<boolean>(false);
+    const [addMemberPointModalOpen, setAddMemberPointModalOpen] = useState<boolean>(false);
+    const [addMemberCouponModalOpen, setAddMemberCouponModalOpen] = useState<boolean>(false);
 
     // Query
     const memberQuery = useQuery({
@@ -92,8 +99,60 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
         },
         onSuccess: () => {
             createMemberToast.update('success', t('messages:success.memberCreated'));
-            setAddTutorModalOpen(false);
-            addTutorForm.resetFields();
+            setAddMemberModalOpen(false);
+            addMemberForm.resetFields();
+            setPagination((prev: any) => {
+                return {
+                    ...prev,
+                    fetch: true,
+                };
+            });
+
+            // Disabled Member Caching
+            queryClient.invalidateQueries(['member'], { exact: true });
+        },
+    });
+
+    const createMemberPointMutation = useMutation({
+        mutationFn: async (values: Member) => {
+            createMemberPointToast.loading(t('messages:loading.creatingMemberPoint'));
+            const res = await createMemberPoint(values);
+
+            return res.data;
+        },
+        onError: (err: AxiosErrorResponse & Error) => {
+            createMemberPointToast.update('error', t(errorFormatter(err)));
+        },
+        onSuccess: () => {
+            createMemberPointToast.update('success', t('messages:success.memberPointCreated'));
+            setAddMemberModalOpen(false);
+            addMemberForm.resetFields();
+            setPagination((prev: any) => {
+                return {
+                    ...prev,
+                    fetch: true,
+                };
+            });
+
+            // Disabled Member Caching
+            queryClient.invalidateQueries(['member'], { exact: true });
+        },
+    });
+
+    const createMemberCouponMutation = useMutation({
+        mutationFn: async (values: Member) => {
+            createMemberPointToast.loading(t('messages:loading.updatingMemberCoupon'));
+            const res = await createMemberPoint(values);
+
+            return res.data;
+        },
+        onError: (err: AxiosErrorResponse & Error) => {
+            createMemberPointToast.update('error', t(errorFormatter(err)));
+        },
+        onSuccess: () => {
+            createMemberPointToast.update('success', t('messages:success.memberCouponUpdated'));
+            setAddMemberModalOpen(false);
+            addMemberForm.resetFields();
             setPagination((prev: any) => {
                 return {
                     ...prev,
@@ -119,9 +178,21 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
         });
     };
 
-    const onCreateTutorHandler = () => {
-        addTutorForm.validateFields().then((values) => {
+    const onCreateMemberHandler = () => {
+        addMemberForm.validateFields().then((values) => {
             createMemberMutation.mutate(values);
+        });
+    };
+
+    const onCreateMemberPointHandler = () => {
+        addMemberPointForm.validateFields().then((values) => {
+            createMemberPointMutation.mutate(values);
+        });
+    };
+
+    const onCreateMemberCouponHandler = () => {
+        addMemberCouponForm.validateFields().then((values) => {
+            createMemberCouponMutation.mutate(values);
         });
     };
 
@@ -178,12 +249,8 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
             value: 'joinDate',
         },
         {
-            label: t('phoneNumber1'),
-            value: 'phoneNumber1',
-        },
-        {
-            label: t('phoneNumber2'),
-            value: 'phoneNumber2',
+            label: t('phoneNumber'),
+            value: 'phoneNumber',
         },
         {
             label: t('email'),
@@ -261,16 +328,10 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
                 },
             },
         ]),
-        ...conditionalReturn(selectedColumn.includes('phoneNumber1'), [
+        ...conditionalReturn(selectedColumn.includes('phoneNumber'), [
             {
-                dataIndex: 'phoneNumber1',
-                title: t('phoneNumber1'),
-            },
-        ]),
-        ...conditionalReturn(selectedColumn.includes('phoneNumber2'), [
-            {
-                dataIndex: 'phoneNumber2',
-                title: t('phoneNumber2'),
+                dataIndex: 'phoneNumber',
+                title: t('phoneNumber'),
             },
         ]),
         ...conditionalReturn(selectedColumn.includes('email'), [
@@ -351,9 +412,19 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
                     </div>
                 </div>
                 {permissions.MEMBER_CREATE && (
-                    <Button type="primary" icon={<PlusOutlined />} onClick={() => setAddTutorModalOpen(true)}>
-                        {t('addMember')}
-                    </Button>
+                    <div className="flex space-x-12">
+                        <div className="flex space-x-4">
+                            <Button type="primary" icon={<PlusOutlined />} onClick={() => setAddMemberCouponModalOpen(true)}>
+                                {t('usedCoupon')}
+                            </Button>
+                            <Button type="primary" icon={<PlusOutlined />} onClick={() => setAddMemberPointModalOpen(true)}>
+                                {t('addPoint')}
+                            </Button>
+                        </div>
+                        <Button type="primary" icon={<PlusOutlined />} onClick={() => setAddMemberModalOpen(true)}>
+                            {t('addMember')}
+                        </Button>
+                    </div>
                 )}
             </div>
             <div className="table_container">
@@ -383,12 +454,26 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
                     }}
                 />
             </div>
-            <AddTutorModal
+            <AddMemberModal
                 loading={createMemberMutation.isLoading}
-                form={addTutorForm}
-                open={addTutorModalOpen}
-                setOpen={setAddTutorModalOpen}
-                onCreate={onCreateTutorHandler}
+                form={addMemberForm}
+                open={addMemberModalOpen}
+                setOpen={setAddMemberModalOpen}
+                onCreate={onCreateMemberHandler}
+            />
+            <AddMemberPointModal
+                loading={createMemberPointMutation.isLoading}
+                form={addMemberPointForm}
+                open={addMemberPointModalOpen}
+                setOpen={setAddMemberPointModalOpen}
+                onCreate={onCreateMemberPointHandler}
+            />
+            <UpdateCouponModal
+                loading={createMemberCouponMutation.isLoading}
+                form={addMemberCouponForm}
+                open={addMemberCouponModalOpen}
+                setOpen={setAddMemberCouponModalOpen}
+                onCreate={onCreateMemberCouponHandler}
             />
         </Layout>
     );

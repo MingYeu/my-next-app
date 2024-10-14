@@ -4,8 +4,9 @@ import { Tag } from 'antd';
 import dayjs from 'dayjs';
 import { useTranslation } from 'next-i18next';
 import { Package } from '@/types/package';
+import { Coupon } from '@/types/coupon';
 
-const Status: React.FC<{ user?: Staff | Member; packages?: Package }> = ({ user, packages }) => {
+const Status: React.FC<{ user?: Staff | Member; packages?: Package; coupons?: Coupon }> = ({ user, packages, coupons }) => {
     const { t } = useTranslation(['common']);
     if (user) {
         if (!user?.tokenExpiredAt) {
@@ -18,6 +19,8 @@ const Status: React.FC<{ user?: Staff | Member; packages?: Package }> = ({ user,
         }
     } else if (packages) {
         return <Tag color={packages?.active ? 'green' : 'red'}>{packages?.active ? t('active') : t('inactive')}</Tag>;
+    } else if (coupons) {
+        return <Tag color={coupons?.active ? 'green' : 'red'}>{coupons?.active ? t('active') : t('inactive')}</Tag>;
     } else {
         return <Tag color="red">{t('Cant find status')}</Tag>;
     }

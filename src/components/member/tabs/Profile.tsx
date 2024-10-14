@@ -43,7 +43,6 @@ const Profile: React.FC<ProfileProps> = ({ memberId, memberQuery }) => {
                 packages: member.member_package[0]?.packageId,
                 dateOfBirth: dayjs(member.dateOfBirth),
                 joinDate: dayjs(member.joinDate),
-                phoneNumber2: member.phoneNumber2 ?? undefined,
             });
         }
     }, [member]);
@@ -309,12 +308,7 @@ const Profile: React.FC<ProfileProps> = ({ memberId, memberQuery }) => {
                                     </Form.Item>
                                 </Col>
                                 <Col xs={24} sm={12} md={12} lg={12}>
-                                    <Form.Item label={t('phoneNumber1')} name="phoneNumber1" rules={[{ required: true }]}>
-                                        <PhoneInput country="hk" />
-                                    </Form.Item>
-                                </Col>
-                                <Col xs={24} sm={12} md={12} lg={12}>
-                                    <Form.Item label={t('phoneNumber2')} name="phoneNumber2">
+                                    <Form.Item label={t('phoneNumber')} name="phoneNumber" rules={[{ required: true }]}>
                                         <PhoneInput country="hk" />
                                     </Form.Item>
                                 </Col>

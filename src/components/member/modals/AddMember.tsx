@@ -1,11 +1,12 @@
 import mappedCountryList from '@/lib/countryList';
 import errorFormatter from '@/lib/errorFormatter';
-import { getPackageData } from '@/services/data';
+import malaysiaStateList from '@/lib/stateList';
+import { getMembersList, getPackageData } from '@/services/data';
 import { AxiosErrorResponse } from '@/types';
 import { useQuery } from '@tanstack/react-query';
 import { Button, Col, DatePicker, Divider, Form, FormInstance, Input, Modal, Row, Select, message } from 'antd';
 import { useTranslation } from 'next-i18next';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import { toast } from 'react-toastify';
@@ -20,6 +21,18 @@ interface AddMemberModalProps {
 
 const AddMember: React.FC<AddMemberModalProps> = ({ form, open, setOpen, onCreate, loading }) => {
     const { t } = useTranslation(['member', 'common', 'messages']);
+    const [debouncedKeyword, setDebouncedKeyword] = useState<string>('');
+    const [debounceTimeout, setDebounceTimeout] = useState<ReturnType<typeof setTimeout> | null>(null);
+
+    const onSearchHandler = (value: string) => {
+        if (debounceTimeout) {
+            clearTimeout(debounceTimeout);
+        }
+        const timeout = setTimeout(() => {
+            setDebouncedKeyword(value);
+        }, 300);
+        setDebounceTimeout(timeout);
+    };
 
     const onModalCancel = () => {
         setOpen(false);
@@ -29,7 +42,7 @@ const AddMember: React.FC<AddMemberModalProps> = ({ form, open, setOpen, onCreat
         onCreate();
     };
 
-    const packageQuery = useQuery({
+    const packageListQuery = useQuery({
         queryKey: ['package', 'data'],
         queryFn: async () => {
             const res = await getPackageData();
@@ -40,8 +53,19 @@ const AddMember: React.FC<AddMemberModalProps> = ({ form, open, setOpen, onCreat
         },
     });
 
+    const memberListQuery = useQuery({
+        queryKey: ['members', 'list', debouncedKeyword],
+        queryFn: async () => {
+            const res = await getMembersList(debouncedKeyword);
+            return res.data;
+        },
+        onError: (error: AxiosErrorResponse & Error) => {
+            toast.error(t(errorFormatter(error)));
+        },
+    });
+
     const packageSelection =
-        (packageQuery.data || []).map((packages: { name: string; id: string }) => ({
+        (packageListQuery.data || []).map((packages: { name: string; id: string }) => ({
             label: packages.name,
             value: packages.id,
         })) ?? [];
@@ -81,12 +105,52 @@ const AddMember: React.FC<AddMemberModalProps> = ({ form, open, setOpen, onCreat
                     <Col xs={24} sm={12} md={8}>
                         <Form.Item label={t('package')} name="packages">
                             <Select options={packageSelection} placeholder="Please Select" />
-                            {/* <Select value={roleId} className="w-full" options={roleSelection} showSearch onChange={onRoleChangeHandler} /> */}
+                        </Form.Item>
+                    </Col>
+                    <Divider orientation="left">{t('referralProfile')}</Divider>
+                    <Col xs={24} sm={12} md={8}>
+                        <Form.Item label={t('referralId')} name="referralId">
+                            <Select
+                                placeholder={t('Please Select')}
+                                showSearch
+                                filterOption={false}
+                                onSearch={onSearchHandler}
+                                loading={memberListQuery.isFetching}
+                                onSelect={(value) => {
+                                    const selectedMember = memberListQuery.data?.find((member) => member.id === value);
+
+                                    if (selectedMember) {
+                                        form.setFieldsValue({
+                                            referralName: selectedMember.englishName,
+                                        });
+                                    }
+                                    setDebouncedKeyword('');
+                                }}
+                                onBlur={() => setDebouncedKeyword('')}
+                                options={
+                                    memberListQuery?.data && !memberListQuery.isFetching
+                                        ? memberListQuery.data.map((member) => ({
+                                              label: `${member.phoneNumber}`,
+                                              value: member.id,
+                                          }))
+                                        : []
+                                }
+                            />
+                        </Form.Item>
+                    </Col>
+                    <Col xs={24} sm={12} md={8}>
+                        <Form.Item label={t('referralName')} name="referralName">
+                            <Input disabled />
                         </Form.Item>
                     </Col>
                 </Row>
                 <Divider orientation="left">{t('memberProfile')}</Divider>
                 <Row gutter={[16, 0]}>
+                    <Col xs={24} sm={12} md={12} lg={8}>
+                        <Form.Item label={t('idNumber')} name="idNumber" rules={[{ required: true }]}>
+                            <Input type="number" />
+                        </Form.Item>
+                    </Col>
                     <Col xs={24} sm={12} md={12} lg={8}>
                         <Form.Item
                             label={t('englishName')}
@@ -136,6 +200,11 @@ const AddMember: React.FC<AddMemberModalProps> = ({ form, open, setOpen, onCreat
                         </Form.Item>
                     </Col>
                     <Col xs={24} sm={12} md={12} lg={8}>
+                        <Form.Item label={t('state')} name="state" rules={[{ required: true }]}>
+                            <Select options={malaysiaStateList} placeholder="Please State" />
+                        </Form.Item>
+                    </Col>
+                    <Col xs={24} sm={12} md={12} lg={8}>
                         <Form.Item label={t('gender')} name="gender" rules={[{ required: true }]}>
                             <Select options={genderList} placeholder="Please Select" />
                         </Form.Item>
@@ -146,32 +215,13 @@ const AddMember: React.FC<AddMemberModalProps> = ({ form, open, setOpen, onCreat
                         </Form.Item>
                     </Col>
                     <Col xs={24} sm={12} md={12} lg={8}>
-                        <Form.Item label={t('phoneNumber1')} name="phoneNumber1" rules={[{ required: true }]}>
+                        <Form.Item label={t('phoneNumber')} name="phoneNumber" rules={[{ required: true }]}>
                             <PhoneInput country="my" />
                         </Form.Item>
                     </Col>
-                    <Col xs={24} sm={12} md={12} lg={8}>
-                        <Form.Item label={t('phoneNumber2')} name="phoneNumber2">
-                            <PhoneInput country="my" />
-                        </Form.Item>
-                    </Col>
+
                     <Col xs={24} sm={24} md={24} lg={24}>
-                        <Form.Item label={t('address1')} name="address1">
-                            <Input.TextArea rows={3} />
-                        </Form.Item>
-                    </Col>
-                    <Col xs={24} sm={24} md={24} lg={24}>
-                        <Form.Item label={t('address2')} name="address2">
-                            <Input.TextArea rows={3} />
-                        </Form.Item>
-                    </Col>
-                    <Col xs={24} sm={24} md={24} lg={24}>
-                        <Form.Item label={t('address3')} name="address3">
-                            <Input.TextArea rows={3} />
-                        </Form.Item>
-                    </Col>
-                    <Col xs={24} sm={24} md={24} lg={24}>
-                        <Form.Item label={t('remarks')} name="remarks">
+                        <Form.Item label={t('address')} name="address">
                             <Input.TextArea rows={3} />
                         </Form.Item>
                     </Col>

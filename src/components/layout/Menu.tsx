@@ -83,6 +83,12 @@ const CustomMenu: React.FC<CustomMenuProps> = ({ staff, activeMenu, activeDropdo
             icon: <SiCoursera className="!text-base" />,
             onClick: () => onSelectMenuHandler('package', '/package'),
         },
+        {
+            key: 'coupon',
+            label: t('menu.Coupon'),
+            icon: <SiCoursera className="!text-base" />,
+            onClick: () => onSelectMenuHandler('coupon', '/coupon'),
+        },
         // {
         //     key: 'role',
         //     label: t('menu.Role'),

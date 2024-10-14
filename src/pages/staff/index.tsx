@@ -192,12 +192,8 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
             value: 'directLine',
         },
         {
-            label: t('phoneNumber1'),
-            value: 'phoneNumber1',
-        },
-        {
-            label: t('phoneNumber2'),
-            value: 'phoneNumber2',
+            label: t('phoneNumber'),
+            value: 'phoneNumber',
         },
         {
             label: t('email'),
@@ -287,16 +283,10 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
                 title: t('directLine'),
             },
         ]),
-        ...conditionalReturn(selectedColumn.includes('phoneNumber1'), [
+        ...conditionalReturn(selectedColumn.includes('phoneNumber'), [
             {
-                dataIndex: 'phoneNumber1',
-                title: t('phoneNumber1'),
-            },
-        ]),
-        ...conditionalReturn(selectedColumn.includes('phoneNumber2'), [
-            {
-                dataIndex: 'phoneNumber2',
-                title: t('phoneNumber2'),
+                dataIndex: 'phoneNumber',
+                title: t('phoneNumber'),
             },
         ]),
         ...conditionalReturn(selectedColumn.includes('email'), [

@@ -3,7 +3,7 @@ import { useTranslation } from 'next-i18next';
 import { Dispatch, SetStateAction } from 'react';
 import 'react-phone-input-2/lib/style.css';
 
-interface AddPackageModalProps {
+interface AddCouponModalProps {
     form: FormInstance;
     open: boolean;
     setOpen: Dispatch<SetStateAction<boolean>>;
@@ -11,14 +11,14 @@ interface AddPackageModalProps {
     loading: boolean;
 }
 
-const AddPackage: React.FC<AddPackageModalProps> = ({ form, open, setOpen, onCreate, loading }) => {
-    const { t } = useTranslation(['package', 'common', 'messages']);
+const AddCoupon: React.FC<AddCouponModalProps> = ({ form, open, setOpen, onCreate, loading }) => {
+    const { t } = useTranslation(['coupon', 'common', 'messages']);
 
     const onModalCancel = () => {
         setOpen(false);
     };
 
-    const onCreatePackageHandler = () => {
+    const onCreateCouponHandler = () => {
         onCreate();
     };
 
@@ -34,11 +34,11 @@ const AddPackage: React.FC<AddPackageModalProps> = ({ form, open, setOpen, onCre
     ];
 
     return (
-        <Modal open={open} onCancel={onModalCancel} title={t('addPackage')} width={1000} footer={null} centered>
-            <Form form={form} name="Create Package Form" layout="vertical">
+        <Modal open={open} onCancel={onModalCancel} title={t('addCoupon')} width={1000} footer={null} centered>
+            <Form form={form} name="Create Coupon Form" layout="vertical">
                 <Row gutter={[16, 0]}>
                     <Col xs={24} sm={12} md={12} lg={8}>
-                        <Form.Item label={t('name')} name="name" rules={[{ required: true }]}>
+                        <Form.Item label={t('code')} name="code" rules={[{ required: true }]}>
                             <Input />
                         </Form.Item>
                     </Col>
@@ -48,8 +48,8 @@ const AddPackage: React.FC<AddPackageModalProps> = ({ form, open, setOpen, onCre
                         </Form.Item>
                     </Col>
                     <Col xs={24} sm={12} md={12} lg={8}>
-                        <Form.Item label={t('point')} name="point" rules={[{ required: true }]}>
-                            <InputNumber min={0} precision={2} placeholder="Enter Point" className="w-full" />
+                        <Form.Item label={t('type')} name="type">
+                            <Select options={activeList} placeholder="Please Select" />
                         </Form.Item>
                     </Col>
                     <Col xs={24} sm={12} md={12} lg={8}>
@@ -70,8 +70,8 @@ const AddPackage: React.FC<AddPackageModalProps> = ({ form, open, setOpen, onCre
                 </Row>
                 <div className="flex justify-end gap-3">
                     <Button onClick={onModalCancel}>{t('common:Cancel')}</Button>
-                    <Button type="primary" onClick={onCreatePackageHandler} loading={loading} disabled={loading}>
-                        {t('addPackage')}
+                    <Button type="primary" onClick={onCreateCouponHandler} loading={loading} disabled={loading}>
+                        {t('addCoupon')}
                     </Button>
                 </div>
             </Form>
@@ -79,4 +79,4 @@ const AddPackage: React.FC<AddPackageModalProps> = ({ form, open, setOpen, onCre
     );
 };
 
-export default AddPackage;
+export default AddCoupon;

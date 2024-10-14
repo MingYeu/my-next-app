@@ -51,8 +51,8 @@ const FilterDrawer: React.FC<FilterAttributes> = ({ filterStaffForm, onReset, on
                             </Form.Item>
                         </Col>
                         <Col {...fullBreakPoint}>
-                            <Form.Item initialValue="" name="phoneNumber1">
-                                <Input placeholder={t('phoneNumber1') as string} />
+                            <Form.Item initialValue="" name="phoneNumber">
+                                <Input placeholder={t('phoneNumber') as string} />
                             </Form.Item>
                         </Col>
                         <Col {...breakPoint}>
