@@ -43,3 +43,7 @@ export const restoreMember = (memberId: string) => {
 export const updateMemberStatus = (memberId: string, body: { status: boolean; reason: string }) => {
     return axiosInstance.post<Member>(`/api/staff/member/${memberId}/status`, body);
 };
+
+export const getMemberTreeStructure = (memberId: string) => {
+    return axiosInstance.get<Member>(`/api/staff/member/${memberId}/tree-structure`);
+};

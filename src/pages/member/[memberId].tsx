@@ -16,6 +16,7 @@ import errorFormatter from '@/lib/errorFormatter';
 import { deleteMember, getSingleMember, restoreMember, updateMemberStatus } from '@/services/member';
 import { useContext, useEffect, useState } from 'react';
 import { PermissionContext } from '@/providers/RoleContext';
+import MemberStructure from '@/components/member/tabs/MemberStructure';
 
 const MemberId: NextPage<StaffPortalProps> = ({ staff }) => {
     const { t } = useTranslation(['member', 'common']);
@@ -77,6 +78,12 @@ const MemberId: NextPage<StaffPortalProps> = ({ staff }) => {
             key: 'profile',
             children: <ProfileTab memberId={memberId as string} memberQuery={memberQuery} />,
         },
+        {
+            label: t('structure'),
+            key: 'structure',
+            children: <MemberStructure memberId={memberId as string} />,
+        },
+
         // {
         //     label: t('password'),
         //     key: 'password',
