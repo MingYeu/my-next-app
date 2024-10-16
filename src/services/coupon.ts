@@ -15,15 +15,15 @@ export const getSingleCoupon = (couponId: string) => {
 };
 
 export const updateCoupon = (couponId: string, body: Coupon) => {
-    return axiosInstance.post<Coupon>(`/api/staff/coupon/${couponId}`, body);
+    return axiosInstance.put<Coupon>(`/api/staff/coupon/${couponId}`, body);
 };
 
 export const deleteCoupon = (couponId: string, body: { reason: string }) => {
-    return axiosInstance.post<Coupon>(`/api/staff/coupon/${couponId}/delete`, {
+    return axiosInstance.delete<Coupon>(`/api/staff/coupon/${couponId}/delete`, {
         data: body,
     });
 };
 
 export const updateCouponStatus = (couponId: string, body: { status: boolean; reason: string }) => {
-    return axiosInstance.post<Coupon>(`/api/staff/coupon/${couponId}/status`, body);
+    return axiosInstance.put<Coupon>(`/api/staff/coupon/${couponId}/status`, body);
 };

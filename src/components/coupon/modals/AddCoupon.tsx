@@ -48,11 +48,6 @@ const AddCoupon: React.FC<AddCouponModalProps> = ({ form, open, setOpen, onCreat
                         </Form.Item>
                     </Col>
                     <Col xs={24} sm={12} md={12} lg={8}>
-                        <Form.Item label={t('type')} name="type">
-                            <Select options={activeList} placeholder="Please Select" />
-                        </Form.Item>
-                    </Col>
-                    <Col xs={24} sm={12} md={12} lg={8}>
                         <Form.Item label={t('startDate')} name="startDate">
                             <DatePicker className="w-full" />
                         </Form.Item>

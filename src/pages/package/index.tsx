@@ -42,7 +42,7 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
         sortField: 'name',
         sortOrder: SortOrder.ASC,
     });
-    const [selectedColumn, setSelectedColumn] = useState<string[]>(['name', 'cost', 'startDate', 'endDate', 'active']);
+    const [selectedColumn, setSelectedColumn] = useState<string[]>(['name', 'cost', 'point', 'active']);
     const [addPackageModalOpen, setAddPackageModalOpen] = useState<boolean>(false);
 
     // Query
@@ -166,6 +166,10 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
             value: 'cost',
         },
         {
+            label: t('point'),
+            value: 'point',
+        },
+        {
             label: t('startDate'),
             value: 'startDate',
         },
@@ -208,12 +212,21 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
                 },
             },
         ]),
+        ...conditionalReturn(selectedColumn.includes('point'), [
+            {
+                dataIndex: 'point',
+                title: t('point'),
+                render: (point: number) => {
+                    return point ? `${point}` : 0;
+                },
+            },
+        ]),
         ...conditionalReturn(selectedColumn.includes('startDate'), [
             {
                 dataIndex: 'startDate',
                 title: t('startDate'),
                 render: (startDate: string) => {
-                    return dayjs(startDate).format('D MMM YYYY');
+                    return startDate ? dayjs(startDate).format('D MMM YYYY') : '-';
                 },
             },
         ]),
@@ -222,7 +235,7 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
                 dataIndex: 'endDate',
                 title: t('endDate'),
                 render: (endDate: string) => {
-                    return dayjs(endDate).format('D MMM YYYY');
+                    return endDate ? dayjs(endDate).format('D MMM YYYY') : '-';
                 },
             },
         ]),
@@ -242,7 +255,7 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
                 width: 150,
                 sorter: true,
                 render: (createdAt: string) => {
-                    return createdAt !== null ? dayjs(createdAt).format('D MMM YYYY, hh:mm a') : '';
+                    return createdAt !== null ? dayjs(createdAt).format('D MMM YYYY, hh:mm a') : '-';
                 },
             },
         ]),
@@ -253,7 +266,7 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
                 width: 150,
                 sorter: true,
                 render: (updatedAt: string) => {
-                    return updatedAt !== null ? dayjs(updatedAt).format('D MMM YYYY, hh:mm a') : '';
+                    return updatedAt !== null ? dayjs(updatedAt).format('D MMM YYYY, hh:mm a') : '-';
                 },
             },
         ]),

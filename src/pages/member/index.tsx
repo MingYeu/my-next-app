@@ -345,7 +345,7 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
                 dataIndex: 'address',
                 title: t('address'),
                 render: (_: unknown, member: Member) => {
-                    return member.address1 + ' ' + member.address2 + ' ' + member.address3;
+                    return member.address;
                 },
             },
         ]),

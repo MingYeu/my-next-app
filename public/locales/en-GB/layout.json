@@ -26,7 +26,8 @@
         "Tutor": "Tutor",
         "UserManagement": "User Management",
         "Member": "Member",
-        "Package": "Package"
+        "Package": "Package",
+        "Coupon": "Coupon"
     },
     "My Profile": "My Profile"
 }

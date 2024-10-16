@@ -67,9 +67,6 @@ const Profile: React.FC<ProfileProps> = ({ staffId, staffQuery }) => {
     const updateStaffMutation = useMutation({
         mutationFn: async (staffData: Staff & { reason: string }) => {
             updateStaffToast.loading(t('messages:loading.updatingStaff'));
-            console.log('staffId', staffId);
-            console.log('staffData', staffData);
-
             const res = await updateStaff(staffId, staffData);
 
             return res.data;
@@ -367,17 +364,7 @@ const Profile: React.FC<ProfileProps> = ({ staffId, staffQuery }) => {
                                     </Form.Item>
                                 </Col>
                                 <Col xs={24} sm={24} md={24} lg={24}>
-                                    <Form.Item label={t('address1')} name="address1" rules={[{ required: true }]}>
-                                        <Input.TextArea rows={3} />
-                                    </Form.Item>
-                                </Col>
-                                <Col xs={24} sm={24} md={24} lg={24}>
-                                    <Form.Item label={t('address2')} name="address2" rules={[{ required: true }]}>
-                                        <Input.TextArea rows={3} />
-                                    </Form.Item>
-                                </Col>
-                                <Col xs={24} sm={24} md={24} lg={24}>
-                                    <Form.Item label={t('address3')} name="address3" rules={[{ required: true }]}>
+                                    <Form.Item label={t('address')} name="address" rules={[{ required: true }]}>
                                         <Input.TextArea rows={3} />
                                     </Form.Item>
                                 </Col>

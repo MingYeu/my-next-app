@@ -14,9 +14,7 @@ export interface Staff {
     gender: string;
     dateOfBirth: string;
     nationality: string;
-    address1: string;
-    address2: string;
-    address3: string;
+    address: string;
     password: string;
     remarks: string | null;
     lastActive: string;

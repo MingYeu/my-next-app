@@ -7,21 +7,21 @@ import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useRouter } from 'next/router';
 import ActivityLog from '@/components/activityLog';
-import ProfileTab from '@/components/package/tabs/Profile';
-// import PasswordTab from '@/components/packages/tabs/Password';
+import ProfileTab from '@/components/coupon/tabs/Profile';
+// import PasswordTab from '@/components/coupons/tabs/Password';
 import { toast } from 'react-toastify';
 import conditionalReturn from '@/lib/conditionalReturn';
 import { AxiosErrorResponse, StaffPortalProps } from '@/types';
 import errorFormatter from '@/lib/errorFormatter';
-import { deletePackage, getSinglePackage, restorePackage, updatePackageStatus } from '@/services/package';
+import { deleteCoupon, getSingleCoupon, updateCouponStatus } from '@/services/coupon';
 import { useContext, useEffect, useState } from 'react';
 import { PermissionContext } from '@/providers/RoleContext';
 
-const PackageId: NextPage<StaffPortalProps> = ({ staff }) => {
-    const { t } = useTranslation(['packages', 'common']);
-    const [packagesForm] = Form.useForm();
+const CouponId: NextPage<StaffPortalProps> = ({ staff }) => {
+    const { t } = useTranslation(['coupons', 'common']);
+    const [couponsForm] = Form.useForm();
     const router = useRouter();
-    const { packageId, tab } = router.query;
+    const { couponId, tab } = router.query;
     const { permissions } = useContext(PermissionContext);
     const [currentTab, setCurrentTab] = useState<string>('profile');
 
@@ -39,13 +39,13 @@ const PackageId: NextPage<StaffPortalProps> = ({ staff }) => {
         }
     }, [tab]);
 
-    const packagesQuery = useQuery({
-        queryKey: ['packages', packageId],
+    const couponsQuery = useQuery({
+        queryKey: ['coupons', couponId],
         keepPreviousData: true,
         queryFn: async () => {
-            const res = await getSinglePackage(packageId as string);
+            const res = await getSingleCoupon(couponId as string);
 
-            packagesForm.setFieldsValue(res.data);
+            couponsForm.setFieldsValue(res.data);
 
             return res.data;
         },
@@ -54,44 +54,44 @@ const PackageId: NextPage<StaffPortalProps> = ({ staff }) => {
         },
     });
 
-    const packagesData = packagesQuery.data;
+    const couponsData = couponsQuery.data;
 
     const breadCrumbItems = [
         {
-            label: t('package'),
-            path: '/package',
+            label: t('coupon'),
+            path: '/coupon',
         },
         {
-            label: packagesQuery.data ? packagesQuery.data.name : t('common:loading'),
-            path: `/package/${packageId}`,
+            label: couponsQuery.data ? couponsQuery.data.code : t('common:loading'),
+            path: `/coupon/${couponId}`,
         },
     ];
 
     const seoConfig = {
-        title: t('package'),
+        title: t('coupon'),
     };
 
     const tabItems = [
         {
             label: t('profile'),
             key: 'profile',
-            children: <ProfileTab packagesId={packageId as string} packagesQuery={packagesQuery} />,
+            children: <ProfileTab couponsId={couponId as string} couponsQuery={couponsQuery} />,
         },
         // ...conditionalReturn(permissions.ACTIVITY_LOG, [
         //     {
         //         label: t('common:activityLog'),
         //         key: 'activityLog',
-        //         children: <ActivityLog target={`packages:${packageId}`} />,
+        //         children: <ActivityLog target={`coupons:${couponId}`} />,
         //     },
         // ]),
     ];
 
     return (
-        <Layout staff={staff} breadCrumbItems={breadCrumbItems} seoConfig={seoConfig} activeMenu={['package']} activeDropdown={['userManagement']}>
-            <Spin spinning={packagesQuery.isFetching}>
-                {packagesQuery.isFetching && <Skeleton active />}
-                {!packagesData && !packagesQuery.isFetching && <Empty />}
-                {packagesData && (
+        <Layout staff={staff} breadCrumbItems={breadCrumbItems} seoConfig={seoConfig} activeMenu={['coupon']} activeDropdown={['userManagement']}>
+            <Spin spinning={couponsQuery.isFetching}>
+                {couponsQuery.isFetching && <Skeleton active />}
+                {!couponsData && !couponsQuery.isFetching && <Empty />}
+                {couponsData && (
                     <div className="flex flex-col-reverse xl:flex-row xl:gap-12">
                         <div className="flex-1">
                             <Tabs
@@ -99,7 +99,7 @@ const PackageId: NextPage<StaffPortalProps> = ({ staff }) => {
                                 activeKey={currentTab}
                                 onChange={(key) => {
                                     setCurrentTab(key);
-                                    router.push(`/packages/${packageId}?tab=${key}`, undefined, {
+                                    router.push(`/coupons/${couponId}?tab=${key}`, undefined, {
                                         shallow: true,
                                     });
                                 }}
@@ -112,7 +112,7 @@ const PackageId: NextPage<StaffPortalProps> = ({ staff }) => {
     );
 };
 
-export default PackageId;
+export default CouponId;
 
 export const getServerSideProps: GetServerSideProps = async ({ locale, req, resolvedUrl }) => {
     try {

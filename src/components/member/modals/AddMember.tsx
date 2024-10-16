@@ -5,6 +5,7 @@ import { getMembersList, getPackageData } from '@/services/data';
 import { AxiosErrorResponse } from '@/types';
 import { useQuery } from '@tanstack/react-query';
 import { Button, Col, DatePicker, Divider, Form, FormInstance, Input, Modal, Row, Select, message } from 'antd';
+import dayjs from 'dayjs';
 import { useTranslation } from 'next-i18next';
 import { Dispatch, SetStateAction, useState } from 'react';
 import PhoneInput from 'react-phone-input-2';
@@ -109,13 +110,14 @@ const AddMember: React.FC<AddMemberModalProps> = ({ form, open, setOpen, onCreat
                     </Col>
                     <Divider orientation="left">{t('referralProfile')}</Divider>
                     <Col xs={24} sm={12} md={8}>
-                        <Form.Item label={t('referralId')} name="referralId">
+                        <Form.Item label={t('referralPhone')} name="referralPhone">
                             <Select
                                 placeholder={t('Please Select')}
                                 showSearch
                                 filterOption={false}
                                 onSearch={onSearchHandler}
                                 loading={memberListQuery.isFetching}
+                                allowClear
                                 onSelect={(value) => {
                                     const selectedMember = memberListQuery.data?.find((member) => member.id === value);
 
@@ -211,7 +213,7 @@ const AddMember: React.FC<AddMemberModalProps> = ({ form, open, setOpen, onCreat
                     </Col>
                     <Col xs={24} sm={12} md={12} lg={8}>
                         <Form.Item label={t('joinDate')} name="joinDate" rules={[{ required: true }]}>
-                            <DatePicker className="w-full" />
+                            <DatePicker className="w-full" defaultValue={dayjs()} />
                         </Form.Item>
                     </Col>
                     <Col xs={24} sm={12} md={12} lg={8}>

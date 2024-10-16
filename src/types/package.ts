@@ -9,6 +9,6 @@ export interface Package {
     description: string;
     startDate: string | null;
     endDate: string;
-    active: boolean;
+    active?: boolean;
     // member_package: Member_Package[];
 }

@@ -9,7 +9,7 @@ import 'react-phone-input-2/lib/style.css';
 import Toast from '@/lib/Toast';
 import { PermissionContext } from '@/providers/RoleContext';
 import { Package } from '@/types/package';
-import { deletePackage, restorePackage, updatePackage, updatePackageStatus } from '@/services/package';
+import { deletePackage, updatePackage, updatePackageStatus } from '@/services/package';
 import { AxiosErrorResponse } from '@/types';
 import errorFormatter from '@/lib/errorFormatter';
 import ConfirmationModal from '@/components/modals/ConfirmationModal';
@@ -45,8 +45,8 @@ const Profile: React.FC<ProfileProps> = ({ packagesId, packagesQuery }) => {
         if (packages) {
             packagesForm.setFieldsValue({
                 ...packages,
-                startDate: dayjs(packages.startDate),
-                endDate: dayjs(packages.endDate),
+                startDate: packages.startDate ? dayjs(packages.startDate) : null,
+                endDate: packages.endDate ? dayjs(packages.endDate) : null,
             });
             // setRoleId(packages.roleId);
         }
@@ -105,25 +105,9 @@ const Profile: React.FC<ProfileProps> = ({ packagesId, packagesQuery }) => {
             deletePackageToast.update('error', t(errorFormatter(err)));
         },
         onSuccess: () => {
-            deletePackageToast.update('success', t('messages:success.packagesDeleted'), () => restorePackageMutation.mutate(packagesId as string));
+            deletePackageToast.update('success', t('messages:success.packagesDeleted'));
             router.push('/package');
             queryClient.invalidateQueries(['packages'], { exact: true });
-        },
-    });
-
-    const restorePackageMutation = useMutation({
-        mutationFn: async (packagesId: string) => {
-            restorePackageToast.loading(t('messages:loading.restoringTutor'));
-            const res = await restorePackage(packagesId);
-
-            return res.data;
-        },
-        onError: (err: AxiosErrorResponse & Error) => {
-            restorePackageToast.update('error', t(errorFormatter(err)));
-        },
-        onSuccess: () => {
-            restorePackageToast.update('success', t('messages:success.packagesRestored'));
-            queryClient.refetchQueries(['packages', 'pagination']);
         },
     });
 
@@ -240,12 +224,17 @@ const Profile: React.FC<ProfileProps> = ({ packagesId, packagesQuery }) => {
                                     </Form.Item>
                                 </Col>
                                 <Col xs={24} sm={12} md={12} lg={12}>
-                                    <Form.Item label={t('startDate')} name="startDate" rules={[{ required: true }]}>
+                                    <Form.Item label={t('point')} name="point" rules={[{ required: true }]}>
+                                        <InputNumber min={0} className="w-full" />
+                                    </Form.Item>
+                                </Col>
+                                <Col xs={24} sm={12} md={12} lg={12}>
+                                    <Form.Item label={t('startDate')} name="startDate">
                                         <DatePicker className="w-full" />
                                     </Form.Item>
                                 </Col>
                                 <Col xs={24} sm={12} md={12} lg={12}>
-                                    <Form.Item label={t('endDate')} name="endDate" rules={[{ required: true }]}>
+                                    <Form.Item label={t('endDate')} name="endDate">
                                         <DatePicker className="w-full" />
                                     </Form.Item>
                                 </Col>

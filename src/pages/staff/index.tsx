@@ -52,7 +52,6 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
         keepPreviousData: true,
         queryFn: async () => {
             let searchedValue = filterStaffForm.getFieldsValue();
-
             const query = queryString.stringify({
                 ...searchedValue,
                 page: pagination.page,
@@ -300,7 +299,7 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
                 dataIndex: 'address',
                 title: t('address'),
                 render: (_: unknown, staff: Staff) => {
-                    return staff.address1 + ' ' + staff.address2 + ' ' + staff.address3;
+                    return staff.address;
                 },
             },
         ]),

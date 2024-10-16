@@ -3,20 +3,21 @@ import { UseQueryResult, useMutation, useQuery, useQueryClient } from '@tanstack
 import { Button, Card, Col, DatePicker, Descriptions, Form, Input, Row, Select, Spin } from 'antd';
 import dayjs from 'dayjs';
 import { useTranslation } from 'next-i18next';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import Toast from '@/lib/Toast';
 import { AxiosErrorResponse } from '@/types';
 import errorFormatter from '@/lib/errorFormatter';
 import { Member } from '@/types/member';
-import { deleteMember, restoreMember, updateMember, updateMemberStatus } from '@/services/member';
+import { deleteMember, updateMember, updateMemberStatus } from '@/services/member';
 import { PermissionContext } from '@/providers/RoleContext';
 import ConfirmationModal from '@/components/modals/ConfirmationModal';
 import MemberStatus from '@/components/Status';
 import router from 'next/router';
 import { toast } from 'react-toastify';
-import { getPackageData } from '@/services/data';
+import { getMembersList, getPackageData } from '@/services/data';
+import malaysiaStateList from '@/lib/stateList';
 
 interface ProfileProps {
     memberId: string;
@@ -31,10 +32,32 @@ const Profile: React.FC<ProfileProps> = ({ memberId, memberQuery }) => {
     const updateMemberToast = new Toast('updateMember');
     const queryClient = useQueryClient();
     const DItem = Descriptions.Item;
-    const resendEmailVerificationToast = new Toast('Resend Email Verification');
     const updateMemberStatusToast = new Toast('Update Member Status');
     const deleteMemberToast = new Toast('Delete Member');
-    const restoreMemberToast = new Toast('Restore Member');
+
+    const [debouncedKeyword, setDebouncedKeyword] = useState<string>('');
+    const [debounceTimeout, setDebounceTimeout] = useState<ReturnType<typeof setTimeout> | null>(null);
+
+    const onSearchHandler = (value: string) => {
+        if (debounceTimeout) {
+            clearTimeout(debounceTimeout);
+        }
+        const timeout = setTimeout(() => {
+            setDebouncedKeyword(value);
+        }, 300);
+        setDebounceTimeout(timeout);
+    };
+
+    const memberListQuery = useQuery({
+        queryKey: ['members', 'list', debouncedKeyword],
+        queryFn: async () => {
+            const res = await getMembersList(debouncedKeyword);
+            return res.data;
+        },
+        onError: (error: AxiosErrorResponse & Error) => {
+            toast.error(t(errorFormatter(error)));
+        },
+    });
 
     useEffect(() => {
         if (member) {
@@ -78,6 +101,11 @@ const Profile: React.FC<ProfileProps> = ({ memberId, memberQuery }) => {
             memberForm.resetFields(['reason']);
             updateMemberToast.update('success', t('messages:success.memberUpdated'));
             queryClient.invalidateQueries(['member'], { exact: true });
+
+            // set referralName
+            // if (memberForm.getFieldValue('referralName') !== member?.referralName) {
+
+            // }
         },
     });
 
@@ -116,25 +144,9 @@ const Profile: React.FC<ProfileProps> = ({ memberId, memberQuery }) => {
             deleteMemberToast.update('error', t(errorFormatter(err)));
         },
         onSuccess: () => {
-            deleteMemberToast.update('success', t('messages:success.memberDeleted'), () => restoreMemberMutation.mutate(memberId as string));
+            deleteMemberToast.update('success', t('messages:success.memberDeleted'));
             router.push('/member');
             queryClient.invalidateQueries(['member'], { exact: true });
-        },
-    });
-
-    const restoreMemberMutation = useMutation({
-        mutationFn: async (memberId: string) => {
-            restoreMemberToast.loading(t('messages:loading.restoringMember'));
-            const res = await restoreMember(memberId);
-
-            return res.data;
-        },
-        onError: (err: AxiosErrorResponse & Error) => {
-            restoreMemberToast.update('error', t(errorFormatter(err)));
-        },
-        onSuccess: () => {
-            restoreMemberToast.update('success', t('messages:success.memberRestored'));
-            queryClient.refetchQueries(['member', 'pagination']);
         },
     });
 
@@ -231,11 +243,52 @@ const Profile: React.FC<ProfileProps> = ({ memberId, memberQuery }) => {
                         <Form form={memberForm} layout="vertical" title="Member Form">
                             <Row gutter={[16, 0]}>
                                 <Col xs={24} sm={12} md={12} lg={12}>
+                                    <Form.Item label={t('referralPhone')} name="referralPhone">
+                                        <Select
+                                            placeholder={t('Please Select')}
+                                            showSearch
+                                            filterOption={false}
+                                            onSearch={onSearchHandler}
+                                            loading={memberListQuery.isFetching}
+                                            allowClear
+                                            onSelect={(value) => {
+                                                const selectedMember = memberListQuery.data?.find((member) => member.id === value);
+
+                                                if (selectedMember) {
+                                                    memberForm.setFieldsValue({
+                                                        referralName: selectedMember.englishName,
+                                                    });
+                                                }
+                                                setDebouncedKeyword('');
+                                            }}
+                                            onBlur={() => setDebouncedKeyword('')}
+                                            options={
+                                                memberListQuery?.data && !memberListQuery.isFetching
+                                                    ? memberListQuery.data.map((member) => ({
+                                                          label: `${member.phoneNumber}`,
+                                                          value: member.id,
+                                                      }))
+                                                    : []
+                                            }
+                                        />
+                                    </Form.Item>
+                                </Col>
+                                <Col xs={24} sm={12} md={12} lg={12}>
+                                    <Form.Item label={t('referralName')} name="referralName">
+                                        <Input disabled />
+                                    </Form.Item>
+                                </Col>
+                                <Col xs={24} sm={12} md={12} lg={12}>
                                     <Form.Item label={t('package')} name="packages">
                                         <Select options={packageSelection} placeholder="Please Select" allowClear />
                                     </Form.Item>
                                 </Col>
-                                <Col xs={24} sm={12} md={12} lg={12}></Col>
+                                {/* <Col xs={24} sm={12} md={12} lg={12}></Col> */}
+                                <Col xs={24} sm={12} md={12} lg={12}>
+                                    <Form.Item label={t('idNumber')} name="idNumber" rules={[{ required: true }]}>
+                                        <Input type="number" />
+                                    </Form.Item>
+                                </Col>
                                 <Col xs={24} sm={12} md={12} lg={12}>
                                     <Form.Item
                                         label={t('englishName')}
@@ -298,6 +351,11 @@ const Profile: React.FC<ProfileProps> = ({ memberId, memberQuery }) => {
                                     </Form.Item>
                                 </Col>
                                 <Col xs={24} sm={12} md={12} lg={12}>
+                                    <Form.Item label={t('state')} name="state" rules={[{ required: true }]}>
+                                        <Select options={malaysiaStateList} placeholder="Please State" />
+                                    </Form.Item>
+                                </Col>
+                                <Col xs={24} sm={12} md={12} lg={12}>
                                     <Form.Item label={t('gender')} name="gender" rules={[{ required: true }]}>
                                         <Select options={genderList} placeholder="Please Select" />
                                     </Form.Item>
@@ -313,20 +371,11 @@ const Profile: React.FC<ProfileProps> = ({ memberId, memberQuery }) => {
                                     </Form.Item>
                                 </Col>
                                 <Col xs={24} sm={24} md={24} lg={24}>
-                                    <Form.Item label={t('address1')} name="address1">
+                                    <Form.Item label={t('address')} name="address">
                                         <Input.TextArea rows={3} />
                                     </Form.Item>
                                 </Col>
-                                <Col xs={24} sm={24} md={24} lg={24}>
-                                    <Form.Item label={t('address2')} name="address2">
-                                        <Input.TextArea rows={3} />
-                                    </Form.Item>
-                                </Col>
-                                <Col xs={24} sm={24} md={24} lg={24}>
-                                    <Form.Item label={t('address3')} name="address3">
-                                        <Input.TextArea rows={3} />
-                                    </Form.Item>
-                                </Col>
+
                                 <Col xs={24} sm={24} md={24} lg={24}>
                                     <Form.Item label={t('remarks')} name="remarks">
                                         <Input.TextArea rows={3} />

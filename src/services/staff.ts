@@ -16,7 +16,7 @@ export const getSingleStaff = (staffId: string) => {
 };
 
 export const updateStaff = (staffId: string, body: Staff & { reason: string }) => {
-    return axiosInstance.post<Staff>(`/api/staff/staff/${staffId}`, body);
+    return axiosInstance.put<Staff>(`/api/staff/staff/${staffId}`, body);
 };
 
 export const updateStaffPassword = (staffId: string, body: { password: string; reason: string }) => {

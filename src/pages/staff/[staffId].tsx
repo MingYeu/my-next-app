@@ -72,13 +72,13 @@ const StaffId: NextPage<StaffPortalProps> = ({ staff }) => {
             key: 'password',
             children: <PasswordTab staffId={staffId as string} />,
         },
-        ...conditionalReturn(permissions.ACTIVITY_LOG, [
-            {
-                label: t('common:activityLog'),
-                key: 'activityLog',
-                children: <ActivityLog target={`staff:${staffId}`} />,
-            },
-        ]),
+        // ...conditionalReturn(permissions.ACTIVITY_LOG, [
+        {
+            label: t('common:activityLog'),
+            key: 'activityLog',
+            children: <ActivityLog target={`staff:${staffId}`} />,
+        },
+        // ]),
     ];
 
     return (
