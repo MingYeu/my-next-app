@@ -1,11 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
-import { Form, Spin, Tree } from 'antd';
+import { Spin, Tree } from 'antd';
 import { useTranslation } from 'next-i18next';
-import { useContext } from 'react';
 import 'react-phone-input-2/lib/style.css';
 import { AxiosErrorResponse } from '@/types';
 import errorFormatter from '@/lib/errorFormatter';
-import { PermissionContext } from '@/providers/RoleContext';
 import { toast } from 'react-toastify';
 import { getMemberTreeStructure } from '@/services/member';
 
@@ -13,7 +11,7 @@ interface MemberStructureProps {
     memberId: string;
 }
 
-const addKeys = (nodes: any[], parentKey = ''): any[] => {
+const addKeys = (nodes: any[], parentKey = '0'): any[] => {
     return nodes.map((node, index) => {
         const key = parentKey ? `${parentKey}-${index}` : `${index}`;
         const newNode = { ...node, key }; // Assign key to the node
@@ -25,6 +23,28 @@ const addKeys = (nodes: any[], parentKey = ''): any[] => {
         return newNode;
     });
 };
+
+// Recursive function to change `englishName` to `title`
+function transformTreeData(nodes: any[]): any[] {
+    return nodes.map((node) => {
+        // Destructure the `englishName` and `children`, leaving the rest in `rest`
+        const { englishName, children, point, totalPoints, key, ...rest } = node;
+
+        // Return the transformed node with `title` instead of `englishName`
+        return {
+            key: key,
+            title: (
+                <div>
+                    {englishName}{' '}
+                    <span className="text-blue-500">
+                        (own: {point ? point : 0}) (total: {totalPoints ? totalPoints : 0})
+                    </span>
+                </div>
+            ),
+            children: children ? transformTreeData(children) : [], // Recursively handle children
+        };
+    });
+}
 
 const MemberStructure: React.FC<MemberStructureProps> = ({ memberId }) => {
     const { t } = useTranslation(['member', 'common']);
@@ -42,15 +62,27 @@ const MemberStructure: React.FC<MemberStructureProps> = ({ memberId }) => {
 
     const treeData = [
         {
-            title: 'Lim RM10',
+            title: 'parent 1',
+            key: '0-0',
+
             children: [
                 {
-                    title: 'Ming RM30',
-                    children: [{ title: 'my leaf' }, { title: 'your leaf' }],
-                },
-                {
-                    title: 'parent 1-1',
-                    children: [{ title: 'foo' }],
+                    title: 'parent 1-0',
+                    key: '0-0-0',
+
+                    children: [
+                        { title: 'leaf', key: '0-0-0-0' },
+                        {
+                            title: (
+                                <>
+                                    <div>multiple line title</div>
+                                    <div>multiple line title</div>
+                                </>
+                            ),
+                            key: '0-0-0-1',
+                        },
+                        { title: 'leaf', key: '0-0-0-2' },
+                    ],
                 },
             ],
         },
@@ -58,6 +90,7 @@ const MemberStructure: React.FC<MemberStructureProps> = ({ memberId }) => {
 
     // Add keys to the tree data
     const treeDataWithKeys = Array.isArray(memberTreeStructureQuery.data) ? addKeys(memberTreeStructureQuery.data) : addKeys([]);
+    const transformedData = transformTreeData(treeDataWithKeys);
 
     return (
         <Spin spinning={memberTreeStructureQuery.isLoading}>
@@ -65,7 +98,7 @@ const MemberStructure: React.FC<MemberStructureProps> = ({ memberId }) => {
                 <Tree
                     showLine
                     defaultExpandAll
-                    treeData={treeDataWithKeys} // Pass the tree data with keys
+                    treeData={transformedData} // Pass the tree data with keys
                 />
             </div>
         </Spin>

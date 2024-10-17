@@ -13,7 +13,7 @@ import { toast } from 'react-toastify';
 import conditionalReturn from '@/lib/conditionalReturn';
 import { AxiosErrorResponse, StaffPortalProps } from '@/types';
 import errorFormatter from '@/lib/errorFormatter';
-import { deletePackage, getSinglePackage, restorePackage, updatePackageStatus } from '@/services/package';
+import { deletePackage, getSinglePackage, updatePackageStatus } from '@/services/package';
 import { useContext, useEffect, useState } from 'react';
 import { PermissionContext } from '@/providers/RoleContext';
 

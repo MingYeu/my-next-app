@@ -64,6 +64,7 @@ const Profile: React.FC<ProfileProps> = ({ memberId, memberQuery }) => {
             memberForm.setFieldsValue({
                 ...member,
                 packages: member.member_package[0]?.packageId,
+                point: member?.member_point?.point,
                 dateOfBirth: dayjs(member.dateOfBirth),
                 joinDate: dayjs(member.joinDate),
             });
@@ -283,7 +284,11 @@ const Profile: React.FC<ProfileProps> = ({ memberId, memberQuery }) => {
                                         <Select options={packageSelection} placeholder="Please Select" allowClear />
                                     </Form.Item>
                                 </Col>
-                                {/* <Col xs={24} sm={12} md={12} lg={12}></Col> */}
+                                <Col xs={24} sm={12} md={12} lg={12}>
+                                    <Form.Item label={t('point')} name="point">
+                                        <Input type="number" min={0} />
+                                    </Form.Item>
+                                </Col>
                                 <Col xs={24} sm={12} md={12} lg={12}>
                                     <Form.Item label={t('idNumber')} name="idNumber" rules={[{ required: true }]}>
                                         <Input type="number" />

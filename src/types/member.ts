@@ -30,6 +30,8 @@ export interface Member {
     activityLogs: ActivityLog[];
     unauthorized: boolean;
     member_package: Member_Package[];
+    member_coupon: Member_Coupon[];
+    member_point: Member_Point;
     // _count: { Notification_Status: number };
 }
 
@@ -53,4 +55,12 @@ export interface Member_Coupon {
     active: boolean;
     member: Member;
     coupon: Pick<Coupon, 'id' | 'code'>;
+}
+
+export interface Member_Point {
+    id: string;
+    point: number;
+    memberId: string;
+    invoiceNo: string;
+    member: Member;
 }
