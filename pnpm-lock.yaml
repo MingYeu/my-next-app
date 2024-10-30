@@ -189,6 +189,9 @@ importers:
       '@types/react-signature-canvas':
         specifier: ^1.0.4
         version: 1.0.6
+      cross-env:
+        specifier: ^7.0.3
+        version: 7.0.3
       prettier:
         specifier: ^3.0.2
         version: 3.3.3
@@ -1509,6 +1512,11 @@ packages:
 
   create-react-class@15.7.0:
     resolution: {integrity: sha512-QZv4sFWG9S5RUvkTYWbflxeZX+JG7Cz0Tn33rQBJ+WFQTqTfUTjMjiv9tnfXazjsO5r0KhPs+AqCjyrQX6h2ng==}
+
+  cross-env@7.0.3:
+    resolution: {integrity: sha512-+/HKd6EgcQCJGh2PSjZuUitQBQynKor4wrFbRg4DtAgS1aWO+gU52xpH7M9ScGgXSYmAVS9bIJ8EzuaGw0oNAw==}
+    engines: {node: '>=10.14', npm: '>=6', yarn: '>=1'}
+    hasBin: true
 
   cross-spawn@7.0.3:
     resolution: {integrity: sha512-iRDPJKUPVEND7dHPO8rkbOnPpyDygcDFtWjpeWNCgy8WP2rXcxXL8TskReQl6OrB2G7+UJrags1q15Fudc7G6w==}
@@ -5531,6 +5539,10 @@ snapshots:
     dependencies:
       loose-envify: 1.4.0
       object-assign: 4.1.1
+
+  cross-env@7.0.3:
+    dependencies:
+      cross-spawn: 7.0.3
 
   cross-spawn@7.0.3:
     dependencies:
