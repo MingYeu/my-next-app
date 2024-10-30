@@ -23,7 +23,7 @@ import { toast } from 'react-toastify';
 import usePagination from '@/hooks/usePagination';
 import { SortOrder } from '@/types/pagination';
 import { Member } from '@/types/member';
-import { createMember, createMemberPoint, getMemberListByPagination } from '@/services/member';
+import { createMember, createMemberCoupon, createMemberPoint, getMemberListByPagination } from '@/services/member';
 import errorFormatter from '@/lib/errorFormatter';
 import { PermissionContext } from '@/providers/RoleContext';
 
@@ -142,7 +142,7 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
     const createMemberCouponMutation = useMutation({
         mutationFn: async (values: Member) => {
             createMemberPointToast.loading(t('messages:loading.updatingMemberCoupon'));
-            const res = await createMemberPoint(values);
+            const res = await createMemberCoupon(values);
 
             return res.data;
         },
