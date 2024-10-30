@@ -32,6 +32,7 @@ export interface Member {
     member_package: Member_Package[];
     member_coupon: Member_Coupon[];
     member_point: Member_Point;
+    member_referral: Member_Referral;
     // _count: { Notification_Status: number };
 }
 
@@ -63,4 +64,10 @@ export interface Member_Point {
     memberId: string;
     invoiceNo: string;
     member: Member;
+}
+
+export interface Member_Referral {
+    id: string;
+    phoneNumber: string;
+    name: string;
 }

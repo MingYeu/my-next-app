@@ -63,6 +63,8 @@ const Profile: React.FC<ProfileProps> = ({ memberId, memberQuery }) => {
         if (member) {
             memberForm.setFieldsValue({
                 ...member,
+                referralId: member.member_referral?.id ?? null,
+                referralName: member.member_referral?.name ?? null,
                 packages: member.member_package[0]?.packageId,
                 point: member?.member_point?.point,
                 dateOfBirth: dayjs(member.dateOfBirth),
@@ -189,17 +191,6 @@ const Profile: React.FC<ProfileProps> = ({ memberId, memberQuery }) => {
                                 </DItem>
                                 <DItem contentStyle={{ marginBottom: '15px' }} label={t('common:action')}>
                                     <div className="flex flex-col w-full max-w-[300px] gap-2">
-                                        {/* {(dayjs(member.tokenExpiredAt).isBefore(dayjs()) ||
-                                            (member.tokenExpiredAt && dayjs(member.tokenExpiredAt).isBefore(dayjs()))) && (
-                                            <ConfirmationModal
-                                                message={t('sendEmailVerificationConfirmation')}
-                                                okText={t('update')}
-                                                onOk={(reason) => () => resendEmailVerificationMutation.mutate(reason)}
-                                                reason
-                                            >
-                                                <Button type="primary">{t('resendEmailVerification')}</Button>
-                                            </ConfirmationModal>
-                                        )} */}
                                         {permissions.MEMBER_CREATE && (
                                             <ConfirmationModal
                                                 message={member.active ? t('deactivateMemberConfirmation') : t('activateMemberConfirmation')}
@@ -244,7 +235,7 @@ const Profile: React.FC<ProfileProps> = ({ memberId, memberQuery }) => {
                         <Form form={memberForm} layout="vertical" title="Member Form">
                             <Row gutter={[16, 0]}>
                                 <Col xs={24} sm={12} md={12} lg={12}>
-                                    <Form.Item label={t('referralPhone')} name="referralPhone">
+                                    <Form.Item label={t('referralPhone')} name="referralId">
                                         <Select
                                             placeholder={t('Please Select')}
                                             showSearch

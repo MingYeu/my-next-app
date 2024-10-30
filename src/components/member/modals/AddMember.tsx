@@ -110,7 +110,7 @@ const AddMember: React.FC<AddMemberModalProps> = ({ form, open, setOpen, onCreat
                     </Col>
                     <Divider orientation="left">{t('referralProfile')}</Divider>
                     <Col xs={24} sm={12} md={8}>
-                        <Form.Item label={t('referralPhone')} name="referralPhone">
+                        <Form.Item label={t('referralPhone')} name="referralId">
                             <Select
                                 placeholder={t('Please Select')}
                                 showSearch
