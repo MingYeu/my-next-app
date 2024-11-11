@@ -86,21 +86,9 @@ const AddMember: React.FC<AddMemberModalProps> = ({ form, open, setOpen, onCreat
         <Modal open={open} onCancel={onModalCancel} title={t('addMember')} width={1000} footer={null} centered>
             <Form form={form} name="Create Member Form" layout="vertical">
                 <Row gutter={[16, 0]}>
-                    <Col xs={24} sm={12} md={8}>
-                        <Form.Item
-                            label={t('email')}
-                            name="email"
-                            rules={[
-                                { required: true },
-                                {
-                                    type: 'email',
-                                    message: t('messages:error.invalid', {
-                                        label: '${label}',
-                                    }) as string,
-                                },
-                            ]}
-                        >
-                            <Input placeholder="john@example.com" />
+                    <Col xs={24} sm={12} md={12} lg={8}>
+                        <Form.Item label={t('phoneNumber')} name="phoneNumber" rules={[{ required: true }]}>
+                            <PhoneInput country="my" />
                         </Form.Item>
                     </Col>
                     <Col xs={24} sm={12} md={8}>
@@ -148,6 +136,11 @@ const AddMember: React.FC<AddMemberModalProps> = ({ form, open, setOpen, onCreat
                 </Row>
                 <Divider orientation="left">{t('memberProfile')}</Divider>
                 <Row gutter={[16, 0]}>
+                    <Col xs={24} sm={12} md={8}>
+                        <Form.Item label={t('code')} name="code">
+                            <Input />
+                        </Form.Item>
+                    </Col>
                     <Col xs={24} sm={12} md={12} lg={8}>
                         <Form.Item label={t('idNumber')} name="idNumber" rules={[{ required: true }]}>
                             <Input type="number" />
@@ -172,7 +165,7 @@ const AddMember: React.FC<AddMemberModalProps> = ({ form, open, setOpen, onCreat
                             <Input />
                         </Form.Item>
                     </Col>
-                    <Col xs={24} sm={12} md={12} lg={8}>
+                    {/* <Col xs={24} sm={12} md={12} lg={8}>
                         <Form.Item
                             label={t('chineseName')}
                             name="chineseName"
@@ -190,7 +183,7 @@ const AddMember: React.FC<AddMemberModalProps> = ({ form, open, setOpen, onCreat
                         >
                             <Input />
                         </Form.Item>
-                    </Col>
+                    </Col> */}
                     <Col xs={24} sm={12} md={12} lg={8}>
                         <Form.Item label={t('dateOfBirth')} name="dateOfBirth" rules={[{ required: true }]}>
                             <DatePicker className="w-full" />
@@ -212,16 +205,26 @@ const AddMember: React.FC<AddMemberModalProps> = ({ form, open, setOpen, onCreat
                         </Form.Item>
                     </Col>
                     <Col xs={24} sm={12} md={12} lg={8}>
-                        <Form.Item label={t('joinDate')} name="joinDate" rules={[{ required: true }]}>
+                        <Form.Item label={t('joinDate')} name="joinDate">
                             <DatePicker className="w-full" defaultValue={dayjs()} />
                         </Form.Item>
                     </Col>
-                    <Col xs={24} sm={12} md={12} lg={8}>
-                        <Form.Item label={t('phoneNumber')} name="phoneNumber" rules={[{ required: true }]}>
-                            <PhoneInput country="my" />
+                    <Col xs={24} sm={12} md={8}>
+                        <Form.Item
+                            label={t('email')}
+                            name="email"
+                            rules={[
+                                {
+                                    type: 'email',
+                                    message: t('messages:error.invalid', {
+                                        label: '${label}',
+                                    }) as string,
+                                },
+                            ]}
+                        >
+                            <Input placeholder="john@example.com" />
                         </Form.Item>
                     </Col>
-
                     <Col xs={24} sm={24} md={24} lg={24}>
                         <Form.Item label={t('address')} name="address">
                             <Input.TextArea rows={3} />
