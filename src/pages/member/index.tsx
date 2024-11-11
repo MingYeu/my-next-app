@@ -415,10 +415,10 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
                     <div className="flex space-x-12">
                         <div className="flex space-x-4">
                             <Button type="primary" icon={<PlusOutlined />} onClick={() => setAddMemberCouponModalOpen(true)}>
-                                {t('usedCoupon')}
+                                {t('Used Coupon')}
                             </Button>
                             <Button type="primary" icon={<PlusOutlined />} onClick={() => setAddMemberPointModalOpen(true)}>
-                                {t('addPoint')}
+                                {t('Add Point')}
                             </Button>
                         </div>
                         <Button type="primary" icon={<PlusOutlined />} onClick={() => setAddMemberModalOpen(true)}>

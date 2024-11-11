@@ -83,22 +83,22 @@ const AddMember: React.FC<AddMemberModalProps> = ({ form, open, setOpen, onCreat
     ];
 
     return (
-        <Modal open={open} onCancel={onModalCancel} title={t('addMember')} width={1000} footer={null} centered>
-            <Form form={form} name="Create Member Form" layout="vertical">
+        <Modal open={open} onCancel={onModalCancel} title={t('Add Member')} width={1000} footer={null} centered>
+            <Form form={form} name="Create Member Form" layout="vertical" initialValues={{ joinDate: dayjs() }}>
                 <Row gutter={[16, 0]}>
                     <Col xs={24} sm={12} md={12} lg={8}>
-                        <Form.Item label={t('phoneNumber')} name="phoneNumber" rules={[{ required: true }]}>
+                        <Form.Item label={t('Phone Number')} name="phoneNumber" rules={[{ required: true }]}>
                             <PhoneInput country="my" />
                         </Form.Item>
                     </Col>
                     <Col xs={24} sm={12} md={8}>
-                        <Form.Item label={t('package')} name="packages">
+                        <Form.Item label={t('Package')} name="packages" rules={[{ required: true }]}>
                             <Select options={packageSelection} placeholder="Please Select" />
                         </Form.Item>
                     </Col>
-                    <Divider orientation="left">{t('referralProfile')}</Divider>
+                    <Divider orientation="left">{t('Referral Profile')}</Divider>
                     <Col xs={24} sm={12} md={8}>
-                        <Form.Item label={t('referralPhone')} name="referralId">
+                        <Form.Item label={t('Referral Phone')} name="referralId">
                             <Select
                                 placeholder={t('Please Select')}
                                 showSearch
@@ -129,26 +129,26 @@ const AddMember: React.FC<AddMemberModalProps> = ({ form, open, setOpen, onCreat
                         </Form.Item>
                     </Col>
                     <Col xs={24} sm={12} md={8}>
-                        <Form.Item label={t('referralName')} name="referralName">
+                        <Form.Item label={t('Referral Name')} name="referralName">
                             <Input disabled />
                         </Form.Item>
                     </Col>
                 </Row>
-                <Divider orientation="left">{t('memberProfile')}</Divider>
+                <Divider orientation="left">{t('Member Profile')}</Divider>
                 <Row gutter={[16, 0]}>
-                    <Col xs={24} sm={12} md={8}>
-                        <Form.Item label={t('code')} name="code">
+                    <Col xs={24} sm={12} md={12} lg={8}>
+                        <Form.Item label={t('Code')} name="code" rules={[{ required: true }]}>
                             <Input />
                         </Form.Item>
                     </Col>
                     <Col xs={24} sm={12} md={12} lg={8}>
-                        <Form.Item label={t('idNumber')} name="idNumber" rules={[{ required: true }]}>
+                        <Form.Item label={t('ID Number')} name="idNumber" rules={[{ required: true }]}>
                             <Input type="number" />
                         </Form.Item>
                     </Col>
                     <Col xs={24} sm={12} md={12} lg={8}>
                         <Form.Item
-                            label={t('englishName')}
+                            label={t('English Name')}
                             name="englishName"
                             rules={[
                                 { required: true },
@@ -185,33 +185,33 @@ const AddMember: React.FC<AddMemberModalProps> = ({ form, open, setOpen, onCreat
                         </Form.Item>
                     </Col> */}
                     <Col xs={24} sm={12} md={12} lg={8}>
-                        <Form.Item label={t('dateOfBirth')} name="dateOfBirth" rules={[{ required: true }]}>
+                        <Form.Item label={t('Date Of Birth')} name="dateOfBirth" rules={[{ required: true }]}>
                             <DatePicker className="w-full" />
                         </Form.Item>
                     </Col>
                     <Col xs={24} sm={12} md={12} lg={8}>
-                        <Form.Item label={t('nationality')} name="nationality" rules={[{ required: true }]}>
+                        <Form.Item label={t('Nationality')} name="nationality" rules={[{ required: true }]}>
                             <Select allowClear showSearch options={mappedCountryList} placeholder="Please Select" />
                         </Form.Item>
                     </Col>
                     <Col xs={24} sm={12} md={12} lg={8}>
-                        <Form.Item label={t('state')} name="state" rules={[{ required: true }]}>
+                        <Form.Item label={t('State')} name="state" rules={[{ required: true }]}>
                             <Select options={malaysiaStateList} placeholder="Please State" />
                         </Form.Item>
                     </Col>
                     <Col xs={24} sm={12} md={12} lg={8}>
-                        <Form.Item label={t('gender')} name="gender" rules={[{ required: true }]}>
+                        <Form.Item label={t('Gender')} name="gender" rules={[{ required: true }]}>
                             <Select options={genderList} placeholder="Please Select" />
                         </Form.Item>
                     </Col>
                     <Col xs={24} sm={12} md={12} lg={8}>
-                        <Form.Item label={t('joinDate')} name="joinDate">
-                            <DatePicker className="w-full" defaultValue={dayjs()} />
+                        <Form.Item label={t('Join Date')} name="joinDate">
+                            <DatePicker className="w-full" />
                         </Form.Item>
                     </Col>
                     <Col xs={24} sm={12} md={8}>
                         <Form.Item
-                            label={t('email')}
+                            label={t('Email')}
                             name="email"
                             rules={[
                                 {
@@ -226,7 +226,7 @@ const AddMember: React.FC<AddMemberModalProps> = ({ form, open, setOpen, onCreat
                         </Form.Item>
                     </Col>
                     <Col xs={24} sm={24} md={24} lg={24}>
-                        <Form.Item label={t('address')} name="address">
+                        <Form.Item label={t('Address')} name="address">
                             <Input.TextArea rows={3} />
                         </Form.Item>
                     </Col>
@@ -234,7 +234,7 @@ const AddMember: React.FC<AddMemberModalProps> = ({ form, open, setOpen, onCreat
                 <div className="flex justify-end gap-3">
                     <Button onClick={onModalCancel}>{t('common:Cancel')}</Button>
                     <Button type="primary" onClick={onCreateMemberHandler} loading={loading} disabled={loading}>
-                        {t('addMember')}
+                        {t('Add Member')}
                     </Button>
                 </div>
             </Form>
