@@ -11,6 +11,8 @@ import { Dispatch, SetStateAction, useState } from 'react';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import { toast } from 'react-toastify';
+import AddChildrenModal from './AddChildren';
+import { genderList } from '@/global/options';
 
 interface AddMemberModalProps {
     form: FormInstance;
@@ -24,6 +26,7 @@ const AddMember: React.FC<AddMemberModalProps> = ({ form, open, setOpen, onCreat
     const { t } = useTranslation(['member', 'common', 'messages']);
     const [debouncedKeyword, setDebouncedKeyword] = useState<string>('');
     const [debounceTimeout, setDebounceTimeout] = useState<ReturnType<typeof setTimeout> | null>(null);
+    const [isStateDisabled, setIsStateDisabled] = useState(true);
 
     const onSearchHandler = (value: string) => {
         if (debounceTimeout) {
@@ -65,22 +68,16 @@ const AddMember: React.FC<AddMemberModalProps> = ({ form, open, setOpen, onCreat
         },
     });
 
+    const handleNationalityChange = (value: string) => {
+        setIsStateDisabled(value !== 'Malaysia');
+        form.setFieldsValue({ state: undefined });
+    };
+
     const packageSelection =
         (packageListQuery.data || []).map((packages: { name: string; id: string }) => ({
             label: packages.name,
             value: packages.id,
         })) ?? [];
-
-    const genderList = [
-        {
-            label: t('Male'),
-            value: 'male',
-        },
-        {
-            label: t('Female'),
-            value: 'female',
-        },
-    ];
 
     return (
         <Modal open={open} onCancel={onModalCancel} title={t('Add Member')} width={1000} footer={null} centered>
@@ -157,7 +154,7 @@ const AddMember: React.FC<AddMemberModalProps> = ({ form, open, setOpen, onCreat
                                     message: t('messages:error.string too short', { label: '${label}', min: '2' }) as string,
                                 },
                                 {
-                                    max: 12,
+                                    max: 50,
                                     message: t('messages:error.string too long', { label: '${label}', max: '12' }) as string,
                                 },
                             ]}
@@ -191,12 +188,18 @@ const AddMember: React.FC<AddMemberModalProps> = ({ form, open, setOpen, onCreat
                     </Col>
                     <Col xs={24} sm={12} md={12} lg={8}>
                         <Form.Item label={t('Nationality')} name="nationality" rules={[{ required: true }]}>
-                            <Select allowClear showSearch options={mappedCountryList} placeholder="Please Select" />
+                            <Select
+                                allowClear
+                                showSearch
+                                options={mappedCountryList}
+                                placeholder="Please Select"
+                                onChange={handleNationalityChange}
+                            />
                         </Form.Item>
                     </Col>
                     <Col xs={24} sm={12} md={12} lg={8}>
-                        <Form.Item label={t('State')} name="state" rules={[{ required: true }]}>
-                            <Select options={malaysiaStateList} placeholder="Please State" />
+                        <Form.Item label={t('State')} name="state" rules={[{ required: !isStateDisabled }]}>
+                            <Select options={malaysiaStateList} placeholder="Please State" disabled={isStateDisabled} />
                         </Form.Item>
                     </Col>
                     <Col xs={24} sm={12} md={12} lg={8}>
@@ -229,6 +232,12 @@ const AddMember: React.FC<AddMemberModalProps> = ({ form, open, setOpen, onCreat
                         <Form.Item label={t('Address')} name="address">
                             <Input.TextArea rows={3} />
                         </Form.Item>
+                    </Col>
+                </Row>
+                <Divider orientation="left">{t('Children Profile')}</Divider>
+                <Row gutter={[16, 0]}>
+                    <Col xs={24} sm={24} md={24} lg={24}>
+                        <AddChildrenModal />
                     </Col>
                 </Row>
                 <div className="flex justify-end gap-3">
