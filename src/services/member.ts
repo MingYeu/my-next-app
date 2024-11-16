@@ -1,6 +1,6 @@
 import axiosInstance from './config';
 import { PaginationResponse } from '@/types/pagination';
-import { Member } from '@/types/member';
+import { Member, MemberChildren } from '@/types/member';
 
 export const getMemberListByPagination = (query: string) => {
     return axiosInstance.get<PaginationResponse<Member>>(`/api/staff/member?${query}`);
@@ -38,4 +38,12 @@ export const updateMemberStatus = (memberId: string, body: { status: boolean; re
 
 export const getMemberTreeStructure = (memberId: string) => {
     return axiosInstance.get<Member>(`/api/staff/member/${memberId}/tree-structure`);
+};
+
+export const getMemberChildren = (memberId: string) => {
+    return axiosInstance.get<MemberChildren[]>(`/api/staff/member/${memberId}/children`);
+};
+
+export const updateMemberChildren = (memberId: string, body: MemberChildren[]) => {
+    return axiosInstance.put<Member>(`/api/staff/member/${memberId}/children`, body);
 };

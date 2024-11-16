@@ -12,7 +12,7 @@ const AddChildrenModal = () => {
                     {fields.map(({ key, name, ...restField }) => (
                         <div key={key} className="flex flex-col items-center">
                             <div className="w-full">
-                                <Row gutter={[16, 0]}>
+                                <Row gutter={[24, 0]}>
                                     <Col xs={24} sm={24} md={8} lg={8}>
                                         <Form.Item {...restField} name={[name, 'name']} label={t('name')} rules={[{ required: true }]}>
                                             <Input />
@@ -42,11 +42,10 @@ const AddChildrenModal = () => {
                                     </Col>
                                 </Row>
                             </div>
-                            {fields.length > 1 && (
-                                <Button danger className="ml-auto" onClick={() => remove(name)}>
-                                    Remove
-                                </Button>
-                            )}
+
+                            <Button danger className="ml-auto mb-5" onClick={() => remove(name)}>
+                                Remove
+                            </Button>
                         </div>
                     ))}
                     <Form.Item className="w-full pt-5">

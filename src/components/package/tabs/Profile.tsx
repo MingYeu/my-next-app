@@ -117,24 +117,6 @@ const Profile: React.FC<ProfileProps> = ({ packagesId, packagesQuery }) => {
         });
     };
 
-    // const onRoleChangeHandler = (roleId: string) => {
-    //     setRoleId(roleId);
-    //     setIsRoleOpenModal(true);
-    // };
-
-    // const onCloseHandler = () => {
-    //     setIsRoleOpenModal(false);
-    //     // setRoleId(packages?.roleId as string);
-    // };
-
-    // const onSubmitHandler = () => {
-    //     // changePackageRoleReasonForm.validateFields().then((values) => {
-    //     //     updatePackageRoleMutation.mutate({ reason: values.reason, roleId });
-    //     // });
-    // };
-
-    console.log('packagesQuery', packagesQuery.data);
-
     return (
         <Spin spinning={updatePackageMutation.isLoading}>
             {packages && (

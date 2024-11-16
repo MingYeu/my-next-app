@@ -117,24 +117,6 @@ const Profile: React.FC<ProfileProps> = ({ couponsId, couponsQuery }) => {
         });
     };
 
-    // const onRoleChangeHandler = (roleId: string) => {
-    //     setRoleId(roleId);
-    //     setIsRoleOpenModal(true);
-    // };
-
-    // const onCloseHandler = () => {
-    //     setIsRoleOpenModal(false);
-    //     // setRoleId(coupons?.roleId as string);
-    // };
-
-    // const onSubmitHandler = () => {
-    //     // changeCouponRoleReasonForm.validateFields().then((values) => {
-    //     //     updateCouponRoleMutation.mutate({ reason: values.reason, roleId });
-    //     // });
-    // };
-
-    console.log('couponsQuery', couponsQuery.data);
-
     return (
         <Spin spinning={updateCouponMutation.isLoading}>
             {coupons && (

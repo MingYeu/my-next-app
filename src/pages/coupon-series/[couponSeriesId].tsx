@@ -1,29 +1,24 @@
 import Layout from '@/components/layout';
 import { authentication } from '@/lib/authentication';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { Button, Card, Descriptions, Empty, Form, Skeleton, Spin, Tabs } from 'antd';
+import { useQuery } from '@tanstack/react-query';
+import { Empty, Form, Skeleton, Spin, Tabs } from 'antd';
 import { GetServerSideProps, NextPage } from 'next';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useRouter } from 'next/router';
-import ActivityLog from '@/components/activityLog';
-import ProfileTab from '@/components/member/tabs/Profile';
 import { toast } from 'react-toastify';
-import conditionalReturn from '@/lib/conditionalReturn';
 import { AxiosErrorResponse, StaffPortalProps } from '@/types';
 import errorFormatter from '@/lib/errorFormatter';
-import { deleteMember, getSingleMember, updateMemberStatus } from '@/services/member';
+import { getSingleCouponSeries } from '@/services/coupon';
 import { useContext, useEffect, useState } from 'react';
 import { PermissionContext } from '@/providers/RoleContext';
-import MemberStructure from '@/components/member/tabs/MemberStructure';
-import MemberChildren from '@/components/member/tabs/MemberChildren';
-import MemberCoupon from '@/components/member/tabs/MemberCoupon';
+import CouponSeriesProfile from '@/components/coupon/tabs/CouponSeriesProfile';
 
-const MemberId: NextPage<StaffPortalProps> = ({ staff }) => {
-    const { t } = useTranslation(['member', 'common']);
-    const [memberForm] = Form.useForm();
+const CouponId: NextPage<StaffPortalProps> = ({ staff }) => {
+    const { t } = useTranslation(['coupons', 'common']);
+    const [couponsForm] = Form.useForm();
     const router = useRouter();
-    const { memberId, tab } = router.query;
+    const { couponSeriesId, tab } = router.query;
     const { permissions } = useContext(PermissionContext);
     const [currentTab, setCurrentTab] = useState<string>('profile');
 
@@ -41,13 +36,13 @@ const MemberId: NextPage<StaffPortalProps> = ({ staff }) => {
         }
     }, [tab]);
 
-    const memberQuery = useQuery({
-        queryKey: ['member', memberId],
+    const couponsSeriesQuery = useQuery({
+        queryKey: ['coupons', 'series', couponSeriesId],
         keepPreviousData: true,
         queryFn: async () => {
-            const res = await getSingleMember(memberId as string);
+            const res = await getSingleCouponSeries(couponSeriesId as string);
 
-            memberForm.setFieldsValue(res.data);
+            couponsForm.setFieldsValue(res.data);
 
             return res.data;
         },
@@ -56,59 +51,44 @@ const MemberId: NextPage<StaffPortalProps> = ({ staff }) => {
         },
     });
 
-    const memberData = memberQuery.data;
+    const couponsData = couponsSeriesQuery.data;
 
     const breadCrumbItems = [
         {
-            label: t('member'),
-            path: '/member',
+            label: t('coupon-series'),
+            path: '/coupon-series',
         },
         {
-            label: memberQuery.data ? memberQuery.data.code : t('common:loading'),
-            path: `/member/${memberId}`,
+            label: couponsSeriesQuery.data ? couponsSeriesQuery.data.name : t('common:loading'),
+            path: `/coupon-series/${couponSeriesId}`,
         },
     ];
 
     const seoConfig = {
-        title: t('member'),
+        title: t('coupon'),
     };
 
     const tabItems = [
         {
-            label: t('Profile'),
+            label: t('profile'),
             key: 'profile',
-            children: <ProfileTab memberId={memberId as string} memberQuery={memberQuery} />,
+            children: <CouponSeriesProfile couponSeriesId={couponSeriesId as string} couponsSeriesQuery={couponsSeriesQuery} />,
         },
-        {
-            label: t('Children'),
-            key: 'children',
-            children: <MemberChildren memberId={memberId as string} />,
-        },
-        {
-            label: t('Structure'),
-            key: 'structure',
-            children: <MemberStructure memberId={memberId as string} />,
-        },
-        {
-            label: t('Coupon'),
-            key: 'coupon',
-            children: <MemberCoupon memberId={memberId as string} />,
-        },
-        ...conditionalReturn(permissions.ACTIVITY_LOG, [
-            {
-                label: t('common:activityLog'),
-                key: 'activityLog',
-                children: <ActivityLog target={`member:${memberId}`} />,
-            },
-        ]),
+        // ...conditionalReturn(permissions.ACTIVITY_LOG, [
+        //     {
+        //         label: t('common:activityLog'),
+        //         key: 'activityLog',
+        //         children: <ActivityLog target={`coupons:${couponId}`} />,
+        //     },
+        // ]),
     ];
 
     return (
-        <Layout staff={staff} breadCrumbItems={breadCrumbItems} seoConfig={seoConfig} activeMenu={['member']} activeDropdown={['userManagement']}>
-            <Spin spinning={memberQuery.isFetching}>
-                {memberQuery.isFetching && <Skeleton active />}
-                {!memberData && !memberQuery.isFetching && <Empty />}
-                {memberData && (
+        <Layout staff={staff} breadCrumbItems={breadCrumbItems} seoConfig={seoConfig} activeMenu={['couponSeries']}>
+            <Spin spinning={couponsSeriesQuery.isFetching}>
+                {couponsSeriesQuery.isFetching && <Skeleton active />}
+                {!couponsData && !couponsSeriesQuery.isFetching && <Empty />}
+                {couponsData && (
                     <div className="flex flex-col-reverse xl:flex-row xl:gap-12">
                         <div className="flex-1">
                             <Tabs
@@ -116,7 +96,7 @@ const MemberId: NextPage<StaffPortalProps> = ({ staff }) => {
                                 activeKey={currentTab}
                                 onChange={(key) => {
                                     setCurrentTab(key);
-                                    router.push(`/member/${memberId}?tab=${key}`, undefined, {
+                                    router.push(`/coupons/${couponSeriesId}?tab=${key}`, undefined, {
                                         shallow: true,
                                     });
                                 }}
@@ -129,11 +109,11 @@ const MemberId: NextPage<StaffPortalProps> = ({ staff }) => {
     );
 };
 
-export default MemberId;
+export default CouponId;
 
 export const getServerSideProps: GetServerSideProps = async ({ locale, req, resolvedUrl }) => {
     try {
-        const authResponse = await authentication(req, 'MEMBER_VIEW');
+        const authResponse = await authentication(req, 'STAFF_VIEW');
 
         if (authResponse.unauthorized) {
             return {
@@ -147,7 +127,7 @@ export const getServerSideProps: GetServerSideProps = async ({ locale, req, reso
         return {
             props: {
                 staff: authResponse,
-                ...(await serverSideTranslations(locale as string, ['member', 'APIMessage', 'layout', 'common', 'messages', 'course', 'subject'])),
+                ...(await serverSideTranslations(locale as string, ['coupon', 'APIMessage', 'layout', 'common', 'messages'])),
             },
         };
     } catch (error) {

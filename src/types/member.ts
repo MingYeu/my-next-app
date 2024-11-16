@@ -30,9 +30,10 @@ export interface Member {
     activityLogs: ActivityLog[];
     unauthorized: boolean;
     member_package: Member_Package[];
-    member_coupon: Member_Coupon[];
+    // member_coupon: Member_Coupon[];
     member_point: Member_Point;
     member_referral: Member_Referral;
+    member_children: MemberChildren[];
     // _count: { Notification_Status: number };
 }
 
@@ -47,16 +48,16 @@ export interface Member_Package {
     package: Pick<Package, 'id' | 'name'>;
 }
 
-export interface Member_Coupon {
-    id: string;
-    couponId: string;
-    memberId: string;
-    startDate: string;
-    endDate: string;
-    active: boolean;
-    member: Member;
-    coupon: Pick<Coupon, 'id' | 'code'>;
-}
+// export interface Member_Coupon {
+//     id: string;
+//     couponId: string;
+//     memberId: string;
+//     startDate: string;
+//     endDate: string;
+//     active: boolean;
+//     member: Member;
+//     coupon: Pick<Coupon, 'id' | 'code'>;
+// }
 
 export interface Member_Point {
     id: string;
@@ -70,4 +71,12 @@ export interface Member_Referral {
     id: string;
     phoneNumber: string;
     name: string;
+}
+
+export interface MemberChildren {
+    id: string;
+    name: string;
+    gender: string;
+    dateOfBirth: string;
+    remarks: string;
 }

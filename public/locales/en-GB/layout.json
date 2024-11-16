@@ -27,7 +27,8 @@
         "UserManagement": "User Management",
         "Member": "Member",
         "Package": "Package",
-        "Coupon": "Coupon"
+        "Coupon": "Coupon",
+        "CouponSeries": "Coupon Series"
     },
     "My Profile": "My Profile"
 }

@@ -1,10 +1,10 @@
 import mappedCountryList from '@/lib/countryList';
 import errorFormatter from '@/lib/errorFormatter';
 import malaysiaStateList from '@/lib/stateList';
-import { getMembersList, getPackageData } from '@/services/data';
+import { getCouponSeriesList, getMembersList, getPackageData } from '@/services/data';
 import { AxiosErrorResponse } from '@/types';
 import { useQuery } from '@tanstack/react-query';
-import { Button, Col, DatePicker, Divider, Form, FormInstance, Input, Modal, Row, Select, message } from 'antd';
+import { Button, Col, DatePicker, Divider, Form, FormInstance, Input, InputNumber, Modal, Row, Select, message } from 'antd';
 import dayjs from 'dayjs';
 import { useTranslation } from 'next-i18next';
 import { Dispatch, SetStateAction, useState } from 'react';
@@ -26,6 +26,8 @@ const AddMember: React.FC<AddMemberModalProps> = ({ form, open, setOpen, onCreat
     const { t } = useTranslation(['member', 'common', 'messages']);
     const [debouncedKeyword, setDebouncedKeyword] = useState<string>('');
     const [debounceTimeout, setDebounceTimeout] = useState<ReturnType<typeof setTimeout> | null>(null);
+    const [couponSeriesDebouncedKeyword, setCouponSeriesDebouncedKeyword] = useState<string>('');
+    const [couponSeriesDebounceTimeout, setCouponSeriesDebounceTimeout] = useState<ReturnType<typeof setTimeout> | null>(null);
     const [isStateDisabled, setIsStateDisabled] = useState(true);
 
     const onSearchHandler = (value: string) => {
@@ -36,6 +38,16 @@ const AddMember: React.FC<AddMemberModalProps> = ({ form, open, setOpen, onCreat
             setDebouncedKeyword(value);
         }, 300);
         setDebounceTimeout(timeout);
+    };
+
+    const onCouponSeriesSearchHandler = (value: string) => {
+        if (couponSeriesDebounceTimeout) {
+            clearTimeout(couponSeriesDebounceTimeout);
+        }
+        const timeout = setTimeout(() => {
+            setCouponSeriesDebouncedKeyword(value);
+        }, 300);
+        setCouponSeriesDebounceTimeout(timeout);
     };
 
     const onModalCancel = () => {
@@ -68,6 +80,17 @@ const AddMember: React.FC<AddMemberModalProps> = ({ form, open, setOpen, onCreat
         },
     });
 
+    const couponSeriesListQuery = useQuery({
+        queryKey: ['coupon', 'series', 'list', couponSeriesDebouncedKeyword],
+        queryFn: async () => {
+            const res = await getCouponSeriesList(couponSeriesDebouncedKeyword);
+            return res.data;
+        },
+        onError: (error: AxiosErrorResponse & Error) => {
+            toast.error(t(errorFormatter(error)));
+        },
+    });
+
     const handleNationalityChange = (value: string) => {
         setIsStateDisabled(value !== 'Malaysia');
         form.setFieldsValue({ state: undefined });
@@ -93,7 +116,9 @@ const AddMember: React.FC<AddMemberModalProps> = ({ form, open, setOpen, onCreat
                             <Select options={packageSelection} placeholder="Please Select" />
                         </Form.Item>
                     </Col>
-                    <Divider orientation="left">{t('Referral Profile')}</Divider>
+                </Row>
+                <Divider orientation="left">{t('Referral Profile')}</Divider>
+                <Row gutter={[16, 0]}>
                     <Col xs={24} sm={12} md={8}>
                         <Form.Item label={t('Referral Phone')} name="referralId">
                             <Select
@@ -128,6 +153,43 @@ const AddMember: React.FC<AddMemberModalProps> = ({ form, open, setOpen, onCreat
                     <Col xs={24} sm={12} md={8}>
                         <Form.Item label={t('Referral Name')} name="referralName">
                             <Input disabled />
+                        </Form.Item>
+                    </Col>
+                </Row>
+                <Divider orientation="left">{t('Coupon List')}</Divider>
+                <Row gutter={[16, 0]}>
+                    <Col xs={24} sm={12} md={12} lg={8}>
+                        <Form.Item label={t('code')} name="couponSeries">
+                            <Select
+                                placeholder={t('Please Select')}
+                                showSearch
+                                filterOption={false}
+                                onSearch={onCouponSeriesSearchHandler}
+                                loading={couponSeriesListQuery.isFetching}
+                                allowClear
+                                onSelect={(value) => {
+                                    setCouponSeriesDebouncedKeyword('');
+                                }}
+                                onBlur={() => setCouponSeriesDebouncedKeyword('')}
+                                options={
+                                    couponSeriesListQuery?.data && !couponSeriesListQuery.isFetching
+                                        ? couponSeriesListQuery.data.map((couponSeries) => ({
+                                              label: `${couponSeries.name}`,
+                                              value: couponSeries.id,
+                                          }))
+                                        : []
+                                }
+                            />
+                        </Form.Item>
+                    </Col>
+                    <Col xs={24} sm={12} md={12} lg={8}>
+                        <Form.Item label={t('startNumber')} name="couponStartNumber">
+                            <InputNumber min={0} placeholder="Please Enter" className="w-full" />
+                        </Form.Item>
+                    </Col>
+                    <Col xs={24} sm={12} md={12} lg={8}>
+                        <Form.Item label={t('endNumber')} name="couponEndNumber">
+                            <InputNumber min={0} placeholder="Please Enter" className="w-full" />
                         </Form.Item>
                     </Col>
                 </Row>
@@ -235,11 +297,7 @@ const AddMember: React.FC<AddMemberModalProps> = ({ form, open, setOpen, onCreat
                     </Col>
                 </Row>
                 <Divider orientation="left">{t('Children Profile')}</Divider>
-                <Row gutter={[16, 0]}>
-                    <Col xs={24} sm={24} md={24} lg={24}>
-                        <AddChildrenModal />
-                    </Col>
-                </Row>
+                <AddChildrenModal />
                 <div className="flex justify-end gap-3">
                     <Button onClick={onModalCancel}>{t('common:Cancel')}</Button>
                     <Button type="primary" onClick={onCreateMemberHandler} loading={loading} disabled={loading}>

@@ -10,7 +10,7 @@ import { PaginationResponse } from '@/types/pagination';
 import { Dashboard } from '@/types';
 import { Member } from '@/types/member';
 import { Package } from '@/types/package';
-import { Coupon } from '@/types/coupon';
+import { Coupon, CouponSeries } from '@/types/coupon';
 
 export const getRoleData = () => {
     return axiosInstance.get<Role[]>('/api/staff/data/role');
@@ -22,6 +22,10 @@ export const getPackageData = () => {
 
 export const getMembersList = (debouncedKeyword: string) => {
     return axiosInstance.get<Member[]>(`/api/staff/data/member?keyword=${debouncedKeyword}&perPage=10`);
+};
+
+export const getCouponSeriesList = (debouncedKeyword: string) => {
+    return axiosInstance.get<CouponSeries[]>(`/api/staff/data/coupon-series?keyword=${debouncedKeyword}&perPage=10`);
 };
 
 export const getCouponsList = (debouncedKeyword: string) => {

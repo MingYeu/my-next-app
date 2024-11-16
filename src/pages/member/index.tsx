@@ -417,9 +417,9 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
                             <Button type="primary" icon={<PlusOutlined />} onClick={() => setAddMemberCouponModalOpen(true)}>
                                 {t('Used Coupon')}
                             </Button>
-                            <Button type="primary" icon={<PlusOutlined />} onClick={() => setAddMemberPointModalOpen(true)}>
+                            {/* <Button type="primary" icon={<PlusOutlined />} onClick={() => setAddMemberPointModalOpen(true)}>
                                 {t('Add Point')}
-                            </Button>
+                            </Button> */}
                         </div>
                         <Button type="primary" icon={<PlusOutlined />} onClick={() => setAddMemberModalOpen(true)}>
                             {t('addMember')}

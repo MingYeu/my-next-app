@@ -57,20 +57,20 @@ const CustomHeader: React.FC<HeaderAttributes> = ({ name, collapsed, setCollapse
                         dropdownRender={() => {
                             return (
                                 <div className="flex flex-col p-3 bg-white rounded-md shadow-md">
-                                    <LanguageSwitcher />
-                                    <Divider className="my-0" />
-                                    <Link href="/myProfile" className="leading-[normal]">
+                                    {/* <LanguageSwitcher /> */}
+                                    {/* <Divider className="my-0" /> */}
+                                    {/* <Link href="/myProfile" className="leading-[normal]">
                                         <div className="py-2 pl-3 mt-1 duration-100 hover:bg-slate-100 rounded-[4px] cursor-pointer">
                                             {t('My Profile')}
                                         </div>
-                                    </Link>
+                                    </Link> */}
                                     <div
-                                        className="w-full text-center bg-red-600 rounded-[4px] hover:bg-red-700 duration-100 py-2 mt-2 cursor-pointer leading-[normal]"
+                                        className=" min-w-[130px] w-full text-center bg-red-600 rounded-[4px] hover:bg-red-700 duration-100 py-2 mt-2 cursor-pointer leading-[normal]"
                                         onClick={() => {
                                             logoutMutation.mutate();
                                         }}
                                     >
-                                        <a className="text-white hover:text-white">{t('Logout')}</a>
+                                        <a className="text-white hover:text-white ">{t('Logout')}</a>
                                     </div>
                                 </div>
                             );
