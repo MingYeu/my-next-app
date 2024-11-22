@@ -8,7 +8,7 @@ import CustomHeader from './Header';
 import CustomMenu from './Menu';
 import Image from 'next/image';
 import Link from 'next/link';
-import PioneerLogo from '../../../public/images/icons/pioneer.png';
+import ToyLogo from '../../../public/images/icons/toy360.png';
 import { PermissionContext } from '@/providers/RoleContext';
 import { AxiosErrorResponse, BreadCrumbItem } from '@/types';
 import { Staff } from '@/types/staff';
@@ -91,7 +91,7 @@ const Layout: React.FC<LayoutAttributes> = ({ children, staff, breadCrumbItems =
                                 }}
                             >
                                 <Image
-                                    src={PioneerLogo}
+                                    src={ToyLogo}
                                     priority={true}
                                     alt="Pioneer Education Logo"
                                     className="w-full h-full"
@@ -137,7 +137,7 @@ const Layout: React.FC<LayoutAttributes> = ({ children, staff, breadCrumbItems =
                                 }}
                             >
                                 <Image
-                                    src={PioneerLogo}
+                                    src={ToyLogo}
                                     alt="Pioneer Education Logo"
                                     priority
                                     placeholder="blur"

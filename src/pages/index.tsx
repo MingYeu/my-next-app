@@ -3,7 +3,7 @@ import { GetServerSideProps, NextPage } from 'next';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { AiOutlineLock, AiOutlineUser } from 'react-icons/ai';
-import IPLogo from '../../public/images/icons/pioneer.png';
+import IPLogo from '../../public/images/icons/toy360.png';
 import Image from 'next/image';
 import LanguageSelector from '@/components/LanguageSwitcher';
 import { authentication } from '@/lib/authentication';
