@@ -7,6 +7,11 @@ export interface CouponSeries {
     name: string;
     remarks: string;
     active: boolean;
+    startDate: string | null;
+    endDate: string | null;
+    period: number;
+    count: number;
+    alreadyUsed: number;
 }
 
 export interface Coupon {
@@ -16,7 +21,7 @@ export interface Coupon {
     type: string;
     description: string;
     startDate: string | null;
-    endDate: string;
+    endDate: string | null;
     active: boolean;
     // member_package: Member_Package[];
 }

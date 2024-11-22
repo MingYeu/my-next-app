@@ -45,8 +45,6 @@ const Profile: React.FC<ProfileProps> = ({ packagesId, packagesQuery }) => {
         if (packages) {
             packagesForm.setFieldsValue({
                 ...packages,
-                startDate: packages.startDate ? dayjs(packages.startDate) : null,
-                endDate: packages.endDate ? dayjs(packages.endDate) : null,
             });
             // setRoleId(packages.roleId);
         }
@@ -211,13 +209,8 @@ const Profile: React.FC<ProfileProps> = ({ packagesId, packagesQuery }) => {
                                     </Form.Item>
                                 </Col>
                                 <Col xs={24} sm={12} md={12} lg={12}>
-                                    <Form.Item label={t('startDate')} name="startDate">
-                                        <DatePicker className="w-full" />
-                                    </Form.Item>
-                                </Col>
-                                <Col xs={24} sm={12} md={12} lg={12}>
-                                    <Form.Item label={t('endDate')} name="endDate">
-                                        <DatePicker className="w-full" />
+                                    <Form.Item label={t('Period')} name="period" rules={[{ required: true }]}>
+                                        <InputNumber min={0} className="w-full" />
                                     </Form.Item>
                                 </Col>
                                 <Col xs={24} sm={24} md={24} lg={24}>

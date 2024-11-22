@@ -198,7 +198,7 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
     const columns = [
         {
             dataIndex: 'code',
-            title: t('code'),
+            title: t('Code'),
             render: (code: string, coupons: Coupon) => {
                 return (
                     <Link href={`/coupon/${coupons.id}`} className="font-bold">
@@ -210,7 +210,7 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
         ...conditionalReturn(selectedColumn.includes('cost'), [
             {
                 dataIndex: 'cost',
-                title: t('cost'),
+                title: t('Cost'),
                 render: (cost: number) => {
                     return cost ? `RM ${cost}` : 0;
                 },
@@ -219,7 +219,7 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
         ...conditionalReturn(selectedColumn.includes('startDate'), [
             {
                 dataIndex: 'startDate',
-                title: t('startDate'),
+                title: t('Start Date'),
                 render: (startDate: string) => {
                     return startDate ? dayjs(startDate).format('D MMM YYYY') : '-';
                 },
@@ -228,7 +228,7 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
         ...conditionalReturn(selectedColumn.includes('endDate'), [
             {
                 dataIndex: 'endDate',
-                title: t('endDate'),
+                title: t('End Date'),
                 render: (endDate: string) => {
                     return endDate ? dayjs(endDate).format('D MMM YYYY') : '-';
                 },
@@ -255,7 +255,7 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
         ...conditionalReturn(selectedColumn.includes('active'), [
             {
                 dataIndex: 'active',
-                title: t('active'),
+                title: t('Active'),
                 render: (_: unknown, coupons: Coupon) => {
                     return <CouponStatus coupons={coupons} />;
                 },

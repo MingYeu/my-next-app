@@ -34,21 +34,37 @@ const AddCoupon: React.FC<AddCouponSeriesModalProps> = ({ form, open, setOpen, o
     ];
 
     return (
-        <Modal open={open} onCancel={onModalCancel} title={t('addCoupon')} width={1000} footer={null} centered>
+        <Modal open={open} onCancel={onModalCancel} title={t('Add Coupon Series')} width={1000} footer={null} centered>
             <Form form={form} name="Create Coupon Form" layout="vertical">
                 <Row gutter={[16, 0]}>
                     <Col xs={24} sm={12} md={12} lg={8}>
-                        <Form.Item label={t('name (symbol "$" to generate coupons)')} name="name" rules={[{ required: true }]}>
+                        <Form.Item label={t('Name (symbol "$" to generate coupons)')} name="name" rules={[{ required: true }]}>
                             <Input />
                         </Form.Item>
                     </Col>
                     <Col xs={24} sm={12} md={12} lg={8}>
-                        <Form.Item label={t('cost')} name="cost" rules={[{ required: true }]}>
+                        <Form.Item label={t('Cost')} name="cost" rules={[{ required: true }]}>
                             <InputNumber min={0} precision={2} placeholder="Enter Cost" className="w-full" />
                         </Form.Item>
                     </Col>
+                    <Col xs={24} sm={12} md={12} lg={8} />
+                    <Col xs={24} sm={12} md={12} lg={8}>
+                        <Form.Item label={t('Start Date')} name="startDate">
+                            <DatePicker className="w-full" />
+                        </Form.Item>
+                    </Col>
+                    <Col xs={24} sm={12} md={12} lg={8}>
+                        <Form.Item label={t('End Date')} name="endDate">
+                            <DatePicker className="w-full" />
+                        </Form.Item>
+                    </Col>
+                    <Col xs={24} sm={12} md={12} lg={8}>
+                        <Form.Item label={t('Period (Month)')} name="period">
+                            <InputNumber min={0} placeholder="Please Enter" className="w-full" />
+                        </Form.Item>
+                    </Col>
                     <Col xs={24} sm={24} md={24} lg={24}>
-                        <Form.Item label={t('remarks')} name="remarks">
+                        <Form.Item label={t('Remarks')} name="remarks">
                             <Input.TextArea rows={3} />
                         </Form.Item>
                     </Col>

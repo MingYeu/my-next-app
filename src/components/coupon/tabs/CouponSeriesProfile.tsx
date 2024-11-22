@@ -1,5 +1,5 @@
 import { UseQueryResult, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Button, Card, Col, Descriptions, Form, Input, InputNumber, Row, Spin } from 'antd';
+import { Button, Card, Col, DatePicker, Descriptions, Form, Input, InputNumber, Row, Spin } from 'antd';
 import { useTranslation } from 'next-i18next';
 import { useContext, useEffect } from 'react';
 import 'react-phone-input-2/lib/style.css';
@@ -11,6 +11,7 @@ import { AxiosErrorResponse } from '@/types';
 import errorFormatter from '@/lib/errorFormatter';
 import ConfirmationModal from '@/components/modals/ConfirmationModal';
 import router from 'next/router';
+import dayjs from 'dayjs';
 
 const { TextArea } = Input;
 
@@ -34,6 +35,8 @@ const CouponSeriesProfile: React.FC<CouponSeriesProfileProps> = ({ couponSeriesI
         if (couponSeries) {
             couponSeriesForm.setFieldsValue({
                 ...couponSeries,
+                startDate: couponSeries.startDate ? dayjs(couponSeries.startDate) : null,
+                endDate: couponSeries.endDate ? dayjs(couponSeries.endDate) : null,
             });
         }
     }, [couponSeries]);
@@ -103,6 +106,8 @@ const CouponSeriesProfile: React.FC<CouponSeriesProfileProps> = ({ couponSeriesI
         });
     };
 
+    console.log('couponSeries', couponSeries);
+
     return (
         <Spin spinning={updateCouponSeriesMutation.isLoading}>
             {couponSeries && (
@@ -160,17 +165,33 @@ const CouponSeriesProfile: React.FC<CouponSeriesProfileProps> = ({ couponSeriesI
                         <Form form={couponSeriesForm} layout="vertical" title="Coupon Form">
                             <Row gutter={[16, 0]}>
                                 <Col xs={24} sm={12} md={12} lg={12}>
-                                    <Form.Item label={t('name')} name="name" rules={[{ required: true }]}>
+                                    <Form.Item label={t('Name')} name="name" rules={[{ required: true }]}>
                                         <Input />
                                     </Form.Item>
                                 </Col>
                                 <Col xs={24} sm={12} md={12} lg={12}>
-                                    <Form.Item label={t('cost')} name="cost" rules={[{ required: true }]}>
+                                    <Form.Item label={t('Cost')} name="cost" rules={[{ required: true }]}>
                                         <InputNumber min={0} precision={2} placeholder="Enter Cost" className="w-full" />
                                     </Form.Item>
                                 </Col>
+                                <Col xs={24} sm={12} md={12} lg={12}>
+                                    <Form.Item label={t('Start Date')} name="startDate">
+                                        <DatePicker className="w-full" />
+                                    </Form.Item>
+                                </Col>
+                                <Col xs={24} sm={12} md={12} lg={12}>
+                                    <Form.Item label={t('End Date')} name="endDate">
+                                        <DatePicker className="w-full" />
+                                    </Form.Item>
+                                </Col>
+                                <Col xs={24} sm={12} md={12} lg={12}>
+                                    <Form.Item label={t('Period')} name="period">
+                                        <InputNumber min={0} placeholder="Please Enter" className="w-full" />
+                                    </Form.Item>
+                                </Col>
+
                                 <Col xs={24} sm={24} md={24} lg={24}>
-                                    <Form.Item label={t('remarks')} name="remarks">
+                                    <Form.Item label={t('Remarks')} name="remarks">
                                         <Input.TextArea rows={3} />
                                     </Form.Item>
                                 </Col>

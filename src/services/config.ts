@@ -9,12 +9,4 @@ const axiosInstance = axios.create({
     withCredentials: true,
 });
 
-// export const uploadInstance = axios.create({
-//     baseURL: API_URL,
-//     headers: {
-//         'Content-Type': 'multipart/form-data',
-//     },
-//     withCredentials: true,
-// });
-
 export default axiosInstance;

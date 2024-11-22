@@ -43,7 +43,7 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
         sortField: 'name',
         sortOrder: SortOrder.ASC,
     });
-    const [selectedColumn, setSelectedColumn] = useState<string[]>(['name', 'cost', 'remarks', 'active']);
+    const [selectedColumn, setSelectedColumn] = useState<string[]>(['name', 'cost', 'count', 'alreadyUsed', 'remarks', 'active']);
     const [addCouponModalOpen, setAddCouponModalOpen] = useState<boolean>(false);
 
     // Query
@@ -187,7 +187,7 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
     const columns = [
         {
             dataIndex: 'name',
-            title: t('name'),
+            title: t('Name'),
             render: (name: string, couponsSeries: CouponSeries) => {
                 return (
                     <Link href={`/coupon-series/${couponsSeries.id}`} className="font-bold">
@@ -199,19 +199,34 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
         ...conditionalReturn(selectedColumn.includes('cost'), [
             {
                 dataIndex: 'cost',
-                title: t('cost'),
+                title: t('Cost'),
+                render: (cost: number) => {
+                    return `RM ${cost}`;
+                },
+            },
+        ]),
+        ...conditionalReturn(selectedColumn.includes('count'), [
+            {
+                dataIndex: 'count',
+                title: t('Publish (Number)'),
+            },
+        ]),
+        ...conditionalReturn(selectedColumn.includes('alreadyUsed'), [
+            {
+                dataIndex: 'alreadyUsed',
+                title: t('Already Used'),
             },
         ]),
         ...conditionalReturn(selectedColumn.includes('remarks'), [
             {
                 dataIndex: 'remarks',
-                title: t('remarks'),
+                title: t('Remarks'),
             },
         ]),
         ...conditionalReturn(selectedColumn.includes('active'), [
             {
                 dataIndex: 'active',
-                title: t('active'),
+                title: t('Active'),
                 render: (_: unknown, coupons: Coupon) => {
                     return <CouponStatus coupons={coupons} />;
                 },

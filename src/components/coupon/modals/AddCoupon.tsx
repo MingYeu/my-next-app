@@ -87,6 +87,13 @@ const AddCoupon: React.FC<AddCouponModalProps> = ({ form, open, setOpen, onCreat
                                 loading={couponSeriesListQuery.isFetching}
                                 allowClear
                                 onSelect={(value) => {
+                                    const selectedCouponSeries = couponSeriesListQuery?.data?.find((couponSeries) => couponSeries.id === value);
+                                    if (selectedCouponSeries) {
+                                        form.setFieldsValue({
+                                            startNumber: selectedCouponSeries.count + 1,
+                                        });
+                                    }
+
                                     setCouponSeriesDebouncedKeyword('');
                                 }}
                                 onBlur={() => setCouponSeriesDebouncedKeyword('')}
@@ -103,7 +110,7 @@ const AddCoupon: React.FC<AddCouponModalProps> = ({ form, open, setOpen, onCreat
                     </Col>
                     <Col xs={24} sm={12} md={12} lg={8}>
                         <Form.Item label={t('startNumber')} name="startNumber" rules={[{ required: true }]}>
-                            <InputNumber min={0} placeholder="Please Enter" className="w-full" />
+                            <InputNumber min={0} placeholder="Please Enter" className="w-full" disabled />
                         </Form.Item>
                     </Col>
                     <Col xs={24} sm={12} md={12} lg={8}>
@@ -147,17 +154,6 @@ const AddCoupon: React.FC<AddCouponModalProps> = ({ form, open, setOpen, onCreat
                             <Input disabled />
                         </Form.Item>
                     </Col>{' '}
-                    <Col xs={24} sm={12} md={12} lg={8}></Col>
-                    <Col xs={24} sm={12} md={12} lg={8}>
-                        <Form.Item label={t('startDate')} name="startDate">
-                            <DatePicker className="w-full" />
-                        </Form.Item>
-                    </Col>
-                    <Col xs={24} sm={12} md={12} lg={8}>
-                        <Form.Item label={t('endDate')} name="endDate">
-                            <DatePicker className="w-full" />
-                        </Form.Item>
-                    </Col>
                     <Col xs={24} sm={24} md={24} lg={24}>
                         <Form.Item label={t('description')} name="description">
                             <Input.TextArea rows={3} />

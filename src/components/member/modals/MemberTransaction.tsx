@@ -1,16 +1,14 @@
-import mappedCountryList from '@/lib/countryList';
 import errorFormatter from '@/lib/errorFormatter';
 import { getCouponsList, getMembersList, getPackageData } from '@/services/data';
 import { AxiosErrorResponse } from '@/types';
 import { useQuery } from '@tanstack/react-query';
-import { Button, Col, DatePicker, Divider, Form, FormInstance, Input, Modal, Row, Select, SelectProps, message } from 'antd';
+import { Button, Col, Divider, Form, FormInstance, Input, Modal, Row, Select, SelectProps, message } from 'antd';
 import { useTranslation } from 'next-i18next';
 import { Dispatch, SetStateAction, useState } from 'react';
-import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import { toast } from 'react-toastify';
 
-interface UpdateCouponModalProps {
+interface MemberTransactionModalProps {
     form: FormInstance;
     open: boolean;
     setOpen: Dispatch<SetStateAction<boolean>>;
@@ -18,7 +16,7 @@ interface UpdateCouponModalProps {
     loading: boolean;
 }
 
-const UpdateCoupon: React.FC<UpdateCouponModalProps> = ({ form, open, setOpen, onCreate, loading }) => {
+const MemberTransaction: React.FC<MemberTransactionModalProps> = ({ form, open, setOpen, onCreate, loading }) => {
     const { t } = useTranslation(['member', 'common', 'messages']);
     const [debouncedKeyword, setDebouncedKeyword] = useState<string>('');
     const [debounceTimeout, setDebounceTimeout] = useState<ReturnType<typeof setTimeout> | null>(null);
@@ -64,7 +62,7 @@ const UpdateCoupon: React.FC<UpdateCouponModalProps> = ({ form, open, setOpen, o
     };
 
     return (
-        <Modal open={open} onCancel={onModalCancel} title={t('usedMemberCoupon')} width={1000} footer={null} centered>
+        <Modal open={open} onCancel={onModalCancel} title={t('Member Transaction')} width={1000} footer={null} centered>
             <Form form={form} name="Update Member Coupon" layout="vertical">
                 <Row gutter={[16, 0]}>
                     <Col xs={24} sm={12} md={8}>
@@ -102,9 +100,9 @@ const UpdateCoupon: React.FC<UpdateCouponModalProps> = ({ form, open, setOpen, o
                             <Input disabled />
                         </Form.Item>
                     </Col>
-                    <Divider orientation="left">{t('used coupon')}</Divider>
+                    <Divider orientation="left">{t('Used Coupon')}</Divider>
                     <Col xs={24} sm={12} md={12} lg={8}>
-                        <Form.Item label={t('couponList')} name="couponList" rules={[{ required: true }]}>
+                        <Form.Item label={t('Coupon List')} name="couponList">
                             <Select
                                 mode="multiple"
                                 allowClear
@@ -130,15 +128,21 @@ const UpdateCoupon: React.FC<UpdateCouponModalProps> = ({ form, open, setOpen, o
                         </Form.Item>
                     </Col>
                     <Col xs={24} sm={12} md={12} lg={8}>
-                        <Form.Item label={t('totalCost')} name="totalCost" rules={[{ required: true }]}>
+                        <Form.Item label={t('Total Cost')} name="totalCost">
                             <Input disabled type="number" />
+                        </Form.Item>
+                    </Col>
+                    <Divider orientation="left">{t('Used Point')}</Divider>
+                    <Col xs={24} sm={12} md={12} lg={8}>
+                        <Form.Item label={t('Point')} name="point">
+                            <Input />
                         </Form.Item>
                     </Col>
                 </Row>
                 <div className="flex justify-end gap-3">
                     <Button onClick={onModalCancel}>{t('common:Cancel')}</Button>
                     <Button type="primary" onClick={onUpdateMemberCouponHandler} loading={loading} disabled={loading}>
-                        {t('usedCoupon')}
+                        {t('Submit')}
                     </Button>
                 </div>
             </Form>
@@ -146,4 +150,4 @@ const UpdateCoupon: React.FC<UpdateCouponModalProps> = ({ form, open, setOpen, o
     );
 };
 
-export default UpdateCoupon;
+export default MemberTransaction;

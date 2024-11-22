@@ -168,6 +168,13 @@ const AddMember: React.FC<AddMemberModalProps> = ({ form, open, setOpen, onCreat
                                 loading={couponSeriesListQuery.isFetching}
                                 allowClear
                                 onSelect={(value) => {
+                                    const selectedCouponSeries = couponSeriesListQuery?.data?.find((couponSeries) => couponSeries.id === value);
+                                    if (selectedCouponSeries) {
+                                        form.setFieldsValue({
+                                            couponStartNumber: selectedCouponSeries.count + 1,
+                                        });
+                                    }
+
                                     setCouponSeriesDebouncedKeyword('');
                                 }}
                                 onBlur={() => setCouponSeriesDebouncedKeyword('')}
@@ -183,12 +190,12 @@ const AddMember: React.FC<AddMemberModalProps> = ({ form, open, setOpen, onCreat
                         </Form.Item>
                     </Col>
                     <Col xs={24} sm={12} md={12} lg={8}>
-                        <Form.Item label={t('startNumber')} name="couponStartNumber">
-                            <InputNumber min={0} placeholder="Please Enter" className="w-full" />
+                        <Form.Item label={t('Start Number')} name="couponStartNumber">
+                            <InputNumber min={0} placeholder="Please Enter" className="w-full" disabled />
                         </Form.Item>
                     </Col>
                     <Col xs={24} sm={12} md={12} lg={8}>
-                        <Form.Item label={t('endNumber')} name="couponEndNumber">
+                        <Form.Item label={t('End Number')} name="couponEndNumber">
                             <InputNumber min={0} placeholder="Please Enter" className="w-full" />
                         </Form.Item>
                     </Col>

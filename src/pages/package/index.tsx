@@ -42,7 +42,7 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
         sortField: 'name',
         sortOrder: SortOrder.ASC,
     });
-    const [selectedColumn, setSelectedColumn] = useState<string[]>(['name', 'cost', 'point', 'active']);
+    const [selectedColumn, setSelectedColumn] = useState<string[]>(['name', 'cost', 'point', 'period', 'active']);
     const [addPackageModalOpen, setAddPackageModalOpen] = useState<boolean>(false);
 
     // Query
@@ -158,35 +158,31 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
 
     const columnOptions = [
         {
-            label: t('name'),
+            label: t('Name'),
             value: 'name',
         },
         {
-            label: t('cost'),
+            label: t('Cost'),
             value: 'cost',
         },
         {
-            label: t('point'),
+            label: t('Point'),
             value: 'point',
         },
         {
-            label: t('startDate'),
-            value: 'startDate',
-        },
-        {
-            label: t('endDate'),
-            value: 'endDate',
+            label: t('Period'),
+            value: 'period',
         },
         {
             label: t('active'),
             value: 'active',
         },
         {
-            label: t('createdAt'),
+            label: t('Created At'),
             value: 'createdAt',
         },
         {
-            label: t('updatedAt'),
+            label: t('Updated At'),
             value: 'updatedAt',
         },
     ];
@@ -215,34 +211,22 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
         ...conditionalReturn(selectedColumn.includes('point'), [
             {
                 dataIndex: 'point',
-                title: t('point'),
+                title: t('Point'),
                 render: (point: number) => {
                     return point ? `${point}` : 0;
                 },
             },
         ]),
-        ...conditionalReturn(selectedColumn.includes('startDate'), [
+        ...conditionalReturn(selectedColumn.includes('period'), [
             {
-                dataIndex: 'startDate',
-                title: t('startDate'),
-                render: (startDate: string) => {
-                    return startDate ? dayjs(startDate).format('D MMM YYYY') : '-';
-                },
-            },
-        ]),
-        ...conditionalReturn(selectedColumn.includes('endDate'), [
-            {
-                dataIndex: 'endDate',
-                title: t('endDate'),
-                render: (endDate: string) => {
-                    return endDate ? dayjs(endDate).format('D MMM YYYY') : '-';
-                },
+                dataIndex: 'period',
+                title: t('Period'),
             },
         ]),
         ...conditionalReturn(selectedColumn.includes('active'), [
             {
                 dataIndex: 'active',
-                title: t('active'),
+                title: t('Active'),
                 render: (_: unknown, packages: Package) => {
                     return <PackageStatus packages={packages} />;
                 },

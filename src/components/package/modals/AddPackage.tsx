@@ -48,20 +48,16 @@ const AddPackage: React.FC<AddPackageModalProps> = ({ form, open, setOpen, onCre
                         </Form.Item>
                     </Col>
                     <Col xs={24} sm={12} md={12} lg={8}>
-                        <Form.Item label={t('point')} name="point" rules={[{ required: true }]}>
+                        <Form.Item label={t('Point')} name="point" rules={[{ required: true }]}>
                             <InputNumber min={0} precision={2} placeholder="Enter Point" className="w-full" />
                         </Form.Item>
                     </Col>
                     <Col xs={24} sm={12} md={12} lg={8}>
-                        <Form.Item label={t('startDate')} name="startDate">
-                            <DatePicker className="w-full" />
+                        <Form.Item label={t('Period (Month)')} name="period" rules={[{ required: true }]}>
+                            <InputNumber min={0} placeholder="Please Enter" className="w-full" />
                         </Form.Item>
                     </Col>
-                    <Col xs={24} sm={12} md={12} lg={8}>
-                        <Form.Item label={t('endDate')} name="endDate">
-                            <DatePicker className="w-full" />
-                        </Form.Item>
-                    </Col>
+
                     <Col xs={24} sm={24} md={24} lg={24}>
                         <Form.Item label={t('description')} name="description">
                             <Input.TextArea rows={3} />

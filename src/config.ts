@@ -1,4 +1,4 @@
-export const API_URL = 'http://167.172.89.145:4000/'; //process.env.NODE_ENV === 'production' ? 'http://localhost:4000' : 'http://localhost:4000'; //'https://api.pioneer.wonsysmartech.com' : 'http://localhost:4000';
+export const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export const PLATFORM_NAME = '360 Toy Membership System';
 

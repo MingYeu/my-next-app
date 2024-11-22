@@ -15,7 +15,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import ColumnSelector from '@/components/modals/ColumnSelector';
 import AddMemberModal from '@/components/member/modals/AddMember';
 import AddMemberPointModal from '@/components/member/modals/AddPoint';
-import UpdateCouponModal from '@/components/member/modals/UpdateCoupon';
+import MemberTransactionModal from '@/components/member/modals/MemberTransaction';
 import Toast from '@/lib/Toast';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import queryString from 'query-string';
@@ -36,21 +36,22 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
     const [filterTutorForm] = Form.useForm();
     const [addMemberForm] = Form.useForm();
     const [addMemberPointForm] = Form.useForm();
-    const [addMemberCouponForm] = Form.useForm();
+    const [addMemberTransactionForm] = Form.useForm();
 
     // Messages
-    const createMemberToast = new Toast('createMember');
-    const createMemberPointToast = new Toast('createMemberPoint');
+    const createMemberToast = new Toast('Create Member');
+    const createMemberPointToast = new Toast('Create Member Point');
+    const createMemberTransactionToast = new Toast('Created Member Transaction');
 
     // States
     const [pagination, setPagination] = usePagination({
         sortField: 'code',
         sortOrder: SortOrder.ASC,
     });
-    const [selectedColumn, setSelectedColumn] = useState<string[]>(['code', 'englishName', 'email', 'active', 'lastActive']);
+    const [selectedColumn, setSelectedColumn] = useState<string[]>(['code', 'englishName', 'email', 'active', 'expiredAt']);
     const [addMemberModalOpen, setAddMemberModalOpen] = useState<boolean>(false);
     const [addMemberPointModalOpen, setAddMemberPointModalOpen] = useState<boolean>(false);
-    const [addMemberCouponModalOpen, setAddMemberCouponModalOpen] = useState<boolean>(false);
+    const [addMemberTransactionModalOpen, setAddMemberTransactionModalOpen] = useState<boolean>(false);
 
     // Query
     const memberQuery = useQuery({
@@ -139,20 +140,19 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
         },
     });
 
-    const createMemberCouponMutation = useMutation({
+    const createMemberTransactionMutation = useMutation({
         mutationFn: async (values: Member) => {
-            createMemberPointToast.loading(t('messages:loading.updatingMemberCoupon'));
+            createMemberTransactionToast.loading(t('messages:loading.creatingMemberTransaction'));
             const res = await createMemberCoupon(values);
-
             return res.data;
         },
         onError: (err: AxiosErrorResponse & Error) => {
-            createMemberPointToast.update('error', t(errorFormatter(err)));
+            createMemberTransactionToast.update('error', t(errorFormatter(err)));
         },
         onSuccess: () => {
-            createMemberPointToast.update('success', t('messages:success.memberCouponUpdated'));
-            setAddMemberModalOpen(false);
-            addMemberForm.resetFields();
+            createMemberTransactionToast.update('success', t('messages:success.memberTransactionCreated'));
+            setAddMemberTransactionModalOpen(false);
+            addMemberTransactionForm.resetFields();
             setPagination((prev: any) => {
                 return {
                     ...prev,
@@ -190,9 +190,9 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
         });
     };
 
-    const onCreateMemberCouponHandler = () => {
-        addMemberCouponForm.validateFields().then((values) => {
-            createMemberCouponMutation.mutate(values);
+    const onCreateMemberTransactionHandler = () => {
+        addMemberTransactionForm.validateFields().then((values) => {
+            createMemberTransactionMutation.mutate(values);
         });
     };
 
@@ -259,6 +259,18 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
         {
             label: t('address'),
             value: 'address',
+        },
+        {
+            label: t('Point'),
+            value: 'point',
+        },
+        {
+            label: t('Total Accumulate'),
+            value: 'totalAcc',
+        },
+        {
+            label: t('Total Spend'),
+            value: 'totalSpend',
         },
         {
             label: t('active'),
@@ -349,12 +361,41 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
                 },
             },
         ]),
+        ...conditionalReturn(selectedColumn.includes('point'), [
+            {
+                dataIndex: 'point',
+                title: t('Point'),
+            },
+        ]),
+        ...conditionalReturn(selectedColumn.includes('totalAcc'), [
+            {
+                dataIndex: 'totalAcc',
+                title: t('Total Accumulate'),
+            },
+        ]),
+        ...conditionalReturn(selectedColumn.includes('totalSpend'), [
+            {
+                dataIndex: 'totalSpend',
+                title: t('Total Spend'),
+            },
+        ]),
         ...conditionalReturn(selectedColumn.includes('active'), [
             {
                 dataIndex: 'active',
                 title: t('active'),
                 render: (_: unknown, member: Member) => {
                     return <MemberStatus user={member} />;
+                },
+            },
+        ]),
+        ...conditionalReturn(selectedColumn.includes('expiredAt'), [
+            {
+                title: t('Expired At'),
+                dataIndex: 'expiredAt',
+                width: 150,
+                sorter: true,
+                render: (expiredAt: string) => {
+                    return expiredAt !== null ? dayjs(expiredAt).format('D MMM YYYY, hh:mm a') : '';
                 },
             },
         ]),
@@ -414,8 +455,8 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
                 {permissions.MEMBER_CREATE && (
                     <div className="flex space-x-12">
                         <div className="flex space-x-4">
-                            <Button type="primary" icon={<PlusOutlined />} onClick={() => setAddMemberCouponModalOpen(true)}>
-                                {t('Used Coupon')}
+                            <Button type="primary" icon={<PlusOutlined />} onClick={() => setAddMemberTransactionModalOpen(true)}>
+                                {t('Transaction')}
                             </Button>
                             {/* <Button type="primary" icon={<PlusOutlined />} onClick={() => setAddMemberPointModalOpen(true)}>
                                 {t('Add Point')}
@@ -468,12 +509,12 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
                 setOpen={setAddMemberPointModalOpen}
                 onCreate={onCreateMemberPointHandler}
             />
-            <UpdateCouponModal
-                loading={createMemberCouponMutation.isLoading}
-                form={addMemberCouponForm}
-                open={addMemberCouponModalOpen}
-                setOpen={setAddMemberCouponModalOpen}
-                onCreate={onCreateMemberCouponHandler}
+            <MemberTransactionModal
+                loading={createMemberTransactionMutation.isLoading}
+                form={addMemberTransactionForm}
+                open={addMemberTransactionModalOpen}
+                setOpen={setAddMemberTransactionModalOpen}
+                onCreate={onCreateMemberTransactionHandler}
             />
         </Layout>
     );

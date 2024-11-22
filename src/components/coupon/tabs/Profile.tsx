@@ -45,8 +45,6 @@ const Profile: React.FC<ProfileProps> = ({ couponsId, couponsQuery }) => {
         if (coupons) {
             couponsForm.setFieldsValue({
                 ...coupons,
-                startDate: coupons.startDate ? dayjs(coupons.startDate) : null,
-                endDate: coupons.endDate ? dayjs(coupons.endDate) : null,
             });
             // setRoleId(coupons.roleId);
         }
@@ -203,16 +201,6 @@ const Profile: React.FC<ProfileProps> = ({ couponsId, couponsQuery }) => {
                                 <Col xs={24} sm={12} md={12} lg={12}>
                                     <Form.Item label={t('cost')} name="cost" rules={[{ required: true }]}>
                                         <InputNumber min={0} className="w-full" />
-                                    </Form.Item>
-                                </Col>
-                                <Col xs={24} sm={12} md={12} lg={12}>
-                                    <Form.Item label={t('startDate')} name="startDate">
-                                        <DatePicker className="w-full" />
-                                    </Form.Item>
-                                </Col>
-                                <Col xs={24} sm={12} md={12} lg={12}>
-                                    <Form.Item label={t('endDate')} name="endDate">
-                                        <DatePicker className="w-full" />
                                     </Form.Item>
                                 </Col>
                                 <Col xs={24} sm={24} md={24} lg={24}>
