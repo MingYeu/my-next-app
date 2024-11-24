@@ -46,49 +46,71 @@ const CustomMenu: React.FC<CustomMenuProps> = ({ staff, activeMenu, activeDropdo
             icon: <PieChartOutlined className="!text-base" />,
             onClick: () => onSelectMenuHandler('dashboard', '/dashboard'),
         },
+        {
+            key: 'userManagement',
+            label: t('menu.UserManagement'),
+            icon: <AiOutlineUser className="!text-base" />,
+            onTitleClick: onSelectDropdownMenuHandler,
+            children: [
+                {
+                    key: 'staff',
+                    label: t('menu.Staff'),
+                    icon: <AiOutlineUser className="!text-base" />,
+                    onClick: () => onSelectMenuHandler('staff', '/staff'),
+                },
+                {
+                    key: 'member',
+                    label: t('menu.Member'),
+                    icon: <AiOutlineUser className="!text-base" />,
+                    onClick: () => onSelectMenuHandler('member', '/member'),
+                },
+                {
+                    key: 'children',
+                    label: t('menu.Children'),
+                    icon: <AiOutlineUser className="!text-base" />,
+                    onClick: () => onSelectMenuHandler('children', '/child'),
+                },
+            ],
+        },
         // {
-        //     key: 'userManagement',
-        //     label: t('menu.UserManagement'),
+        //     key: 'staff',
+        //     label: t('menu.Staff'),
         //     icon: <AiOutlineUser className="!text-base" />,
-        //     onTitleClick: onSelectDropdownMenuHandler,
-        //     children: [
-        //         {
-        //             key: 'staff',
-        //             label: t('menu.Staff'),
-        //             onClick: () => onSelectMenuHandler('staff', '/staff'),
-        //         },
-
-        //         {
-        //             key: 'member',
-        //             label: t('menu.Member'),
-        //             onClick: () => onSelectMenuHandler('member', '/member'),
-        //         },
-        //     ],
+        //     onClick: () => onSelectMenuHandler('staff', '/staff'),
+        // },
+        // {
+        //     key: 'member',
+        //     label: t('menu.Member'),
+        //     icon: <AiOutlineUser className="!text-base" />,
+        //     onClick: () => onSelectMenuHandler('member', '/member'),
+        // },
+        // {
+        //     key: 'children',
+        //     label: t('menu.Children'),
+        //     icon: <AiOutlineUser className="!text-base" />,
+        //     onClick: () => onSelectMenuHandler('children', '/child'),
         // },
         {
-            key: 'staff',
-            label: t('menu.Staff'),
-            icon: <AiOutlineUser className="!text-base" />,
-            onClick: () => onSelectMenuHandler('staff', '/staff'),
-        },
-        {
-            key: 'member',
-            label: t('menu.Member'),
-            icon: <AiOutlineUser className="!text-base" />,
-            onClick: () => onSelectMenuHandler('member', '/member'),
-        },
-        {
-            key: 'package',
-            label: t('menu.Package'),
+            key: 'promoteManagement',
+            label: t('menu.PromoteManagement'),
             icon: <SiCoursera className="!text-base" />,
-            onClick: () => onSelectMenuHandler('package', '/package'),
+            onTitleClick: onSelectDropdownMenuHandler,
+            children: [
+                {
+                    key: 'package',
+                    label: t('menu.Package'),
+                    icon: <SiCoursera className="!text-base" />,
+                    onClick: () => onSelectMenuHandler('package', '/package'),
+                },
+                {
+                    key: 'coupon',
+                    label: t('menu.Coupon'),
+                    icon: <SiCoursera className="!text-base" />,
+                    onClick: () => onSelectMenuHandler('coupon', '/coupon'),
+                },
+            ],
         },
-        {
-            key: 'coupon',
-            label: t('menu.Coupon'),
-            icon: <SiCoursera className="!text-base" />,
-            onClick: () => onSelectMenuHandler('coupon', '/coupon'),
-        },
+
         // {
         //     key: 'role',
         //     label: t('menu.Role'),

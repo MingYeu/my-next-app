@@ -84,7 +84,7 @@ const Login: NextPage = () => {
                 <div className="flex items-center justify-center">
                     {/* Logo */}
                     <div>
-                        <Image src={IPLogo} alt="Pioneer Education" className="w-[350px] h-[200px] mb-3" />
+                        <Image src={IPLogo} alt="Pioneer Education" className="w-[220px] h-[200px] mb-3" />
                         <h1 className="text-center uppercase">{t('login')}</h1>
                     </div>
                 </div>

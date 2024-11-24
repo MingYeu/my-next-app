@@ -4,21 +4,20 @@ import { FilterOutlined, SearchOutlined } from '@ant-design/icons';
 import { FormInstance } from 'antd/es/form/Form';
 import { useTranslation } from 'next-i18next';
 import { useQuery } from '@tanstack/react-query';
-import mappedCountryList from '@/lib/countryList';
 import { getRoleData } from '@/services/data';
 import { AxiosErrorResponse } from '@/types';
 import errorFormatter from '@/lib/errorFormatter';
 
 interface FilterAttributes {
-    filterCouponForm: FormInstance;
+    filterChildrenForm: FormInstance;
     onReset: () => void;
     onSearch: () => void;
     loading: boolean;
 }
 
-const FilterDrawer: React.FC<FilterAttributes> = ({ filterCouponForm, onReset, onSearch, loading }) => {
-    const { t } = useTranslation(['coupon', 'common']);
-    const criteriaSelected = filterCouponForm.getFieldsValue();
+const FilterDrawer: React.FC<FilterAttributes> = ({ filterChildrenForm, onReset, onSearch, loading }) => {
+    const { t } = useTranslation(['children', 'common']);
+    const criteriaSelected = filterChildrenForm.getFieldsValue();
     const criteriaCount: number = Object.values(criteriaSelected).reduce((count: number, val) => count + (val ? 1 : 0), 0);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -34,25 +33,12 @@ const FilterDrawer: React.FC<FilterAttributes> = ({ filterCouponForm, onReset, o
         },
     });
 
-    const breakPoint = {
-        xs: 24,
-        sm: 24,
-        md: 12,
-        lg: 12,
-    };
-
     const fullBreakPoint = {
         xs: 24,
         sm: 24,
         md: 24,
         lg: 24,
     };
-
-    const roleSelection =
-        roleQuery.data?.map((role) => ({
-            label: role.name,
-            value: role.id,
-        })) ?? [];
 
     const onResetHandler = () => {
         onReset();
@@ -65,25 +51,16 @@ const FilterDrawer: React.FC<FilterAttributes> = ({ filterCouponForm, onReset, o
                 {criteriaCount > 0 && `(${criteriaCount})`} {t('common:Filter')}
             </Button>
             <Modal title={t('common:Filter')} onCancel={() => setIsModalOpen(false)} open={isModalOpen} footer={null} width={650}>
-                <Form form={filterCouponForm} layout="vertical" name="filter_form" className="mt-6">
+                <Form form={filterChildrenForm} layout="vertical" name="filter_form" className="mt-6">
                     <Row gutter={[16, 0]}>
                         <Col {...fullBreakPoint}>
-                            <Form.Item initialValue="" name="code">
-                                <Input placeholder={t('Coupon Code') as string} />
+                            <Form.Item initialValue="" name="fullNameEmail">
+                                <Input placeholder={t('Child Name') as string} />
                             </Form.Item>
                         </Col>
-
-                        <Col {...breakPoint}>
-                            <Form.Item initialValue="" label={t('common:Status')} name="active">
-                                <Select>
-                                    <Select.Option value="">{t('--Select Status--')}</Select.Option>
-                                    <Select.Option value="true" key="true">
-                                        {t('Active')}
-                                    </Select.Option>
-                                    <Select.Option value="false" key="false">
-                                        {t('Inactive')}
-                                    </Select.Option>
-                                </Select>
+                        <Col {...fullBreakPoint}>
+                            <Form.Item initialValue="" name="memberName">
+                                <Input placeholder={t('Member Name') as string} />
                             </Form.Item>
                         </Col>
                     </Row>

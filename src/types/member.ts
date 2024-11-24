@@ -25,6 +25,7 @@ export interface Member {
     resetToken: string | null;
     resetTokenExpiredAt: string | null;
     joinDate: string;
+    expiredAt: string;
     roleId: string;
     role: Role & Permissions;
     activityLogs: ActivityLog[];

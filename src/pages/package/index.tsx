@@ -257,7 +257,7 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
     ] as TableColumnProps<Package>[];
 
     return (
-        <Layout staff={staff} activeMenu={['package']} breadCrumbItems={breadCrumbItems} seoConfig={seoConfig}>
+        <Layout staff={staff} activeMenu={['package']} activeDropdown={['promoteManagement']} breadCrumbItems={breadCrumbItems} seoConfig={seoConfig}>
             <div className="flex justify-between">
                 <div className="flex">
                     <div className="w-1/2">
@@ -270,7 +270,7 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
                     </div>
                     <div className="w-1/3">
                         <Button type="link" onClick={onResetHandler}>
-                            {t('resetFilter')}
+                            {t('Reset Filter')}
                         </Button>
                     </div>
                 </div>

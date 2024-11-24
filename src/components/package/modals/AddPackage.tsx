@@ -15,23 +15,13 @@ const AddPackage: React.FC<AddPackageModalProps> = ({ form, open, setOpen, onCre
     const { t } = useTranslation(['package', 'common', 'messages']);
 
     const onModalCancel = () => {
+        form.resetFields();
         setOpen(false);
     };
 
     const onCreatePackageHandler = () => {
         onCreate();
     };
-
-    const activeList = [
-        {
-            label: t('active'),
-            value: 1,
-        },
-        {
-            label: t('inactive'),
-            value: 0,
-        },
-    ];
 
     return (
         <Modal open={open} onCancel={onModalCancel} title={t('addPackage')} width={1000} footer={null} centered>

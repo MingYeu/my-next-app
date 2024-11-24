@@ -2,7 +2,7 @@ import errorFormatter from '@/lib/errorFormatter';
 import { getCouponsList, getMembersList, getPackageData } from '@/services/data';
 import { AxiosErrorResponse } from '@/types';
 import { useQuery } from '@tanstack/react-query';
-import { Button, Col, Divider, Form, FormInstance, Input, Modal, Row, Select, SelectProps, message } from 'antd';
+import { Button, Col, Divider, Form, FormInstance, Input, InputNumber, Modal, Row, Select, SelectProps, message } from 'antd';
 import { useTranslation } from 'next-i18next';
 import { Dispatch, SetStateAction, useState } from 'react';
 import 'react-phone-input-2/lib/style.css';
@@ -18,23 +18,36 @@ interface MemberTransactionModalProps {
 
 const MemberTransaction: React.FC<MemberTransactionModalProps> = ({ form, open, setOpen, onCreate, loading }) => {
     const { t } = useTranslation(['member', 'common', 'messages']);
-    const [debouncedKeyword, setDebouncedKeyword] = useState<string>('');
+    const [memberDebouncedKeyword, setMemberDebouncedKeyword] = useState<string>('');
+    const [couponDebouncedKeyword, setCouponDebouncedKeyword] = useState<string>('');
     const [debounceTimeout, setDebounceTimeout] = useState<ReturnType<typeof setTimeout> | null>(null);
+    // const [selectedCouponIds, setSelectedCouponIds] = useState([]); // Track selected coupon IDs
+    // const [totalCouponCost, setTotalCouponCost] = useState(0);
 
-    const onSearchHandler = (value: string) => {
+    const onSearchMemberHandler = (value: string) => {
         if (debounceTimeout) {
             clearTimeout(debounceTimeout);
         }
         const timeout = setTimeout(() => {
-            setDebouncedKeyword(value);
+            setMemberDebouncedKeyword(value);
+        }, 300);
+        setDebounceTimeout(timeout);
+    };
+
+    const onSearchCouponHandler = (value: string) => {
+        if (debounceTimeout) {
+            clearTimeout(debounceTimeout);
+        }
+        const timeout = setTimeout(() => {
+            setCouponDebouncedKeyword(value);
         }, 300);
         setDebounceTimeout(timeout);
     };
 
     const memberListQuery = useQuery({
-        queryKey: ['members', 'list', debouncedKeyword],
+        queryKey: ['members', 'list', memberDebouncedKeyword, open],
         queryFn: async () => {
-            const res = await getMembersList(debouncedKeyword);
+            const res = await getMembersList(memberDebouncedKeyword);
             return res.data;
         },
         onError: (error: AxiosErrorResponse & Error) => {
@@ -43,9 +56,9 @@ const MemberTransaction: React.FC<MemberTransactionModalProps> = ({ form, open, 
     });
 
     const couponListQuery = useQuery({
-        queryKey: ['coupons', 'list', debouncedKeyword],
+        queryKey: ['coupons', 'list', couponDebouncedKeyword, open],
         queryFn: async () => {
-            const res = await getCouponsList(debouncedKeyword);
+            const res = await getCouponsList(couponDebouncedKeyword);
             return res.data;
         },
         onError: (error: AxiosErrorResponse & Error) => {
@@ -54,6 +67,7 @@ const MemberTransaction: React.FC<MemberTransactionModalProps> = ({ form, open, 
     });
 
     const onModalCancel = () => {
+        form.resetFields();
         setOpen(false);
     };
 
@@ -61,6 +75,21 @@ const MemberTransaction: React.FC<MemberTransactionModalProps> = ({ form, open, 
         onCreate();
     };
 
+    // const handleCouponChange = (selectedValues: any) => {
+    //     setSelectedCouponIds(selectedValues);
+
+    //     // Calculate total cost based on currently selected coupon IDs
+    //     const selectedCoupons = couponListQuery.data?.filter((coupon) => selectedValues.includes(coupon.id));
+
+    //     const totalCost = selectedCoupons?.reduce((acc, coupon) => acc + coupon.cost, 0) || 0;
+
+    //     setTotalCouponCost(totalCost);
+
+    //     // Update form field with total cost
+    //     form.setFieldsValue({
+    //         totalCost,
+    //     });
+    // };
     return (
         <Modal open={open} onCancel={onModalCancel} title={t('Member Transaction')} width={1000} footer={null} centered>
             <Form form={form} name="Update Member Coupon" layout="vertical">
@@ -71,7 +100,7 @@ const MemberTransaction: React.FC<MemberTransactionModalProps> = ({ form, open, 
                                 placeholder={t('Please Select')}
                                 showSearch
                                 filterOption={false}
-                                onSearch={onSearchHandler}
+                                onSearch={onSearchMemberHandler}
                                 loading={memberListQuery.isFetching}
                                 onSelect={(value) => {
                                     const selectedMember = memberListQuery.data?.find((member) => member.id === value);
@@ -81,9 +110,9 @@ const MemberTransaction: React.FC<MemberTransactionModalProps> = ({ form, open, 
                                             englishName: selectedMember.englishName,
                                         });
                                     }
-                                    setDebouncedKeyword('');
+                                    setMemberDebouncedKeyword('');
                                 }}
-                                onBlur={() => setDebouncedKeyword('')}
+                                onBlur={() => setMemberDebouncedKeyword('')}
                                 options={
                                     memberListQuery?.data && !memberListQuery.isFetching
                                         ? memberListQuery.data.map((member) => ({
@@ -105,21 +134,26 @@ const MemberTransaction: React.FC<MemberTransactionModalProps> = ({ form, open, 
                         <Form.Item label={t('Coupon List')} name="couponList">
                             <Select
                                 mode="multiple"
+                                placeholder={t('Please Select')}
+                                showSearch
                                 allowClear
-                                style={{ width: '100%' }}
-                                placeholder="Please select"
-                                onChange={(value) => {
-                                    const selectedCoupons = couponListQuery.data?.filter((coupon) => value.includes(coupon.id));
-                                    const totalCost = selectedCoupons?.reduce((acc, coupon) => acc + coupon.cost, 0);
+                                filterOption={false}
+                                onSearch={onSearchCouponHandler}
+                                loading={couponListQuery.isFetching}
+                                // onSelect={(value) => {
+                                //     const selectedCoupons = couponListQuery.data?.filter((coupon) => value.includes(coupon.id));
+                                //     setTotalCouponCost(selectedCoupons?.reduce((acc, coupon) => acc + coupon.cost, 0) || 0);
 
-                                    form.setFieldsValue({
-                                        totalCost: totalCost ? totalCost : 0,
-                                    });
-                                }}
+                                //     form.setFieldsValue({
+                                //         totalCost: totalCouponCost ? totalCouponCost : 0,
+                                //     });
+                                // }}
+                                // onChange={handleCouponChange}
+                                onBlur={() => setCouponDebouncedKeyword('')}
                                 options={
                                     couponListQuery?.data && !couponListQuery.isFetching
                                         ? couponListQuery.data.map((coupon) => ({
-                                              label: `${coupon.code}`,
+                                              label: `${coupon.code} (RM${coupon.cost})`,
                                               value: coupon.id,
                                           }))
                                         : []
@@ -127,15 +161,15 @@ const MemberTransaction: React.FC<MemberTransactionModalProps> = ({ form, open, 
                             />
                         </Form.Item>
                     </Col>
-                    <Col xs={24} sm={12} md={12} lg={8}>
+                    {/* <Col xs={24} sm={12} md={12} lg={8}>
                         <Form.Item label={t('Total Cost')} name="totalCost">
                             <Input disabled type="number" />
                         </Form.Item>
-                    </Col>
+                    </Col> */}
                     <Divider orientation="left">{t('Used Point')}</Divider>
                     <Col xs={24} sm={12} md={12} lg={8}>
                         <Form.Item label={t('Point')} name="point">
-                            <Input />
+                            <InputNumber min={0} placeholder="Please Enter" className="w-full" />
                         </Form.Item>
                     </Col>
                 </Row>

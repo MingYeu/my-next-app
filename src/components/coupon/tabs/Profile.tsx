@@ -121,12 +121,9 @@ const Profile: React.FC<ProfileProps> = ({ couponsId, couponsQuery }) => {
                 <div className="flex flex-col lg:flex-row">
                     <div className="lg:basis-[300px] lg:order-2 order-2 px-2">
                         <Card className="sticky top-5">
-                            <Descriptions layout="vertical" title={t('couponsProfile')} size="small" column={1}>
-                                <DItem contentStyle={{ marginBottom: '15px' }} label={t('couponsName')}>
+                            <Descriptions layout="vertical" title={t('Coupon Profile')} size="small" column={1}>
+                                <DItem contentStyle={{ marginBottom: '15px' }} label={t('Coupon Name')}>
                                     {coupons.code}
-                                </DItem>
-                                <DItem contentStyle={{ marginBottom: '15px' }} label={t('cost')}>
-                                    RM {coupons.cost}
                                 </DItem>
                                 {/* <DItem contentStyle={{ marginBottom: '15px' }} label={t('status')}>
                                     <CouponStatus coupons={coupons} />
@@ -135,9 +132,9 @@ const Profile: React.FC<ProfileProps> = ({ couponsId, couponsQuery }) => {
                                 <DItem contentStyle={{ marginBottom: '15px' }} label={t('common:action')}>
                                     <div className="flex flex-col w-full max-w-[300px] gap-2">
                                         {/* {permissions.PACKAGE_UPDATE && ( */}
-                                        <ConfirmationModal
-                                            message={coupons.active ? t('deactivateCouponConfirmation') : t('activateCouponConfirmation')}
-                                            okText={coupons.active ? t('deactivate') : t('activate')}
+                                        {/* <ConfirmationModal
+                                            message={coupons.active ? t('Deactivate Coupon Confirmation') : t('Activate Coupon Confirmation')}
+                                            okText={coupons.active ? t('Deactivate') : t('Activate')}
                                             okButtonProps={{
                                                 danger: coupons.active,
                                             }}
@@ -150,14 +147,14 @@ const Profile: React.FC<ProfileProps> = ({ couponsId, couponsQuery }) => {
                                             reason
                                         >
                                             <Button block type={coupons.active ? 'default' : 'primary'} danger={coupons.active}>
-                                                {coupons.active ? t('deactivate') : t('activate')}
+                                                {coupons.active ? t('Deactivate') : t('Activate')}
                                             </Button>
-                                        </ConfirmationModal>
+                                        </ConfirmationModal> */}
                                         {/* )} */}
                                         {/* {permissions.PACKAGE_DELETE && ( */}
                                         <ConfirmationModal
-                                            message={t('deleteCouponConfirmation')}
-                                            okText={t('delete')}
+                                            message={t('Delete Coupon Confirmation')}
+                                            okText={t('Delete')}
                                             okButtonProps={{
                                                 danger: true,
                                             }}
@@ -165,7 +162,7 @@ const Profile: React.FC<ProfileProps> = ({ couponsId, couponsQuery }) => {
                                             reason
                                         >
                                             <Button block type="primary" danger>
-                                                {t('delete')}
+                                                {t('Delete')}
                                             </Button>
                                         </ConfirmationModal>
                                         {/* )} */}
@@ -194,17 +191,17 @@ const Profile: React.FC<ProfileProps> = ({ couponsId, couponsQuery }) => {
                         <Form form={couponsForm} layout="vertical" title="Coupon Form">
                             <Row gutter={[16, 0]}>
                                 <Col xs={24} sm={12} md={12} lg={12}>
-                                    <Form.Item label={t('code')} name="code" rules={[{ required: true }]}>
-                                        <Input />
+                                    <Form.Item label={t('Code')} name="code" rules={[{ required: true }]}>
+                                        <Input disabled />
                                     </Form.Item>
                                 </Col>
                                 <Col xs={24} sm={12} md={12} lg={12}>
-                                    <Form.Item label={t('cost')} name="cost" rules={[{ required: true }]}>
-                                        <InputNumber min={0} className="w-full" />
+                                    <Form.Item label={t('Cost')} name="cost" rules={[{ required: true }]}>
+                                        <InputNumber min={0} className="w-full" disabled />
                                     </Form.Item>
                                 </Col>
                                 <Col xs={24} sm={24} md={24} lg={24}>
-                                    <Form.Item label={t('description')} name="description">
+                                    <Form.Item label={t('Description')} name="description">
                                         <Input.TextArea rows={3} />
                                     </Form.Item>
                                 </Col>
@@ -212,15 +209,15 @@ const Profile: React.FC<ProfileProps> = ({ couponsId, couponsQuery }) => {
                             {permissions.STAFF_UPDATE && (
                                 <div className="flex justify-end">
                                     <ConfirmationModal
-                                        message={t('updateCouponConfirmation')}
-                                        okText={t('updateCoupon')}
+                                        message={t('Update Coupon Confirmation')}
+                                        okText={t('Update Coupon')}
                                         okButtonProps={{
                                             danger: false,
                                         }}
                                         reason
                                         onOk={(reason: string) => onUpdateCouponHandler(reason)}
                                     >
-                                        <Button type="primary">{t('updateCoupon')}</Button>
+                                        <Button type="primary">{t('Update Coupon')}</Button>
                                     </ConfirmationModal>
                                 </div>
                             )}
