@@ -28,6 +28,13 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
         },
     });
 
+    const emptyManagement = [
+        {
+            type: 'Empty',
+            total: 0,
+        },
+    ];
+
     const memberByPackage = dashboardQuery.data?.userManagement.membersByPackage?.map((member) => {
         return {
             type: member.packageName !== null ? member.packageName : 'Empty',
@@ -45,12 +52,7 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
     const memberManagementPieChartConfig = {
         appendPadding: 10,
         color: ['#2986cc', '#c90076', '#EB1961', '#ED1C24', '#6CBD24', '#EBC722', '#EB8A2D'],
-        data: [
-            {
-                type: 'Empty',
-                total: 0,
-            },
-        ],
+        data: memberByPackage ? (memberByPackage?.length !== 0 ? memberByPackage : emptyManagement) : emptyManagement,
         angleField: 'total',
         colorField: 'type',
         radius: 0.9,
