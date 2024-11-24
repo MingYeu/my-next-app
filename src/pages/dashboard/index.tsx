@@ -16,67 +16,83 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
     const { t } = useTranslation(['dashboard']);
 
     // Dashboard Query
-    // const dashboardQuery = useQuery({
-    //     queryKey: ['dashboard'],
-    //     keepPreviousData: true,
-    //     queryFn: async () => {
-    //         const res = await getDashboardInfo();
-    //         return res.data;
-    //     },
-    //     onError: (error: AxiosErrorResponse & Error) => {
-    //         toast.error(t(errorFormatter(error)));
-    //     },
-    // });
+    const dashboardQuery = useQuery({
+        queryKey: ['dashboard'],
+        keepPreviousData: true,
+        queryFn: async () => {
+            const res = await getDashboardInfo();
+            return res.data;
+        },
+        onError: (error: AxiosErrorResponse & Error) => {
+            toast.error(t(errorFormatter(error)));
+        },
+    });
 
-    // const memberByPackage = dashboardQuery.data?.userManagement.membersByPackage?.map((member) => {
-    //     return {
-    //         type: member.packageName !== null ? member.packageName : 'Empty',
-    //         total: member.total,
-    //     };
-    // });
+    const memberByPackage = dashboardQuery.data?.userManagement.membersByPackage?.map((member) => {
+        return {
+            type: member.packageName !== null ? member.packageName : 'Empty',
+            total: member.total,
+        };
+    });
 
-    // const couponByPackage = dashboardQuery.data?.userManagement.couponBySeries?.map((coupon) => {
-    //     return {
-    //         type: coupon.seriesName,
-    //         total: coupon.total,
-    //     };
-    // });
+    const couponByPackage = dashboardQuery.data?.userManagement.couponBySeries?.map((coupon) => {
+        return {
+            type: coupon.seriesName,
+            total: coupon.total,
+        };
+    });
 
-    // const memberManagementPieChartConfig = {
-    //     appendPadding: 10,
-    //     color: ['#2986cc', '#c90076', '#EB1961'],
-    //     data: memberByPackage,
-    //     angleField: 'total',
-    //     colorField: 'type',
-    //     radius: 0.9,
-    //     label: {
-    //         autoRotate: false,
-    //         type: 'inner',
-    //         offset: '-35%',
-    //         style: {
-    //             fontSize: 24,
-    //             textAlign: 'center',
-    //         },
-    //     },
-    // };
+    const memberManagementPieChartConfig = {
+        appendPadding: 10,
+        color: ['#2986cc', '#c90076', '#EB1961', '#ED1C24', '#6CBD24', '#EBC722', '#EB8A2D'],
+        data:
+            memberByPackage?.length !== 0
+                ? memberByPackage
+                : [
+                      {
+                          type: 'Empty',
+                          total: 0,
+                      },
+                  ],
+        angleField: 'total',
+        colorField: 'type',
+        radius: 0.9,
+        label: {
+            autoRotate: false,
+            type: 'inner',
+            offset: '-35%',
+            style: {
+                fontSize: 24,
+                textAlign: 'center',
+            },
+        },
+    };
 
-    // const couponManagementPieChartConfig = {
-    //     appendPadding: 10,
-    //     color: ['#2986cc', '#c90076', '#EB1961'],
-    //     data: couponByPackage,
-    //     angleField: 'total',
-    //     colorField: 'type',
-    //     radius: 0.9,
-    //     label: {
-    //         autoRotate: false,
-    //         type: 'inner',
-    //         offset: '-35%',
-    //         style: {
-    //             fontSize: 24,
-    //             textAlign: 'center',
-    //         },
-    //     },
-    // };
+    const couponManagementPieChartConfig = {
+        appendPadding: 10,
+        color: ['#2986cc', '#c90076', '#EB1961', '#ED1C24', '#6CBD24', '#EBC722', '#EB8A2D'],
+        data:
+            couponByPackage?.length !== 0
+                ? couponByPackage
+                : [
+                      {
+                          type: 'Empty',
+                          total: 0,
+                      },
+                  ],
+        angleField: 'total',
+        colorField: 'type',
+        radius: 0.9,
+        label: {
+            autoRotate: false,
+            type: 'inner',
+            offset: '-35%',
+            style: {
+                fontSize: 24,
+                textAlign: 'center',
+            },
+        },
+    };
 
     return (
         <Layout staff={staff} activeMenu={['dashboard']}>
@@ -90,20 +106,20 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
                         config={userManagementPieChartConfig}
                     />
                 </Col> */}
-                {/* <Col xs={24} sm={24} md={24} lg={12} xl={12}>
+                <Col xs={24} sm={24} md={24} lg={12} xl={12}>
                     <PieChart
                         title={t('Member Management')}
                         loading={dashboardQuery.isFetching || dashboardQuery.isLoading}
                         config={memberManagementPieChartConfig}
                     />
-                </Col> */}
-                {/* <Col xs={24} sm={24} md={24} lg={12} xl={12}>
+                </Col>
+                <Col xs={24} sm={24} md={24} lg={12} xl={12}>
                     <PieChart
                         title={t('Coupon Management')}
                         loading={dashboardQuery.isFetching || dashboardQuery.isLoading}
                         config={couponManagementPieChartConfig}
                     />
-                </Col> */}
+                </Col>
             </Row>
         </Layout>
     );
