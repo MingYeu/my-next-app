@@ -361,7 +361,7 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
                     </div>
                     <div className="w-1/3">
                         <Button type="link" onClick={onResetHandler}>
-                            {t('resetFilter')}
+                            {t('Reset Filter')}
                         </Button>
                     </div>
                 </div>

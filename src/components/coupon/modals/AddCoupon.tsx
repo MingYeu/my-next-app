@@ -66,6 +66,7 @@ const AddCoupon: React.FC<AddCouponModalProps> = ({ form, open, setOpen, onCreat
     });
 
     const onModalCancel = () => {
+        form.resetFields();
         setOpen(false);
     };
 
@@ -74,11 +75,11 @@ const AddCoupon: React.FC<AddCouponModalProps> = ({ form, open, setOpen, onCreat
     };
 
     return (
-        <Modal open={open} onCancel={onModalCancel} title={t('addCoupon')} width={1000} footer={null} centered>
+        <Modal open={open} onCancel={onModalCancel} title={t('Add Coupon')} width={1000} footer={null} centered>
             <Form form={form} name="Create Coupon Form" layout="vertical">
                 <Row gutter={[16, 0]}>
                     <Col xs={24} sm={12} md={12} lg={8}>
-                        <Form.Item label={t('code')} name="code" rules={[{ required: true }]}>
+                        <Form.Item label={t('Code')} name="code" rules={[{ required: true }]}>
                             <Select
                                 placeholder={t('Please Select')}
                                 showSearch
@@ -109,12 +110,12 @@ const AddCoupon: React.FC<AddCouponModalProps> = ({ form, open, setOpen, onCreat
                         </Form.Item>
                     </Col>
                     <Col xs={24} sm={12} md={12} lg={8}>
-                        <Form.Item label={t('startNumber')} name="startNumber" rules={[{ required: true }]}>
+                        <Form.Item label={t('Start Number')} name="startNumber" rules={[{ required: true }]}>
                             <InputNumber min={0} placeholder="Please Enter" className="w-full" disabled />
                         </Form.Item>
                     </Col>
                     <Col xs={24} sm={12} md={12} lg={8}>
-                        <Form.Item label={t('endNumber')} name="endNumber" rules={[{ required: true }]}>
+                        <Form.Item label={t('End Number')} name="endNumber" rules={[{ required: true }]}>
                             <InputNumber min={0} placeholder="Please Enter" className="w-full" />
                         </Form.Item>
                     </Col>
@@ -155,7 +156,7 @@ const AddCoupon: React.FC<AddCouponModalProps> = ({ form, open, setOpen, onCreat
                         </Form.Item>
                     </Col>{' '}
                     <Col xs={24} sm={24} md={24} lg={24}>
-                        <Form.Item label={t('description')} name="description">
+                        <Form.Item label={t('Description')} name="description">
                             <Input.TextArea rows={3} />
                         </Form.Item>
                     </Col>
@@ -163,7 +164,7 @@ const AddCoupon: React.FC<AddCouponModalProps> = ({ form, open, setOpen, onCreat
                 <div className="flex justify-end gap-3">
                     <Button onClick={onModalCancel}>{t('common:Cancel')}</Button>
                     <Button type="primary" onClick={onCreateCouponHandler} loading={loading} disabled={loading}>
-                        {t('addCoupon')}
+                        {t('Add Coupon')}
                     </Button>
                 </div>
             </Form>

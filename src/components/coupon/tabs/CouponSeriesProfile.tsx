@@ -114,17 +114,21 @@ const CouponSeriesProfile: React.FC<CouponSeriesProfileProps> = ({ couponSeriesI
                 <div className="flex flex-col lg:flex-row">
                     <div className="lg:basis-[300px] lg:order-2 order-2 px-2">
                         <Card className="sticky top-5">
-                            <Descriptions layout="vertical" title={t('couponsProfile')} size="small" column={1}>
-                                <DItem contentStyle={{ marginBottom: '15px' }} label={t('couponSeriesName')}>
+                            <Descriptions layout="vertical" title={t('Coupon Series Profile')} size="small" column={1}>
+                                <DItem contentStyle={{ marginBottom: '15px' }} label={t('Coupon Series Name')}>
                                     {couponSeries.name}
                                 </DItem>
 
-                                <DItem contentStyle={{ marginBottom: '15px' }} label={t('common:action')}>
+                                <DItem contentStyle={{ marginBottom: '15px' }} label={t('common:Action')}>
                                     <div className="flex flex-col w-full max-w-[300px] gap-2">
                                         {/* {permissions.PACKAGE_UPDATE && ( */}
                                         <ConfirmationModal
-                                            message={couponSeries.active ? t('deactivateCouponConfirmation') : t('activateCouponConfirmation')}
-                                            okText={couponSeries.active ? t('deactivate') : t('activate')}
+                                            message={
+                                                couponSeries.active
+                                                    ? t('Deactivate Coupon Series Confirmation')
+                                                    : t('Activate Coupon Series Confirmation')
+                                            }
+                                            okText={couponSeries.active ? t('Deactivate') : t('Activate')}
                                             okButtonProps={{
                                                 danger: couponSeries.active,
                                             }}
@@ -137,14 +141,14 @@ const CouponSeriesProfile: React.FC<CouponSeriesProfileProps> = ({ couponSeriesI
                                             reason
                                         >
                                             <Button block type={couponSeries.active ? 'default' : 'primary'} danger={couponSeries.active}>
-                                                {couponSeries.active ? t('deactivate') : t('activate')}
+                                                {couponSeries.active ? t('Deactivate') : t('Activate')}
                                             </Button>
                                         </ConfirmationModal>
                                         {/* )} */}
                                         {/* {permissions.PACKAGE_DELETE && ( */}
                                         <ConfirmationModal
-                                            message={t('deleteCouponSeriesConfirmation')}
-                                            okText={t('delete')}
+                                            message={t('Delete Coupon Series Confirmation')}
+                                            okText={t('Delete')}
                                             okButtonProps={{
                                                 danger: true,
                                             }}
@@ -152,7 +156,7 @@ const CouponSeriesProfile: React.FC<CouponSeriesProfileProps> = ({ couponSeriesI
                                             reason
                                         >
                                             <Button block type="primary" danger>
-                                                {t('delete')}
+                                                {t('Delete')}
                                             </Button>
                                         </ConfirmationModal>
                                         {/* )} */}
@@ -166,15 +170,15 @@ const CouponSeriesProfile: React.FC<CouponSeriesProfileProps> = ({ couponSeriesI
                             <Row gutter={[16, 0]}>
                                 <Col xs={24} sm={12} md={12} lg={12}>
                                     <Form.Item label={t('Name')} name="name" rules={[{ required: true }]}>
-                                        <Input />
+                                        <Input disabled />
                                     </Form.Item>
                                 </Col>
                                 <Col xs={24} sm={12} md={12} lg={12}>
                                     <Form.Item label={t('Cost')} name="cost" rules={[{ required: true }]}>
-                                        <InputNumber min={0} precision={2} placeholder="Enter Cost" className="w-full" />
+                                        <InputNumber min={0} precision={2} placeholder="Enter Cost" className="w-full" disabled />
                                     </Form.Item>
                                 </Col>
-                                <Col xs={24} sm={12} md={12} lg={12}>
+                                {/* <Col xs={24} sm={12} md={12} lg={12}>
                                     <Form.Item label={t('Start Date')} name="startDate">
                                         <DatePicker className="w-full" />
                                     </Form.Item>
@@ -183,7 +187,7 @@ const CouponSeriesProfile: React.FC<CouponSeriesProfileProps> = ({ couponSeriesI
                                     <Form.Item label={t('End Date')} name="endDate">
                                         <DatePicker className="w-full" />
                                     </Form.Item>
-                                </Col>
+                                </Col> */}
                                 <Col xs={24} sm={12} md={12} lg={12}>
                                     <Form.Item label={t('Period')} name="period">
                                         <InputNumber min={0} placeholder="Please Enter" className="w-full" />

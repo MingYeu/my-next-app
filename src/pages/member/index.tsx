@@ -162,6 +162,7 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
 
             // Disabled Member Caching
             queryClient.invalidateQueries(['member'], { exact: true });
+            queryClient.invalidateQueries(['couponList'], { exact: true });
         },
     });
 
@@ -173,6 +174,8 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
                 ...prev,
                 page: tablePagination.current,
                 pageSize: tablePagination.pageSize,
+                sortField: sorting?.field ?? pagination?.sortField,
+                sortOrder: sorting.order == 'ascend' ? SortOrder.ASC : !sorting.order ? prev.sortOrder : SortOrder.DESC,
                 fetch: true,
             };
         });
@@ -320,6 +323,7 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
             {
                 dataIndex: 'dateOfBirth',
                 title: t('dateOfBirth'),
+                sorter: true,
                 render: (dateOfBirth: string) => {
                     return dayjs(dateOfBirth).format('D MMM YYYY');
                 },
@@ -335,6 +339,7 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
             {
                 dataIndex: 'joinDate',
                 title: t('joinDate'),
+                sorter: true,
                 render: (joinDate: string) => {
                     return dayjs(joinDate).format('D MMM YYYY');
                 },
@@ -448,7 +453,7 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
                     </div>
                     <div className="w-1/3">
                         <Button type="link" onClick={onResetHandler}>
-                            {t('resetFilter')}
+                            {t('Reset Filter')}
                         </Button>
                     </div>
                 </div>

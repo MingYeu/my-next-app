@@ -47,12 +47,12 @@ const FilterDrawer: React.FC<FilterAttributes> = ({ filterStaffForm, onReset, on
                     <Row gutter={[16, 0]}>
                         <Col {...fullBreakPoint}>
                             <Form.Item initialValue="" name="fullNameEmail">
-                                <Input placeholder={t('email,englishNameOrChineseName') as string} />
+                                <Input placeholder={t('English Name') as string} />
                             </Form.Item>
                         </Col>
                         <Col {...fullBreakPoint}>
                             <Form.Item initialValue="" name="phoneNumber">
-                                <Input placeholder={t('phoneNumber') as string} />
+                                <Input placeholder={t('Phone Number') as string} />
                             </Form.Item>
                         </Col>
                         <Col {...breakPoint}>

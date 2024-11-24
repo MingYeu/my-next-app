@@ -159,27 +159,39 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
 
     const columnOptions = [
         {
-            label: t('name'),
+            label: t('Name'),
             value: 'name',
         },
         {
-            label: t('cost'),
+            label: t('Cost'),
             value: 'cost',
         },
         {
-            label: t('remarks'),
+            label: t('Count'),
+            value: 'count',
+        },
+        {
+            label: t('Already Used'),
+            value: 'alreadyUsed',
+        },
+        {
+            label: t('Period'),
+            value: 'period',
+        },
+        {
+            label: t('Remarks'),
             value: 'remarks',
         },
         {
-            label: t('active'),
+            label: t('Active'),
             value: 'active',
         },
         {
-            label: t('createdAt'),
+            label: t('Created At'),
             value: 'createdAt',
         },
         {
-            label: t('updatedAt'),
+            label: t('Updated At'),
             value: 'updatedAt',
         },
     ];
@@ -215,6 +227,12 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
             {
                 dataIndex: 'alreadyUsed',
                 title: t('Already Used'),
+            },
+        ]),
+        ...conditionalReturn(selectedColumn.includes('period'), [
+            {
+                dataIndex: 'period',
+                title: t('Period'),
             },
         ]),
         ...conditionalReturn(selectedColumn.includes('remarks'), [
@@ -270,13 +288,13 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
                     </div>
                     <div className="w-1/3">
                         <Button type="link" onClick={onResetHandler}>
-                            {t('resetFilter')}
+                            {t('Reset Filter')}
                         </Button>
                     </div>
                 </div>
                 {permissions.MEMBER_CREATE && (
                     <Button type="primary" icon={<PlusOutlined />} onClick={() => setAddCouponModalOpen(true)}>
-                        {t('addCouponSeries')}
+                        {t('Add Coupon Series')}
                     </Button>
                 )}
             </div>

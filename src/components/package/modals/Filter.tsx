@@ -69,14 +69,14 @@ const FilterDrawer: React.FC<FilterAttributes> = ({ filterPackageForm, onReset, 
                     <Row gutter={[16, 0]}>
                         <Col {...fullBreakPoint}>
                             <Form.Item initialValue="" name="name">
-                                <Input placeholder={t('packageName') as string} />
+                                <Input placeholder={t('Package Name') as string} />
                             </Form.Item>
                         </Col>
 
                         <Col {...breakPoint}>
                             <Form.Item initialValue="" label={t('common:Status')} name="active">
                                 <Select>
-                                    <Select.Option value="">{t('--select-status--')}</Select.Option>
+                                    <Select.Option value="">{t('--Select Status--')}</Select.Option>
                                     <Select.Option value="true" key="true">
                                         {t('Active')}
                                     </Select.Option>

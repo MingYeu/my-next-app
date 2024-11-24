@@ -15,6 +15,7 @@ const AddCoupon: React.FC<AddCouponSeriesModalProps> = ({ form, open, setOpen, o
     const { t } = useTranslation(['coupon', 'common', 'messages']);
 
     const onModalCancel = () => {
+        form.resetFields();
         setOpen(false);
     };
 
@@ -48,7 +49,7 @@ const AddCoupon: React.FC<AddCouponSeriesModalProps> = ({ form, open, setOpen, o
                         </Form.Item>
                     </Col>
                     <Col xs={24} sm={12} md={12} lg={8} />
-                    <Col xs={24} sm={12} md={12} lg={8}>
+                    {/* <Col xs={24} sm={12} md={12} lg={8}>
                         <Form.Item label={t('Start Date')} name="startDate">
                             <DatePicker className="w-full" />
                         </Form.Item>
@@ -57,7 +58,7 @@ const AddCoupon: React.FC<AddCouponSeriesModalProps> = ({ form, open, setOpen, o
                         <Form.Item label={t('End Date')} name="endDate">
                             <DatePicker className="w-full" />
                         </Form.Item>
-                    </Col>
+                    </Col> */}
                     <Col xs={24} sm={12} md={12} lg={8}>
                         <Form.Item label={t('Period (Month)')} name="period">
                             <InputNumber min={0} placeholder="Please Enter" className="w-full" />
@@ -72,7 +73,7 @@ const AddCoupon: React.FC<AddCouponSeriesModalProps> = ({ form, open, setOpen, o
                 <div className="flex justify-end gap-3">
                     <Button onClick={onModalCancel}>{t('common:Cancel')}</Button>
                     <Button type="primary" onClick={onCreateCouponSeriesHandler} loading={loading} disabled={loading}>
-                        {t('addCouponSeries')}
+                        {t('Add Coupon Series')}
                     </Button>
                 </div>
             </Form>

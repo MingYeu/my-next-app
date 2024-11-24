@@ -158,39 +158,39 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
 
     const columnOptions = [
         {
-            label: t('code'),
+            label: t('Code'),
             value: 'code',
         },
         {
-            label: t('cost'),
+            label: t('Cost'),
             value: 'cost',
         },
         {
-            label: t('startDate'),
+            label: t('Start Date'),
             value: 'startDate',
         },
         {
-            label: t('endDate'),
+            label: t('End Date'),
             value: 'endDate',
         },
         {
-            label: t('memberName'),
+            label: t('Member Name'),
             value: 'memberName',
         },
         {
-            label: t('useName'),
+            label: t('Use Name'),
             value: 'useName',
         },
         {
-            label: t('active'),
+            label: t('Active'),
             value: 'active',
         },
         {
-            label: t('createdAt'),
+            label: t('Created At'),
             value: 'createdAt',
         },
         {
-            label: t('updatedAt'),
+            label: t('Updated At'),
             value: 'updatedAt',
         },
     ];
@@ -286,7 +286,7 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
     ] as TableColumnProps<Coupon>[];
 
     return (
-        <Layout staff={staff} activeMenu={['coupon']} breadCrumbItems={breadCrumbItems} seoConfig={seoConfig}>
+        <Layout staff={staff} activeMenu={['coupon']} activeDropdown={['promoteManagement']} breadCrumbItems={breadCrumbItems} seoConfig={seoConfig}>
             <div className="flex justify-between">
                 <div className="flex">
                     <div className="w-1/2">
@@ -299,13 +299,13 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
                     </div>
                     <div className="w-1/3">
                         <Button type="link" onClick={onResetHandler}>
-                            {t('resetFilter')}
+                            {t('Reset Filter')}
                         </Button>
                     </div>
                 </div>
                 {permissions.MEMBER_CREATE && (
                     <Button type="primary" icon={<PlusOutlined />} onClick={() => setAddCouponModalOpen(true)}>
-                        {t('addCoupon')}
+                        {t('Add Coupon')}
                     </Button>
                 )}
             </div>

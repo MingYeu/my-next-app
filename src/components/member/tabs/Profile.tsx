@@ -69,6 +69,7 @@ const Profile: React.FC<ProfileProps> = ({ memberId, memberQuery }) => {
                 point: member?.member_point?.point,
                 dateOfBirth: dayjs(member.dateOfBirth),
                 joinDate: dayjs(member.joinDate),
+                expiredAt: dayjs(member.expiredAt),
             });
         }
     }, [member]);
@@ -287,7 +288,7 @@ const Profile: React.FC<ProfileProps> = ({ memberId, memberQuery }) => {
                                 </Col>
                                 <Col xs={24} sm={12} md={12} lg={12}>
                                     <Form.Item
-                                        label={t('englishName')}
+                                        label={t('English Name')}
                                         name="englishName"
                                         rules={[
                                             { required: true },
@@ -310,9 +311,9 @@ const Profile: React.FC<ProfileProps> = ({ memberId, memberQuery }) => {
                                         <Input />
                                     </Form.Item>
                                 </Col>
-                                <Col xs={24} sm={12} md={12} lg={12}>
+                                {/* <Col xs={24} sm={12} md={12} lg={12}>
                                     <Form.Item
-                                        label={t('chineseName')}
+                                        label={t('Chinese Name')}
                                         name="chineseName"
                                         rules={[
                                             { required: false },
@@ -334,38 +335,44 @@ const Profile: React.FC<ProfileProps> = ({ memberId, memberQuery }) => {
                                     >
                                         <Input />
                                     </Form.Item>
-                                </Col>
+                                </Col> */}
 
                                 <Col xs={24} sm={12} md={12} lg={12}>
-                                    <Form.Item label={t('dateOfBirth')} name="dateOfBirth" rules={[{ required: true }]}>
+                                    <Form.Item label={t('Date Of Birth')} name="dateOfBirth" rules={[{ required: true }]}>
                                         <DatePicker className="w-full" />
                                     </Form.Item>
                                 </Col>
                                 <Col xs={24} sm={12} md={12} lg={12}>
-                                    <Form.Item label={t('nationality')} name="nationality" rules={[{ required: true }]}>
+                                    <Form.Item label={t('Nationality')} name="nationality" rules={[{ required: true }]}>
                                         <Select allowClear showSearch options={mappedCountryList} placeholder="Please Select" />
                                     </Form.Item>
                                 </Col>
                                 <Col xs={24} sm={12} md={12} lg={12}>
-                                    <Form.Item label={t('state')} name="state" rules={[{ required: true }]}>
+                                    <Form.Item label={t('State')} name="state" rules={[{ required: true }]}>
                                         <Select options={malaysiaStateList} placeholder="Please State" />
                                     </Form.Item>
                                 </Col>
                                 <Col xs={24} sm={12} md={12} lg={12}>
-                                    <Form.Item label={t('gender')} name="gender" rules={[{ required: true }]}>
+                                    <Form.Item label={t('Gender')} name="gender" rules={[{ required: true }]}>
                                         <Select options={genderList} placeholder="Please Select" />
                                     </Form.Item>
                                 </Col>
                                 <Col xs={24} sm={12} md={12} lg={12}>
-                                    <Form.Item label={t('joinDate')} name="joinDate" rules={[{ required: true }]}>
+                                    <Form.Item label={t('Phone Number')} name="phoneNumber" rules={[{ required: true }]}>
+                                        <PhoneInput country="hk" />
+                                    </Form.Item>
+                                </Col>
+                                <Col xs={24} sm={12} md={12} lg={12}>
+                                    <Form.Item label={t('Join Date')} name="joinDate" rules={[{ required: true }]}>
                                         <DatePicker className="w-full" />
                                     </Form.Item>
                                 </Col>
                                 <Col xs={24} sm={12} md={12} lg={12}>
-                                    <Form.Item label={t('phoneNumber')} name="phoneNumber" rules={[{ required: true }]}>
-                                        <PhoneInput country="hk" />
+                                    <Form.Item label={t('Expired At')} name="expiredAt" rules={[{ required: true }]}>
+                                        <DatePicker className="w-full" />
                                     </Form.Item>
                                 </Col>
+
                                 <Col xs={24} sm={24} md={24} lg={24}>
                                     <Form.Item label={t('address')} name="address">
                                         <Input.TextArea rows={3} />
@@ -381,15 +388,15 @@ const Profile: React.FC<ProfileProps> = ({ memberId, memberQuery }) => {
                             {permissions.MEMBER_UPDATE && (
                                 <div className="flex justify-end">
                                     <ConfirmationModal
-                                        message={t('updateMemberConfirmation')}
-                                        okText={t('updateMember')}
+                                        message={t('Update Member Confirmation')}
+                                        okText={t('Update Member')}
                                         reason
                                         okButtonProps={{
                                             danger: false,
                                         }}
                                         onOk={(reason: string) => onUpdateMemberProfileHandler(reason)}
                                     >
-                                        <Button type="primary">{t('updateMember')}</Button>
+                                        <Button type="primary">{t('Update Member')}</Button>
                                     </ConfirmationModal>
                                 </div>
                             )}

@@ -28,7 +28,9 @@
         "Member": "Member",
         "Package": "Package",
         "Coupon": "Coupon",
-        "CouponSeries": "Coupon Series"
+        "CouponSeries": "Coupon Series",
+        "Children": "Children",
+        "PromoteManagement": "Promote Management"
     },
     "My Profile": "My Profile"
 }
