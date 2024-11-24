@@ -30,7 +30,7 @@ const Profile: React.FC<ProfileProps> = ({ packagesId, packagesQuery }) => {
     const { permissions } = useContext(PermissionContext);
     const [packagesForm] = Form.useForm();
     const packages = packagesQuery.data;
-    const updatePackageToast = new Toast('updatePackage');
+    const updatePackageToast = new Toast('Update Package');
     const queryClient = useQueryClient();
     const DItem = Descriptions.Item;
     const updatePackageStatusToast = new Toast('Update Package Status');
@@ -222,15 +222,15 @@ const Profile: React.FC<ProfileProps> = ({ packagesId, packagesQuery }) => {
                             {permissions.STAFF_UPDATE && (
                                 <div className="flex justify-end">
                                     <ConfirmationModal
-                                        message={t('updatePackageConfirmation')}
-                                        okText={t('updatePackage')}
+                                        message={t('Update Package Confirmation')}
+                                        okText={t('Update Package')}
                                         okButtonProps={{
                                             danger: false,
                                         }}
                                         reason
                                         onOk={(reason: string) => onUpdatePackageHandler(reason)}
                                     >
-                                        <Button type="primary">{t('updatePackage')}</Button>
+                                        <Button type="primary">{t('Update Package')}</Button>
                                     </ConfirmationModal>
                                 </div>
                             )}

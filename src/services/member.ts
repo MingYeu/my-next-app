@@ -1,6 +1,7 @@
 import axiosInstance from './config';
 import { PaginationResponse } from '@/types/pagination';
 import { Member, MemberChildren } from '@/types/member';
+import { Coupon } from '@/types/coupon';
 
 export const getMemberListByPagination = (query: string) => {
     return axiosInstance.get<PaginationResponse<Member>>(`/api/staff/member?${query}`);
@@ -46,4 +47,8 @@ export const getMemberChildren = (memberId: string) => {
 
 export const updateMemberChildren = (memberId: string, body: MemberChildren[]) => {
     return axiosInstance.put<Member>(`/api/staff/member/${memberId}/children`, body);
+};
+
+export const getMemberCouponListByPagination = (query: string, memberId: string) => {
+    return axiosInstance.get<PaginationResponse<Coupon>>(`/api/staff/member/${memberId}/coupon?${query}`);
 };
