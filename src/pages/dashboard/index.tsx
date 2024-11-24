@@ -44,7 +44,7 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
 
     const memberManagementPieChartConfig = {
         appendPadding: 10,
-        color: ['#2986cc', '#c90076', '#EB1961', '#ED1C24', '#6CBD24', '#EBC722', '#EB8A2D'],
+        color: ['#2986cc', '#c90076', '#EB1961'],
         data: memberByPackage,
         angleField: 'total',
         colorField: 'type',
