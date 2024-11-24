@@ -236,9 +236,13 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
             value: 'englishName',
         },
         {
-            label: t('chineseName'),
-            value: 'chineseName',
+            label: t('Package'),
+            value: 'package',
         },
+        // {
+        //     label: t('chineseName'),
+        //     value: 'chineseName',
+        // },
         {
             label: t('dateOfBirth'),
             value: 'dateOfBirth',
@@ -312,13 +316,20 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
                 render: (englishName: string) => englishName ?? '-',
             },
         ]),
-        ...conditionalReturn(selectedColumn.includes('chineseName'), [
+        ...conditionalReturn(selectedColumn.includes('package'), [
             {
-                dataIndex: 'chineseName',
-                title: t('chineseName'),
-                render: (chineseName: string) => chineseName ?? '-',
+                dataIndex: 'packageName',
+                title: t('Package'),
+                render: (packageName: string) => packageName ?? '-',
             },
         ]),
+        // ...conditionalReturn(selectedColumn.includes('chineseName'), [
+        //     {
+        //         dataIndex: 'chineseName',
+        //         title: t('chineseName'),
+        //         render: (chineseName: string) => chineseName ?? '-',
+        //     },
+        // ]),
         ...conditionalReturn(selectedColumn.includes('dateOfBirth'), [
             {
                 dataIndex: 'dateOfBirth',

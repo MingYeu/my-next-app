@@ -35,6 +35,8 @@ export interface Member {
     member_point: Member_Point;
     member_referral: Member_Referral;
     member_children: MemberChildren[];
+
+    packageName: string;
     // _count: { Notification_Status: number };
 }
 

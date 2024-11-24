@@ -21,47 +21,49 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
         keepPreviousData: true,
         queryFn: async () => {
             const res = await getDashboardInfo();
-
             return res.data;
         },
         onError: (error: AxiosErrorResponse & Error) => {
             toast.error(t(errorFormatter(error)));
         },
-        onSuccess: (data: Dashboard) => {},
     });
 
-    // const userManagementPieChartConfig = {
-    //     appendPadding: 10,
-    //     color: ['#2986cc', '#c90076', '#EB1961'],
-    //     data: [
-    //         {
-    //             type: t('admin'),
-    //             total: dashboardQuery.data?.userManagement.staff ?? 0,
-    //         },
-    //     ],
-    //     angleField: 'total',
-    //     colorField: 'type',
-    //     radius: 0.9,
-    //     label: {
-    //         autoRotate: false,
-    //         type: 'inner',
-    //         offset: '-35%',
-    //         style: {
-    //             fontSize: 24,
-    //             textAlign: 'center',
-    //         },
-    //     },
-    // };
+    const memberByPackage = dashboardQuery.data?.userManagement.membersByPackage?.map((member) => {
+        return {
+            type: member.packageName !== null ? member.packageName : 'Empty',
+            total: member.total,
+        };
+    });
+
+    const couponByPackage = dashboardQuery.data?.userManagement.couponBySeries?.map((coupon) => {
+        return {
+            type: coupon.seriesName,
+            total: coupon.total,
+        };
+    });
 
     const memberManagementPieChartConfig = {
         appendPadding: 10,
-        color: ['#2986cc', '#c90076', '#EB1961'],
-        data: [
-            {
-                type: t('member'),
-                total: dashboardQuery.data?.userManagement.member ?? 0,
+        color: ['#2986cc', '#c90076', '#EB1961', '#ED1C24', '#6CBD24', '#EBC722', '#EB8A2D'],
+        data: memberByPackage,
+        angleField: 'total',
+        colorField: 'type',
+        radius: 0.9,
+        label: {
+            autoRotate: false,
+            type: 'inner',
+            offset: '-35%',
+            style: {
+                fontSize: 24,
+                textAlign: 'center',
             },
-        ],
+        },
+    };
+
+    const couponManagementPieChartConfig = {
+        appendPadding: 10,
+        color: ['#2986cc', '#c90076', '#EB1961'],
+        data: couponByPackage,
         angleField: 'total',
         colorField: 'type',
         radius: 0.9,
@@ -90,9 +92,16 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
                 </Col> */}
                 <Col xs={24} sm={24} md={24} lg={12} xl={12}>
                     <PieChart
-                        title={t('member-management')}
+                        title={t('Member Management')}
                         loading={dashboardQuery.isFetching || dashboardQuery.isLoading}
                         config={memberManagementPieChartConfig}
+                    />
+                </Col>
+                <Col xs={24} sm={24} md={24} lg={12} xl={12}>
+                    <PieChart
+                        title={t('Coupon Management')}
+                        loading={dashboardQuery.isFetching || dashboardQuery.isLoading}
+                        config={couponManagementPieChartConfig}
                     />
                 </Col>
             </Row>
