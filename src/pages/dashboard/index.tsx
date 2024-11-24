@@ -6,7 +6,7 @@ import errorFormatter from '@/lib/errorFormatter';
 import { getDashboardInfo } from '@/services/data';
 import { AxiosErrorResponse, Dashboard, StaffPortalProps } from '@/types';
 import { useQuery } from '@tanstack/react-query';
-import { Col, Divider, Row } from 'antd';
+import { Col, Divider, Row, Spin } from 'antd';
 import { GetServerSideProps, NextPage } from 'next';
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -45,15 +45,12 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
     const memberManagementPieChartConfig = {
         appendPadding: 10,
         color: ['#2986cc', '#c90076', '#EB1961', '#ED1C24', '#6CBD24', '#EBC722', '#EB8A2D'],
-        data:
-            memberByPackage?.length !== 0
-                ? memberByPackage
-                : [
-                      {
-                          type: 'Empty',
-                          total: 0,
-                      },
-                  ],
+        data: [
+            {
+                type: 'Empty',
+                total: 0,
+            },
+        ],
         angleField: 'total',
         colorField: 'type',
         radius: 0.9,
@@ -95,33 +92,35 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
     // };
 
     return (
-        <Layout staff={staff} activeMenu={['dashboard']}>
-            {/* <PaymentInfoStatistic paymentInfo={dashboardQuery.data?.paymentInfo} /> */}
-            <Divider />
-            <Row gutter={[32, 32]} className="mb-8">
-                {/* <Col xs={24} sm={24} md={24} lg={12} xl={12}>
+        <Spin spinning={dashboardQuery.isLoading}>
+            <Layout staff={staff} activeMenu={['dashboard']}>
+                {/* <PaymentInfoStatistic paymentInfo={dashboardQuery.data?.paymentInfo} /> */}
+                <Divider />
+                <Row gutter={[32, 32]} className="mb-8">
+                    {/* <Col xs={24} sm={24} md={24} lg={12} xl={12}>
                     <PieChart
                         title={t('user-management')}
                         loading={dashboardQuery.isFetching || dashboardQuery.isLoading}
                         config={userManagementPieChartConfig}
                     />
                 </Col> */}
-                <Col xs={24} sm={24} md={24} lg={12} xl={12}>
-                    <PieChart
-                        title={t('Member Management')}
-                        loading={dashboardQuery.isFetching || dashboardQuery.isLoading}
-                        config={memberManagementPieChartConfig}
-                    />
-                </Col>
-                {/* <Col xs={24} sm={24} md={24} lg={12} xl={12}>
+                    <Col xs={24} sm={24} md={24} lg={12} xl={12}>
+                        <PieChart
+                            title={t('Member Management')}
+                            loading={dashboardQuery.isFetching || dashboardQuery.isLoading}
+                            config={memberManagementPieChartConfig}
+                        />
+                    </Col>
+                    {/* <Col xs={24} sm={24} md={24} lg={12} xl={12}>
                     <PieChart
                         title={t('Coupon Management')}
                         loading={dashboardQuery.isFetching || dashboardQuery.isLoading}
                         config={couponManagementPieChartConfig}
                     />
                 </Col> */}
-            </Row>
-        </Layout>
+                </Row>
+            </Layout>
+        </Spin>
     );
 };
 
