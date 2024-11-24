@@ -35,12 +35,12 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
         };
     });
 
-    const couponByPackage = dashboardQuery.data?.userManagement.couponBySeries?.map((coupon) => {
-        return {
-            type: coupon.seriesName,
-            total: coupon.total,
-        };
-    });
+    // const couponByPackage = dashboardQuery.data?.userManagement.couponBySeries?.map((coupon) => {
+    //     return {
+    //         type: coupon.seriesName,
+    //         total: coupon.total,
+    //     };
+    // });
 
     const memberManagementPieChartConfig = {
         appendPadding: 10,
@@ -68,31 +68,31 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
         },
     };
 
-    const couponManagementPieChartConfig = {
-        appendPadding: 10,
-        color: ['#2986cc', '#c90076', '#EB1961', '#ED1C24', '#6CBD24', '#EBC722', '#EB8A2D'],
-        data:
-            couponByPackage?.length !== 0
-                ? couponByPackage
-                : [
-                      {
-                          type: 'Empty',
-                          total: 0,
-                      },
-                  ],
-        angleField: 'total',
-        colorField: 'type',
-        radius: 0.9,
-        label: {
-            autoRotate: false,
-            type: 'inner',
-            offset: '-35%',
-            style: {
-                fontSize: 24,
-                textAlign: 'center',
-            },
-        },
-    };
+    // const couponManagementPieChartConfig = {
+    //     appendPadding: 10,
+    //     color: ['#2986cc', '#c90076', '#EB1961', '#ED1C24', '#6CBD24', '#EBC722', '#EB8A2D'],
+    //     data:
+    //         couponByPackage?.length !== 0
+    //             ? couponByPackage
+    //             : [
+    //                   {
+    //                       type: 'Empty',
+    //                       total: 0,
+    //                   },
+    //               ],
+    //     angleField: 'total',
+    //     colorField: 'type',
+    //     radius: 0.9,
+    //     label: {
+    //         autoRotate: false,
+    //         type: 'inner',
+    //         offset: '-35%',
+    //         style: {
+    //             fontSize: 24,
+    //             textAlign: 'center',
+    //         },
+    //     },
+    // };
 
     return (
         <Layout staff={staff} activeMenu={['dashboard']}>
@@ -113,13 +113,13 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
                         config={memberManagementPieChartConfig}
                     />
                 </Col>
-                <Col xs={24} sm={24} md={24} lg={12} xl={12}>
+                {/* <Col xs={24} sm={24} md={24} lg={12} xl={12}>
                     <PieChart
                         title={t('Coupon Management')}
                         loading={dashboardQuery.isFetching || dashboardQuery.isLoading}
                         config={couponManagementPieChartConfig}
                     />
-                </Col>
+                </Col> */}
             </Row>
         </Layout>
     );
