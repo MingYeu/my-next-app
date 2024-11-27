@@ -1,5 +1,5 @@
 import errorFormatter from '@/lib/errorFormatter';
-import { getCouponsList, getMembersList, getPackageData } from '@/services/data';
+import { getCouponsList, getCouponsListByMemberId, getMembersList, getPackageData } from '@/services/data';
 import { AxiosErrorResponse } from '@/types';
 import { useQuery } from '@tanstack/react-query';
 import { Button, Col, Divider, Form, FormInstance, Input, InputNumber, Modal, Row, Select, SelectProps, message } from 'antd';
@@ -18,8 +18,10 @@ interface MemberTransactionModalProps {
 
 const MemberTransaction: React.FC<MemberTransactionModalProps> = ({ form, open, setOpen, onCreate, loading }) => {
     const { t } = useTranslation(['member', 'common', 'messages']);
+    const [memberId, setMemberId] = useState<string | null>(null);
     const [memberDebouncedKeyword, setMemberDebouncedKeyword] = useState<string>('');
-    const [couponDebouncedKeyword, setCouponDebouncedKeyword] = useState<string>('');
+    const [couponAllDebouncedKeyword, setCouponAllDebouncedKeyword] = useState<string>('');
+    const [couponOwnDebouncedKeyword, setCouponOwnDebouncedKeyword] = useState<string>('');
     const [debounceTimeout, setDebounceTimeout] = useState<ReturnType<typeof setTimeout> | null>(null);
     // const [selectedCouponIds, setSelectedCouponIds] = useState([]); // Track selected coupon IDs
     // const [totalCouponCost, setTotalCouponCost] = useState(0);
@@ -34,12 +36,22 @@ const MemberTransaction: React.FC<MemberTransactionModalProps> = ({ form, open, 
         setDebounceTimeout(timeout);
     };
 
-    const onSearchCouponHandler = (value: string) => {
+    const onSearchAllCouponHandler = (value: string) => {
         if (debounceTimeout) {
             clearTimeout(debounceTimeout);
         }
         const timeout = setTimeout(() => {
-            setCouponDebouncedKeyword(value);
+            setCouponAllDebouncedKeyword(value);
+        }, 300);
+        setDebounceTimeout(timeout);
+    };
+
+    const onSearchOwnCouponHandler = (value: string) => {
+        if (debounceTimeout) {
+            clearTimeout(debounceTimeout);
+        }
+        const timeout = setTimeout(() => {
+            setCouponOwnDebouncedKeyword(value);
         }, 300);
         setDebounceTimeout(timeout);
     };
@@ -55,15 +67,27 @@ const MemberTransaction: React.FC<MemberTransactionModalProps> = ({ form, open, 
         },
     });
 
-    const couponListQuery = useQuery({
-        queryKey: ['coupons', 'list', couponDebouncedKeyword, open],
+    const couponAllListQuery = useQuery({
+        queryKey: ['coupons', 'list', couponAllDebouncedKeyword, open],
         queryFn: async () => {
-            const res = await getCouponsList(couponDebouncedKeyword);
+            const res = await getCouponsList(couponAllDebouncedKeyword);
             return res.data;
         },
         onError: (error: AxiosErrorResponse & Error) => {
             toast.error(t(errorFormatter(error)));
         },
+    });
+
+    const couponOwnListQuery = useQuery({
+        queryKey: ['coupons', 'list', memberId, couponOwnDebouncedKeyword, open],
+        queryFn: async () => {
+            const res = await getCouponsListByMemberId(memberId as string, couponOwnDebouncedKeyword);
+            return res.data;
+        },
+        onError: (error: AxiosErrorResponse & Error) => {
+            toast.error(t(errorFormatter(error)));
+        },
+        enabled: memberId !== null,
     });
 
     const onModalCancel = () => {
@@ -75,21 +99,6 @@ const MemberTransaction: React.FC<MemberTransactionModalProps> = ({ form, open, 
         onCreate();
     };
 
-    // const handleCouponChange = (selectedValues: any) => {
-    //     setSelectedCouponIds(selectedValues);
-
-    //     // Calculate total cost based on currently selected coupon IDs
-    //     const selectedCoupons = couponListQuery.data?.filter((coupon) => selectedValues.includes(coupon.id));
-
-    //     const totalCost = selectedCoupons?.reduce((acc, coupon) => acc + coupon.cost, 0) || 0;
-
-    //     setTotalCouponCost(totalCost);
-
-    //     // Update form field with total cost
-    //     form.setFieldsValue({
-    //         totalCost,
-    //     });
-    // };
     return (
         <Modal open={open} onCancel={onModalCancel} title={t('Member Transaction')} width={1000} footer={null} centered>
             <Form form={form} name="Update Member Coupon" layout="vertical">
@@ -106,8 +115,11 @@ const MemberTransaction: React.FC<MemberTransactionModalProps> = ({ form, open, 
                                     const selectedMember = memberListQuery.data?.find((member) => member.id === value);
 
                                     if (selectedMember) {
+                                        setMemberId(selectedMember?.id);
+
                                         form.setFieldsValue({
                                             englishName: selectedMember.englishName,
+                                            totalPoint: selectedMember.point,
                                         });
                                     }
                                     setMemberDebouncedKeyword('');
@@ -129,19 +141,46 @@ const MemberTransaction: React.FC<MemberTransactionModalProps> = ({ form, open, 
                             <Input disabled />
                         </Form.Item>
                     </Col>
+                    <Col xs={24} sm={12} md={12} lg={8}>
+                        <Form.Item label={t('Total Point')} name="totalPoint" rules={[{ required: true }]}>
+                            <Input disabled />
+                        </Form.Item>
+                    </Col>
                     <Divider orientation="left">{t('Used Coupon')}</Divider>
                     <Col xs={24} sm={12} md={12} lg={8}>
-                        <Form.Item label={t('Coupon List')} name="couponList">
+                        <Form.Item label={t('Own Coupon List')} name="couponOwnList">
                             <Select
                                 mode="multiple"
                                 placeholder={t('Please Select')}
                                 showSearch
                                 allowClear
                                 filterOption={false}
-                                onSearch={onSearchCouponHandler}
-                                loading={couponListQuery.isFetching}
+                                onSearch={onSearchOwnCouponHandler}
+                                loading={couponOwnListQuery.isFetching}
+                                onBlur={() => setCouponOwnDebouncedKeyword('')}
+                                options={
+                                    couponOwnListQuery?.data && !couponOwnListQuery.isFetching
+                                        ? couponOwnListQuery.data.map((coupon) => ({
+                                              label: `${coupon.code} (RM${coupon.cost})`,
+                                              value: coupon.id,
+                                          }))
+                                        : []
+                                }
+                            />
+                        </Form.Item>
+                    </Col>
+                    <Col xs={24} sm={12} md={12} lg={8}>
+                        <Form.Item label={t('All Coupon List')} name="couponAllList">
+                            <Select
+                                mode="multiple"
+                                placeholder={t('Please Select')}
+                                showSearch
+                                allowClear
+                                filterOption={false}
+                                onSearch={onSearchAllCouponHandler}
+                                loading={couponAllListQuery.isFetching}
                                 // onSelect={(value) => {
-                                //     const selectedCoupons = couponListQuery.data?.filter((coupon) => value.includes(coupon.id));
+                                //     const selectedCoupons = couponAllListQuery.data?.filter((coupon) => value.includes(coupon.id));
                                 //     setTotalCouponCost(selectedCoupons?.reduce((acc, coupon) => acc + coupon.cost, 0) || 0);
 
                                 //     form.setFieldsValue({
@@ -149,10 +188,10 @@ const MemberTransaction: React.FC<MemberTransactionModalProps> = ({ form, open, 
                                 //     });
                                 // }}
                                 // onChange={handleCouponChange}
-                                onBlur={() => setCouponDebouncedKeyword('')}
+                                onBlur={() => setCouponAllDebouncedKeyword('')}
                                 options={
-                                    couponListQuery?.data && !couponListQuery.isFetching
-                                        ? couponListQuery.data.map((coupon) => ({
+                                    couponAllListQuery?.data && !couponAllListQuery.isFetching
+                                        ? couponAllListQuery.data.map((coupon) => ({
                                               label: `${coupon.code} (RM${coupon.cost})`,
                                               value: coupon.id,
                                           }))

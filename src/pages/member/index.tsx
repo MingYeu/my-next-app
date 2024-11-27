@@ -23,9 +23,10 @@ import { toast } from 'react-toastify';
 import usePagination from '@/hooks/usePagination';
 import { SortOrder } from '@/types/pagination';
 import { Member } from '@/types/member';
-import { createMember, createMemberCoupon, createMemberPoint, getMemberListByPagination } from '@/services/member';
+import { createMember, createMemberPoint, createMemberTransaction, getMemberListByPagination } from '@/services/member';
 import errorFormatter from '@/lib/errorFormatter';
 import { PermissionContext } from '@/providers/RoleContext';
+import { Coupon } from '@/types/coupon';
 
 const Index: NextPage<StaffPortalProps> = ({ staff }) => {
     const { t } = useTranslation(['member']);
@@ -142,8 +143,7 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
 
     const createMemberTransactionMutation = useMutation({
         mutationFn: async (values: Member) => {
-            createMemberTransactionToast.loading(t('messages:loading.creatingMemberTransaction'));
-            const res = await createMemberCoupon(values);
+            const res = await createMemberTransaction(values);
             return res.data;
         },
         onError: (err: AxiosErrorResponse & Error) => {
@@ -162,6 +162,7 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
 
             // Disabled Member Caching
             queryClient.invalidateQueries(['member'], { exact: true });
+            queryClient.invalidateQueries(['coupon'], { exact: true });
             queryClient.invalidateQueries(['couponList'], { exact: true });
         },
     });
@@ -195,7 +196,17 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
 
     const onCreateMemberTransactionHandler = () => {
         addMemberTransactionForm.validateFields().then((values) => {
-            createMemberTransactionMutation.mutate(values);
+            createMemberTransactionToast.loading(t('messages:loading.creatingMemberTransaction'));
+
+            const { couponOwnList, couponAllList } = values;
+            if (couponOwnList && couponAllList && couponOwnList.every((coupon: Coupon) => couponAllList.includes(coupon))) {
+                createMemberTransactionToast.update('error', t('Coupon cannot be same in both list'));
+            } else {
+                const { couponOwnList, couponAllList, ...restData } = values;
+                const couponList = [...(couponOwnList ?? []), ...(couponAllList ?? [])];
+
+                createMemberTransactionMutation.mutate({ ...restData, couponList });
+            }
         });
     };
 

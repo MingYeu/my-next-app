@@ -7,6 +7,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getRoleData } from '@/services/data';
 import { AxiosErrorResponse } from '@/types';
 import errorFormatter from '@/lib/errorFormatter';
+import { mappedMonthList } from '@/lib/dateList';
 
 interface FilterAttributes {
     filterChildrenForm: FormInstance;
@@ -32,6 +33,13 @@ const FilterDrawer: React.FC<FilterAttributes> = ({ filterChildrenForm, onReset,
             message.error(t(errorFormatter(error)));
         },
     });
+
+    const breakPoint = {
+        xs: 24,
+        sm: 24,
+        md: 12,
+        lg: 12,
+    };
 
     const fullBreakPoint = {
         xs: 24,
@@ -61,6 +69,21 @@ const FilterDrawer: React.FC<FilterAttributes> = ({ filterChildrenForm, onReset,
                         <Col {...fullBreakPoint}>
                             <Form.Item initialValue="" name="memberName">
                                 <Input placeholder={t('Member Name') as string} />
+                            </Form.Item>
+                        </Col>
+                        <Col {...breakPoint}>
+                            <Form.Item initialValue="" label={t('common:Date of Birth Month')} name="dateOfBirthMonth">
+                                <Select
+                                    allowClear
+                                    showSearch
+                                    options={[
+                                        {
+                                            label: t('--select-month--') as string,
+                                            value: '',
+                                        },
+                                        ...mappedMonthList,
+                                    ]}
+                                />
                             </Form.Item>
                         </Col>
                     </Row>

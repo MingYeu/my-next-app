@@ -34,7 +34,7 @@ const AddCoupon: React.FC<AddCouponModalProps> = ({ form, open, setOpen, onCreat
     };
 
     const couponSeriesListQuery = useQuery({
-        queryKey: ['coupon', 'series', 'list', couponSeriesDebouncedKeyword],
+        queryKey: ['coupon', 'series', 'list', couponSeriesDebouncedKeyword, open],
         queryFn: async () => {
             const res = await getCouponSeriesList(couponSeriesDebouncedKeyword);
             return res.data;
@@ -55,7 +55,7 @@ const AddCoupon: React.FC<AddCouponModalProps> = ({ form, open, setOpen, onCreat
     };
 
     const memberListQuery = useQuery({
-        queryKey: ['members', 'list', memberDebouncedKeyword],
+        queryKey: ['members', 'list', memberDebouncedKeyword, open],
         queryFn: async () => {
             const res = await getMembersList(memberDebouncedKeyword);
             return res.data;

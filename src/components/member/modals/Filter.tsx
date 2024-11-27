@@ -9,6 +9,7 @@ import { getRoleData } from '@/services/data';
 import { AxiosErrorResponse } from '@/types';
 import errorFormatter from '@/lib/errorFormatter';
 import malaysiaStateList from '@/lib/stateList';
+import { mappedMonthList } from '@/lib/dateList';
 
 interface FilterAttributes {
     filterTutorForm: FormInstance;
@@ -79,6 +80,34 @@ const FilterDrawer: React.FC<FilterAttributes> = ({ filterTutorForm, onReset, on
                             </Form.Item>
                         </Col>
                         <Col {...breakPoint}>
+                            <Form.Item initialValue="" label={t('common:Date of Birth Month')} name="dateOfBirthMonth">
+                                <Select
+                                    allowClear
+                                    showSearch
+                                    options={[
+                                        {
+                                            label: t('--select-month--') as string,
+                                            value: '',
+                                        },
+                                        ...mappedMonthList,
+                                    ]}
+                                />
+                            </Form.Item>
+                        </Col>
+                        <Col {...breakPoint}>
+                            <Form.Item initialValue="" label={t('common:Status')} name="active">
+                                <Select>
+                                    <Select.Option value="">{t('--select-status--')}</Select.Option>
+                                    <Select.Option value="true" key="true">
+                                        {t('Active')}
+                                    </Select.Option>
+                                    <Select.Option value="false" key="false">
+                                        {t('Inactive')}
+                                    </Select.Option>
+                                </Select>
+                            </Form.Item>
+                        </Col>
+                        <Col {...breakPoint}>
                             <Form.Item initialValue="" label={t('common:Nationality')} name="nationality">
                                 <Select
                                     allowClear
@@ -106,19 +135,6 @@ const FilterDrawer: React.FC<FilterAttributes> = ({ filterTutorForm, onReset, on
                                         ...malaysiaStateList,
                                     ]}
                                 />
-                            </Form.Item>
-                        </Col>
-                        <Col {...breakPoint}>
-                            <Form.Item initialValue="" label={t('common:Status')} name="active">
-                                <Select>
-                                    <Select.Option value="">{t('--select-status--')}</Select.Option>
-                                    <Select.Option value="true" key="true">
-                                        {t('Active')}
-                                    </Select.Option>
-                                    <Select.Option value="false" key="false">
-                                        {t('Inactive')}
-                                    </Select.Option>
-                                </Select>
                             </Form.Item>
                         </Col>
                     </Row>

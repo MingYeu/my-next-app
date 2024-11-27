@@ -32,6 +32,10 @@ export const getCouponsList = (debouncedKeyword: string) => {
     return axiosInstance.get<Coupon[]>(`/api/staff/data/coupon?keyword=${debouncedKeyword}&perPage=10`);
 };
 
+export const getCouponsListByMemberId = (memberId: string, debouncedKeyword: string) => {
+    return axiosInstance.get<Coupon[]>(`/api/staff/data/coupon?keyword=${debouncedKeyword}&perPage=10&memberId=${memberId}`);
+};
+
 export const getDashboardInfo = () => {
     return axiosInstance.get<Dashboard>(`/api/staff/data/dashboard`);
 };

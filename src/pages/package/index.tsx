@@ -220,7 +220,7 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
         ...conditionalReturn(selectedColumn.includes('period'), [
             {
                 dataIndex: 'period',
-                title: t('Period'),
+                title: t('Period (Month)'),
             },
         ]),
         ...conditionalReturn(selectedColumn.includes('active'), [

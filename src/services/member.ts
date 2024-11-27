@@ -15,7 +15,7 @@ export const createMemberPoint = (body: Member) => {
     return axiosInstance.post<Member>('/api/staff/member/point', body);
 };
 
-export const createMemberCoupon = (body: Member) => {
+export const createMemberTransaction = (body: Member) => {
     return axiosInstance.post<Member>('/api/staff/member/coupon', body);
 };
 

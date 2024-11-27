@@ -38,6 +38,10 @@ export interface Member {
 
     packageName: string;
     // _count: { Notification_Status: number };
+
+    couponOwnList: string[];
+    couponAllList: string[];
+    point: number;
 }
 
 export interface Member_Package {

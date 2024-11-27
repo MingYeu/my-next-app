@@ -30,7 +30,7 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
         sortField: 'code',
         sortOrder: SortOrder.ASC,
     });
-    const [selectedColumn, setSelectedColumn] = useState<string[]>(['name', 'gender', 'dateOfBirth', 'memberId', 'memberName']);
+    const [selectedColumn, setSelectedColumn] = useState<string[]>(['name', 'gender', 'dateOfBirth', 'memberId', 'memberName', 'memberPhoneNumber']);
 
     // Query
     const childrenQuery = useQuery({
@@ -134,6 +134,10 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
             label: t('Member Name'),
             value: 'memberName',
         },
+        {
+            label: t('Member Phone'),
+            value: 'memberPhoneNumber',
+        },
     ];
 
     const columns = [
@@ -148,7 +152,7 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
         ...conditionalReturn(selectedColumn.includes('dateOfBirth'), [
             {
                 dataIndex: 'dateOfBirth',
-                title: t('dateOfBirth'),
+                title: t('Date Of Birth'),
                 sorter: true,
                 render: (dateOfBirth: string) => {
                     return dayjs(dateOfBirth).format('D MMM YYYY');
@@ -157,7 +161,7 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
         ]),
         {
             dataIndex: 'memberId',
-            title: t('memberId'),
+            title: t('Member'),
             render: (_: unknown, children: Children) => {
                 return (
                     <Link href={`/member/${children.memberId}`} className="font-bold">
@@ -165,6 +169,10 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
                     </Link>
                 );
             },
+        },
+        {
+            dataIndex: 'memberPhoneNumber',
+            title: t('Member Phone'),
         },
     ] as TableColumnProps<Children>[];
 

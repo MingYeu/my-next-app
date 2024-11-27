@@ -82,7 +82,7 @@ const AddMember: React.FC<AddMemberModalProps> = ({ form, open, setOpen, onCreat
     });
 
     const couponSeriesListQuery = useQuery({
-        queryKey: ['coupon', 'series', 'list', couponSeriesDebouncedKeyword],
+        queryKey: ['coupon', 'series', 'list', couponSeriesDebouncedKeyword, open],
         queryFn: async () => {
             const res = await getCouponSeriesList(couponSeriesDebouncedKeyword);
             return res.data;
