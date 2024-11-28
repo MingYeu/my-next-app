@@ -355,6 +355,15 @@ const Index: NextPage<StaffPortalProps> = ({ staff }) => {
             {
                 dataIndex: 'nationality',
                 title: t('nationality'),
+                render: (nationality: string, response: any) => {
+                    return (
+                        <>
+                            {nationality}
+                            <br />
+                            {response.state}
+                        </>
+                    );
+                },
             },
         ]),
         ...conditionalReturn(selectedColumn.includes('joinDate'), [

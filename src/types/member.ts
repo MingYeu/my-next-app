@@ -15,6 +15,7 @@ export interface Member {
     gender: string;
     dateOfBirth: string;
     nationality: string;
+    state: string;
     address: string;
     // password: string;
     remarks: string | null;
