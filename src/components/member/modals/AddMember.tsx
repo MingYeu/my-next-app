@@ -210,7 +210,7 @@ const AddMember: React.FC<AddMemberModalProps> = ({ form, open, setOpen, onCreat
                     </Col>
                     <Col xs={24} sm={12} md={12} lg={8}>
                         <Form.Item label={t('ID Number')} name="idNumber" rules={[{ required: true }]}>
-                            <Input type="number" />
+                            <Input />
                         </Form.Item>
                     </Col>
                     <Col xs={24} sm={12} md={12} lg={8}>
