@@ -88,12 +88,12 @@ const AddCoupon: React.FC<AddCouponModalProps> = ({ form, open, setOpen, onCreat
                                 loading={couponSeriesListQuery.isFetching}
                                 allowClear
                                 onSelect={(value) => {
-                                    // const selectedCouponSeries = couponSeriesListQuery?.data?.find((couponSeries) => couponSeries.id === value);
-                                    // if (selectedCouponSeries) {
-                                    //     form.setFieldsValue({
-                                    //         startNumber: selectedCouponSeries.count + 1,
-                                    //     });
-                                    // }
+                                    const selectedCouponSeries = couponSeriesListQuery?.data?.find((couponSeries) => couponSeries.id === value);
+                                    if (selectedCouponSeries) {
+                                        form.setFieldsValue({
+                                            startNumber: selectedCouponSeries.count + 1,
+                                        });
+                                    }
 
                                     setCouponSeriesDebouncedKeyword('');
                                 }}
