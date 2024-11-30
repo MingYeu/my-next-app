@@ -20,8 +20,8 @@ export const getPackageData = () => {
     return axiosInstance.get<Package[]>('/api/staff/data/package');
 };
 
-export const getMembersList = (debouncedKeyword: string) => {
-    return axiosInstance.get<Member[]>(`/api/staff/data/member?keyword=${debouncedKeyword}&perPage=10`);
+export const getMembersList = ({ debouncedKeyword, memberId }: { debouncedKeyword: string; memberId: string | undefined }) => {
+    return axiosInstance.get<Member[]>(`/api/staff/data/member?keyword=${debouncedKeyword}&perPage=10&memberId=${memberId}`);
 };
 
 export const getCouponSeriesList = (debouncedKeyword: string) => {

@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Button, Form, Spin, Table, TableColumnProps, TableProps, Tree } from 'antd';
 import { useTranslation } from 'next-i18next';
 import 'react-phone-input-2/lib/style.css';
@@ -18,6 +18,10 @@ import Link from 'next/link';
 import { Coupon } from '@/types/coupon';
 import dayjs from 'dayjs';
 import CouponStatus from '@/components/Status';
+import { PlusOutlined } from '@ant-design/icons';
+import Toast from '@/lib/Toast';
+import { createCoupon } from '@/services/coupon';
+import AddCouponModal from '@/components/coupon/modals/AddCoupon';
 
 interface MemberCouponProps {
     memberId: string;
@@ -25,12 +29,18 @@ interface MemberCouponProps {
 
 const MemberCoupon: React.FC<MemberCouponProps> = ({ memberId }) => {
     const { t } = useTranslation(['member', 'common']);
+    const queryClient = useQueryClient();
     const { permissions } = useContext(PermissionContext);
 
     const [selectedColumn, setSelectedColumn] = useState<string[]>(['code', 'cost', 'startDate', 'endDate', 'memberName', 'useName', 'active']);
+    const [addCouponModalOpen, setAddCouponModalOpen] = useState<boolean>(false);
+
+    // Messages
+    const createCouponToast = new Toast('createCoupon');
 
     // Form Instances
     const [filterCouponForm] = Form.useForm();
+    const [addCouponForm] = Form.useForm();
 
     // States
     const [pagination, setPagination] = usePagination({
@@ -85,6 +95,38 @@ const MemberCoupon: React.FC<MemberCouponProps> = ({ memberId }) => {
             toast.error(t(errorFormatter(error)));
         },
     });
+
+    const createCouponMutation = useMutation({
+        mutationFn: async (values: Coupon) => {
+            createCouponToast.loading(t('messages:loading.creatingCoupon'));
+            const res = await createCoupon(values);
+
+            return res.data;
+        },
+        onError: (err: AxiosErrorResponse & Error) => {
+            createCouponToast.update('error', t(errorFormatter(err)));
+        },
+        onSuccess: () => {
+            createCouponToast.update('success', t('messages:success.couponCreated'));
+            setAddCouponModalOpen(false);
+            addCouponForm.resetFields();
+            setPagination((prev: any) => {
+                return {
+                    ...prev,
+                    fetch: true,
+                };
+            });
+
+            // Disabled Coupon Caching
+            queryClient.invalidateQueries(['coupon'], { exact: true });
+        },
+    });
+
+    const onCreateCouponHandler = () => {
+        addCouponForm.validateFields().then((values) => {
+            createCouponMutation.mutate(values);
+        });
+    };
 
     const onResetHandler = () => {
         filterCouponForm.resetFields();
@@ -252,11 +294,11 @@ const MemberCoupon: React.FC<MemberCouponProps> = ({ memberId }) => {
                         </Button>
                     </div>
                 </div>
-                {/* {permissions.MEMBER_CREATE && (
+                {permissions.MEMBER_CREATE && (
                     <Button type="primary" icon={<PlusOutlined />} onClick={() => setAddCouponModalOpen(true)}>
                         {t('Add Coupon')}
                     </Button>
-                )} */}
+                )}
             </div>
             <div className="table_container">
                 <div className="flex justify-end config_container">
@@ -285,6 +327,14 @@ const MemberCoupon: React.FC<MemberCouponProps> = ({ memberId }) => {
                     }}
                 />
             </div>
+            <AddCouponModal
+                loading={createCouponMutation.isLoading}
+                form={addCouponForm}
+                open={addCouponModalOpen}
+                memberId={memberId}
+                setOpen={setAddCouponModalOpen}
+                onCreate={onCreateCouponHandler}
+            />
         </Spin>
     );
 };
