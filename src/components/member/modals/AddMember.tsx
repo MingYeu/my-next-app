@@ -73,7 +73,7 @@ const AddMember: React.FC<AddMemberModalProps> = ({ form, open, setOpen, onCreat
     const memberListQuery = useQuery({
         queryKey: ['members', 'list', debouncedKeyword, open],
         queryFn: async () => {
-            const res = await getMembersList(debouncedKeyword);
+            const res = await getMembersList({ debouncedKeyword });
             return res.data;
         },
         onError: (error: AxiosErrorResponse & Error) => {

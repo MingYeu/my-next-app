@@ -51,7 +51,7 @@ const Profile: React.FC<ProfileProps> = ({ memberId, memberQuery }) => {
     const memberListQuery = useQuery({
         queryKey: ['members', 'list', debouncedKeyword],
         queryFn: async () => {
-            const res = await getMembersList(debouncedKeyword);
+            const res = await getMembersList({ debouncedKeyword });
             return res.data;
         },
         onError: (error: AxiosErrorResponse & Error) => {

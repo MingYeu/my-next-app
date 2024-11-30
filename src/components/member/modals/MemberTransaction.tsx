@@ -59,7 +59,7 @@ const MemberTransaction: React.FC<MemberTransactionModalProps> = ({ form, open, 
     const memberListQuery = useQuery({
         queryKey: ['members', 'list', memberDebouncedKeyword, open],
         queryFn: async () => {
-            const res = await getMembersList(memberDebouncedKeyword);
+            const res = await getMembersList({ debouncedKeyword: memberDebouncedKeyword });
             return res.data;
         },
         onError: (error: AxiosErrorResponse & Error) => {
